@@ -1,4 +1,4 @@
-const http = require('./../utils/http');
+const http = require("./../utils/http");
 
 document.getElementById("loginForm").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -14,7 +14,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     })
     .then((response) => {
       console.log(response.data);
-      window.location.href = "./../views/admin/supplier/index.html"
+      window.location.href = "./../views/admin/supplier/index.html";
     })
     .catch((err) => {
       console.error(err);
