@@ -13,7 +13,7 @@ const createWindow = () => {
     },
   });
   // win.webContents.openDevTools(); // helper only for development
-  win.loadFile("views/Kasir.html");
+  win.loadFile("views/Rekap.html");
 
   win.on("close", function (e) {
     const choice = dialog.showMessageBoxSync(this, {
