@@ -12,9 +12,8 @@ const createWindow = () => {
       // preload: path.join(__dirname, "preload.js"), // script yg akan di exec sebelum aplikasi utama di exec
     },
   });
-  // win.webContents.openDevTools(); // helper only for development
-  win.loadFile("views/auth/login.html");
-
+  win.webContents.openDevTools(); // helper only for development
+  win.loadFile("views/admin/recap/recap.html");
   // win.on("close", function (e) {
   //   const choice = dialog.showMessageBoxSync(this, {
   //     type: "question",
