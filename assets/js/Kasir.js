@@ -28,14 +28,20 @@ document.addEventListener('DOMContentLoaded', function() {
     closeBtn.addEventListener('click', function() {
         paymentContainer.style.display = 'none'; // Sembunyikan formulir pembayaran
     });
-       // Mengambil tombol batal
-       var cancelButton = document.querySelector('.cancel-btn');
-
-       // Menambahkan event listener untuk menghandle klik tombol batal
-       cancelButton.addEventListener('click', function() {
-           // Mengambil elemen pop out
-           var paymentContainer = document.querySelector('.payment-container');
-           // Menghilangkan elemen pop out dari tampilan
-           paymentContainer.style.display = 'none';
-       });
 });
+
+// Mengambil tombol batal
+var cancelButton = document.querySelector('.cancel-btn');
+
+// Menambahkan event listener untuk menghandle klik tombol batal
+cancelButton.addEventListener('click', function() {
+    // Mengambil elemen pop out
+    var paymentContainer = document.querySelector('.payment-container');
+    // Menghilangkan elemen pop out dari tampilan
+    paymentContainer.style.display = 'none';
+});
+
+function closePayment() {
+    var paymentContainer = document.querySelector('.payment-container');
+    paymentContainer.style.display = 'none';
+}
