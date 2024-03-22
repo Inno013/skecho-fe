@@ -50,17 +50,14 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
-    background-image: url('background.jpg'); /* Ganti 'background.jpg' dengan URL gambar background yang Anda inginkan */
     background-size: cover; /* Agar gambar background menutupi seluruh area */
     background-repeat: no-repeat; /* Agar gambar background tidak diulang */
 }
 
 .container {
-    width: 95%; /* Mengatur lebar container agar lebih cocok ke layar */
-    max-width: 1200px;
-    margin: 20px auto;
+    width: 100vw; /* Mengatur lebar container agar sesuai dengan lebar viewport */
+    height: 100vh; /* Mengatur tinggi container agar sesuai dengan tinggi viewport */
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* Menambahkan transparansi untuk background */
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
@@ -242,7 +239,7 @@ footer {
 .close-btn:hover {
     background-color: #ff3333;
 }
-/* Gaya tombol batal */
+
 /* Gaya tombol batal */
 .cancel-btn {
     display: inline-block;
@@ -259,6 +256,3 @@ footer {
 .cancel-btn:hover {
     background-color: #ff3333;
 }
-
-
-
