@@ -12,7 +12,7 @@ const createWindow = () => {
       // preload: path.join(__dirname, "preload.js"), // script yg akan di exec sebelum aplikasi utama di exec
     },
   });
-  win.webContents.openDevTools(); // helper only for development
+  // win.webContents.openDevTools(); // helper only for development
   win.loadFile("views/Kasir.html");
 
   win.on("close", function (e) {
