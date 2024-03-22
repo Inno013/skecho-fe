@@ -1,0 +1,54 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+input[type="text"]:disabled,
+input[type="text"]:read-only {
+  background-color: #fff455;
+  color: #4e4949;
+  font-weight: bold;
+}
+
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Custom Styles */
+.custom-header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.custom-tab-content {
+  margin-top: 20px;
+}
+
+.custom-tab-pane {
+  display: none;
+}
+
+.custom-tab-pane.active {
+  display: block;
+}
+
+.custom-table {
+  margin-top: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .custom-table {
+    margin-top: 10px;
+  }
+}
