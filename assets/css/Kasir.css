@@ -3,31 +3,33 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    flex: 1; /* Tambahkan properti flex */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .user-info {
-    float: right;
-    text-align: right; /* Memastikan konten dalam user-info rata kanan */
+    display: flex;
+    align-items: center;
 }
 
 .user-info p {
     margin: 0;
-    font-size: 14px;
-    color: #666;
-}
-
-.user-info p:first-child {
-    margin-bottom: 5px;
+    font-size: 12px; /* Atur ukuran font untuk semua teks di dalam user-info */
 }
 
 #datetime {
-    font-weight: bold;
+    margin-right: 10px;
 }
 
-
-#datetime {
-    font-weight: bold;
+.title {
+    font-size: 24px;
 }
+
 
 .order {
     flex: 2; /* Mengubah flex menjadi 2 untuk memperbesar tabel */
@@ -54,9 +56,10 @@ body {
     background-repeat: no-repeat; /* Agar gambar background tidak diulang */
 }
 
+
 .container {
-    width: 100vw; /* Mengatur lebar container agar sesuai dengan lebar viewport */
-    height: 100vh; /* Mengatur tinggi container agar sesuai dengan tinggi viewport */
+    max-width: 100%; /* Mengatur lebar maksimum sesuai dengan lebar layar */
+    max-height: 100%; /* Mengatur ketinggian otomatis */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -115,6 +118,7 @@ table th, table td {
     margin-bottom: 20px;
 }
 
+
 input[type="text"],
 input[type="number"] {
     width: calc(100% - 20px);
@@ -122,6 +126,7 @@ input[type="number"] {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
+
 
 .add-btn {
     display: block;
@@ -132,7 +137,7 @@ input[type="number"] {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.9s;
 }
 
 .add-btn:hover {
@@ -192,33 +197,24 @@ footer {
 }
 
 .input-group {
-    margin-bottom: 20px;
-    text-align: left;
+    margin-bottom: 5px; /* Mengurangi jarak antara setiap input group */
 }
 
 .input-group label {
     display: block;
     font-size: 16px;
     color: #555;
-    margin-bottom: 5px;
+    margin-bottom: 3px; /* Mengurangi jarak bawah label */
 }
 
 .input-group input[type="text"],
 .input-group input[type="number"],
 .input-group select {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #ddd;
     border-radius: 5px;
-}
-
-.input-group select {
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url('dropdown-arrow.png'); /* Gambar panah dropdown */
-    background-position: right center;
-    background-repeat: no-repeat;
-    padding-right: 30px; /* Ruang untuk gambar panah */
+    margin-bottom: 3px; /* Mengurangi jarak bawah input */
 }
 
 .submit-btn {
@@ -230,6 +226,7 @@ footer {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 5px; /* Menambahkan margin atas tombol submit */
 }
 
 .submit-btn:hover {
@@ -241,18 +238,23 @@ footer {
 }
 
 /* Gaya tombol batal */
-.cancel-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-right: 10px;
-    background-color: #ff5f5f;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+.payment-form {
+    width: 300px; /* Atur lebar formulir sesuai kebutuhan */
+    margin: 0 auto; /* Tengahkan formulir secara horizontal */
+  }
+  
+  .cancel-btn {
+    display: block;
+    width: 100%; /* Ambil lebar penuh dari formulir */
+    margin-top: 10px; /* Tambahkan margin atas untuk jarak */
+    padding: 10px; /* Atur padding untuk tombol */
+    background-color: #ff5f5f; /* Warna latar belakang merah */
+    color: #fff; /* Warna teks putih */
+    border: none; /* Hapus border */
+    border-radius: 5px; /* Atur sudut border */
+    cursor: pointer; /* Ubah kursor saat diarahkan ke tombol */
+  }
 
-.cancel-btn:hover {
-    background-color: #ff3333;
-}
+  .cancel-btn:hover {
+    background-color: #ff3333; /* Warna latar belakang merah lebih gelap saat dihover */
+  }

@@ -1,0 +1,93 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+}
+
+/* Navbar Styles */
+/* Navbar Styles */
+.navbar {
+    background-color: #86888a; /* Warna abu-abu muda */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; /* Untuk mengatur jarak antara elemen navbar */
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.navbar-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar-menu li {
+    margin-left: 20px;
+}
+
+.navbar-menu a {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Profile Link Styles */
+.navbar-menu .profile-link {
+    margin-left: auto; /* Ini akan memindahkan link "Profile" ke kanan */
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: #343a40;
+    color: #fff;
+    padding-top: 20px;
+    width: 50px; /* Mengurangi lebar sidebar */
+    height: 100vh; /* Tinggi sidebar hingga ke bawah layar */
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 10px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    position: relative; /* Membuat posisi relatif untuk menempatkan teks popout */
+}
+
+.sidebar a span {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(-10px, -50%); /* Menyesuaikan posisi teks popout */
+    background-color: rgba(0, 0, 0, 0.8); /* Warna latar belakang teks popout */
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0; /* Awalnya tidak terlihat */
+    transition: opacity 0.3s ease; /* Efek transisi opacity */
+}
+
+.sidebar a:hover span {
+    opacity: 1; /* Munculkan teks popout saat hover */
+}
+
