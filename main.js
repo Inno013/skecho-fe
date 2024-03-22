@@ -12,20 +12,20 @@ const createWindow = () => {
       // preload: path.join(__dirname, "preload.js"), // script yg akan di exec sebelum aplikasi utama di exec
     },
   });
-  // win.webContents.openDevTools(); // helper only for development
-  win.loadFile("views/Kasir.html");
+  win.webContents.openDevTools(); // helper only for development
+  win.loadFile("views/login.html");
 
-  win.on("close", function (e) {
-    const choice = dialog.showMessageBoxSync(this, {
-      type: "question",
-      buttons: ["OK", "Cancel"],
-      title: "Confirmation",
-      message: "Are you sure?",
-    });
-    if (choice === 1) {
-      e.preventDefault(1);
-    }
-  });
+  // win.on("close", function (e) {
+  //   const choice = dialog.showMessageBoxSync(this, {
+  //     type: "question",
+  //     buttons: ["OK", "Cancel"],
+  //     title: "Confirmation",
+  //     message: "Are you sure?",
+  //   });
+  //   if (choice === 1) {
+  //     e.preventDefault(1);
+  //   }
+  // });
 };
 
 // when app ready, then ..
