@@ -1,0 +1,264 @@
+/* Perubahan untuk mengecilkan bagian "Add Product" dan menukarnya dengan "Order List" */
+main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.user-info {
+    float: right;
+    text-align: right; /* Memastikan konten dalam user-info rata kanan */
+}
+
+.user-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.user-info p:first-child {
+    margin-bottom: 5px;
+}
+
+#datetime {
+    font-weight: bold;
+}
+
+
+#datetime {
+    font-weight: bold;
+}
+
+.order {
+    flex: 2; /* Mengubah flex menjadi 2 untuk memperbesar tabel */
+    padding: 20px;
+    order: 2; /* Tukar posisi dengan .add-product */
+}
+
+.add-product {
+    flex: 1;
+    padding: 3px; /* Mengurangi padding agar bagian "Add Product" lebih kecil */
+    order: 1; /* Tukar posisi dengan .order */
+}
+
+/* Akhir dari perubahan untuk mengecilkan bagian "Add Product" dan menukarnya dengan "Order List" */
+
+/* Tambahkan gaya berikut untuk memperindah tampilan aplikasi kasir POS Anda */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    background-image: url('background.jpg'); /* Ganti 'background.jpg' dengan URL gambar background yang Anda inginkan */
+    background-size: cover; /* Agar gambar background menutupi seluruh area */
+    background-repeat: no-repeat; /* Agar gambar background tidak diulang */
+}
+
+.container {
+    width: 95%; /* Mengatur lebar container agar lebih cocok ke layar */
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Menambahkan transparansi untuk background */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.logout-btn {
+    padding: 10px 20px;
+    background-color: #ff5f5f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #ff3333;
+}
+
+section {
+    padding: 20px;
+}
+
+section h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.add-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #3399ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-btn:hover {
+    background-color: #007bff;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.total {
+    font-size: 20px;
+    color: #333;
+}
+
+.pay-btn {
+    padding: 10px 20px;
+    background-color: #33cc33;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pay-btn:hover {
+    background-color: #00b300;
+    
+}
+/* Tambahkan gaya untuk mengatur tampilan pop-out */
+.payment-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px; /* Lebar formulir */
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.payment-form {
+    text-align: center;
+}
+
+.payment-form h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="number"],
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.input-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url('dropdown-arrow.png'); /* Gambar panah dropdown */
+    background-position: right center;
+    background-repeat: no-repeat;
+    padding-right: 30px; /* Ruang untuk gambar panah */
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #3399ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #007bff;
+}
+
+.close-btn:hover {
+    background-color: #ff3333;
+}
+/* Gaya tombol batal */
+/* Gaya tombol batal */
+.cancel-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #ff5f5f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #ff3333;
+}
+
+
+

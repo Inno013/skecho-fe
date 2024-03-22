@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasir POS</title>
+    <link rel="stylesheet" href="StylesKasir.css">
+    <link rel="stylesheet" href="StylesPayment.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="user-info" style="float: right;">
+            <p>Date & Time: <span id="datetime"></span></p>
+            <p>User: Kasir 1</p> <!-- Ganti "Kasir 1" dengan nama pengguna yang sesuai -->
+        </div>
+        <h1>Kasir POS</h1>
+        <button class="logout-btn">Logout</button>
+    </header>
+    
+    <main>
+        <section class="order">
+            <h2>Order List</h2>
+            <table id="order-table">
+                <thead>
+                    <tr>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Qty</th>
+                        <th>Harga</th>
+                        <th>Subtotal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data rows will be dynamically generated here -->
+                </tbody>
+            </table>
+        </section>
+        <section class="add-product">
+            <h2>Add Product</h2>
+            <div class="input-group">
+                <label for="barcode">Barcode:</label>
+                <input type="text" id="barcode">
+            </div>
+            <div class="input-group">
+                <label for="product-name">Product Name:</label>
+                <input type="text" id="product-name" disabled>
+            </div>
+            <div class="input-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" min="0" step="0.01" disabled> 
+            </div>
+            
+            <div class="input-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" min="1" value="1">
+            </div>
+            <div class="input-group">
+                <label for="partner">Mitra:</label>
+                <select id="partner">
+                    <option value="partner1">Mitra 1</option>
+                    <option value="partner2">Mitra 2</option>
+                    <option value="partner3">Mitra 3</option>
+                    <!-- Tambahkan opsi mitra lainnya sesuai kebutuhan -->
+                </select>
+            </div>
+            <button class="add-btn">Add</button>
+        </section>
+        
+    </main>
+    <footer>
+        <div class="total">
+            <label>Total:</label>
+            <span id="total-price">Rp 0.00</span>
+        </div>
+        <button class="pay-btn">Pay</button>
+    </footer>
+</div>
+
+<div class="payment-container">
+    <div class="payment-form">
+        <h2>Payment</h2>
+        <form id="payment-form">
+            <div class="input-group">
+                <label for="total-item">Total Item:</label>
+                <input type="text" id="total-item" disabled>
+            </div>
+           
+            <div class="input-group">
+                <label for="grand-total">Grand Total:</label>
+                <input type="text" id="grand-total" disabled>
+            </div>
+            
+            <div class="input-group">
+                <label for="amount-paid">Jumlah Bayar:</label>
+                <input type="text" id="amount-paid">
+            </div>
+            <div class="input-group">
+                <label for="change">Kembalian:</label>
+                <input type="text" id="change" disabled>
+            </div>
+            <button type="submit" class="submit-btn">Bayar dan Cetak Struk</button>
+            <button type="button" class="cancel-btn">Batal</button>
+        </form>
+    </div>
+</div>
+
+
+<script src="Kasir.js"></script>
+<script>
+    // Script untuk menampilkan tanggal & waktu secara real-time
+    var dt = new Date();
+    document.getElementById("datetime").innerHTML = dt.toLocaleString();
+</script>
+</body>
+</html>
