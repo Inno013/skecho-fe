@@ -1,4 +1,5 @@
-const http = require("./../utils/http");
+const rootPath = require("electron-root-path").rootPath;
+const http = require(rootPath + "/utils/http");
 
 document.getElementById("loginForm").addEventListener("submit", function (e) {
   e.preventDefault();
