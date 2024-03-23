@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "baseUrl": "."
+  },
+  "include": ["utils", "assets/js/*"],
+  "exclude": ["node_modules"]
+}
