@@ -1,6 +1,6 @@
 function showErrorMessages(err, parentElement) {
   err = err.response.data;
-  if (err.status == 422) {
+  if (err.status >= 400 && err.status <= 422) {
     err.errors.forEach((error) => {
       const alertError = createAlert("danger", error);
       parentElement.appendChild(alertError);
@@ -11,10 +11,24 @@ function showErrorMessages(err, parentElement) {
   }
 }
 
+function clearChieldElements(parentElement) {
+  while (parentElement.firstChild) {
+    parentElement.removeChild(parentElement.firstChild);
+  }
+}
+
+function hideModal(idModal) {
+  document.getElementById(idModal).classList.remove("show");
+  document.getElementById(idModal).setAttribute("aria-modal", "false");
+  document.getElementById(idModal).setAttribute("style", "display: none");
+  document.body.classList.remove("modal-open");
+  document.getElementsByClassName("modal-backdrop")[0].remove();
+}
+
 // for search, next, previous page
 class FilterData {
   attributes = {
-    search: '',
+    search: "",
     page: 0,
     size: 10,
     totalPage: 1,
@@ -48,5 +62,7 @@ class FilterData {
 
 module.exports = {
   showErrorMessages,
+  clearChieldElements,
+  hideModal,
   FilterData,
 };

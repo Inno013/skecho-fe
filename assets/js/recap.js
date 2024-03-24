@@ -1,8 +1,5 @@
-const axios = require("axios");
-
-const http = axios.create({
-  baseURL: "http://localhost:3001",
-});
+const rootPath = require("electron-root-path").rootPath;
+const http = require(rootPath + "/utils/http");
 
 async function fetchDataWithPagination(pageNumber) {
   try {
@@ -22,7 +19,6 @@ async function fetchDataWithPagination(pageNumber) {
 document.addEventListener("DOMContentLoaded", function () {
   fetchDataWithPagination(0)
     .then((data) => {
-      console.log(`Data fetched successfully: ${data}`);
       populateTable(data.content); // Panggil fungsi populateTable untuk memasukkan data ke dalam tabel
     })
     .catch((error) => {
