@@ -31,6 +31,7 @@ async function fetchDataWithUrl(url, params) {
 async function sendDataWithUrl(url, params) {
   try {
     const response = await http.client.post(url, params);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     alert(`Gagal Order Barang`, "alertContainer");
@@ -43,7 +44,7 @@ const formPay = document.getElementById("formPay");
 function dataToOrderRequest(data) {
   const orders = {
     userId: 1,
-    invoiceTourId: document.getElementById("selectTour").value,
+    invoiceTourId: 2, // document.getElementById("selectTour").value,
     totalItems: parseFloat(data.totalItems),
     totalPrice: parseFloat(data.totalPrice),
     amount: parseFloat(data.amount),
