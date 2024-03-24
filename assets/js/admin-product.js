@@ -99,6 +99,8 @@ formEdit.addEventListener("submit", function (e) {
 
 // handle delete button
 function handleDelete(e) {
+  window.ipcRenderer.openDialog("openDialog");
+
   const isConfirmed = confirm("Are you sure you want to delete?");
   if (!isConfirmed) return;
 

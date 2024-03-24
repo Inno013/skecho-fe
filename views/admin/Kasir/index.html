@@ -207,7 +207,7 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2">Kasir</h1>
+            <h1 class="h2">Cashier</h1>
             <br />
           </div>
           <div class="row justify-content-between align-items-center">
@@ -221,7 +221,7 @@
                 data-bs-target="#createModal"
               >
                 <i class="bi bi-person-plus-fill me-2"></i>
-                Add Kasir
+                Add Cashier
               </a>
             </div>
             <div class="col-auto">
@@ -244,20 +244,15 @@
           <table class="table table-striped" id="data-table">
             <thead>
               <tr>
-                <th scope="col">No</th>
                 <th scope="col">Username</th>
-                <th scope="col">Password</th>
-                <th scope="col">Status</th>
+                <th scope="col">Created At</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
             <tr class="d-none" id="sample-row">
-              <td class="no"></td>
               <td class="username"></td>
-              <td class="password"><button type="button" class="btn btn-outline-primary view-password">Show</button></td>
-              <td class="status"></td>
+              <td class="createdAt"></td>
               <td class="action">
                 <button
                   type="button"
@@ -278,9 +273,7 @@
                   <i class="bi bi-trash3-fill"></i>
                 </button>
               </td>
- 
             </tr>
-
           </table>
 
           <nav aria-label="Page navigation example" class="mx-auto mt-4">
@@ -330,30 +323,38 @@
               <div id="modal-create-message"></div>
 
               <div class="mb-3">
-                <label for="createUsernameText" class="form-label">Username</label>
+                <label for="craeteUsername" class="form-label">Username</label>
                 <input
                   type="text"
                   name="Username"
                   class="form-control"
-                  id="createUsernameText"
                   placeholder="Enter Username"
+                  id="craeteUsername"
                 />
               </div>
 
               <div class="mb-3">
-                <label for="createPhoneText" class="form-label"
-                  >Password</label
-                >
+                <label for="craetePassword" class="form-label">Password</label>
                 <input
-                  type="tel"
+                  type="password"
                   name="password"
                   class="form-control"
-                  id="createPswdText"
                   placeholder="Enter Password"
+                  id="craetePassword"
                 />
               </div>
-
-              
+              <div class="mb-3">
+                <label for="craeteConfirmPassword" class="form-label"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  placeholder="Enter Password"
+                  id="craeteConfirmPassword"
+                />
+              </div>
             </div>
             <div class="modal-footer">
               <button
@@ -383,9 +384,7 @@
         <form id="formEditKasir">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="createModalLabel">
-                Edit Kasir
-              </h1>
+              <h1 class="modal-title fs-5" id="createModalLabel">Edit Kasir</h1>
               <button
                 type="button"
                 class="btn-close"
@@ -397,31 +396,45 @@
               <div id="modal-edit-message"></div>
 
               <!-- Backup edit id -->
-              <input type="hidden" name="id" />
+              <input type="hidden" name="id" id="existingCashierId" />
 
               <div class="mb-3">
-                <label for="createUsernameText" class="form-label">Username</label>
+                <label for="editUsernameText" class="form-label"
+                  >Username</label
+                >
                 <input
                   type="text"
                   name="Username"
                   class="form-control"
+                  id="editUsernameText"
                   placeholder="Enter Username"
                 />
               </div>
 
               <div class="mb-3">
-                <label for="createPswdText" class="form-label"
+                <label for="editPasswordText" class="form-label"
                   >Password</label
                 >
                 <input
                   type="tel"
                   name="password"
                   class="form-control"
+                  id="editPasswordText"
                   placeholder="Enter Password"
                 />
               </div>
-
-              
+              <div class="mb-3">
+                <label for="editConfirmPasswordText" class="form-label"
+                  >Confirm Password</label
+                >
+                <input
+                  type="tel"
+                  name="password"
+                  class="form-control"
+                  id="editConfirmPasswordText"
+                  placeholder="Enter Password"
+                />
+              </div>
             </div>
             <div class="modal-footer">
               <button

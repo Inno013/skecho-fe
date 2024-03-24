@@ -15,7 +15,7 @@ function setTable() {
   }
 
   http.client
-    .get(filterData.toQueryParams("/Kasir"))
+    .get(filterData.toQueryParams("cashiers"))
     .then((response) => {
       filterData.setTotalPage(response.data.totalPages);
       response.data.content.forEach((row) => {
@@ -35,16 +35,14 @@ function createNewRow(row) {
   const newRow = sampleRow.cloneNode(true);
   newRow.classList.remove("d-none");
 
-  newRow.querySelector(".Username").innerHTML = row.Username;
-  newRow.querySelector(".Password").innerHTML = row.Password;
-  newRow.querySelector(".phone").innerHTML = row.phone;
+  newRow.querySelector(".username").innerHTML = row.username;
   newRow.querySelector(".createdAt").innerHTML = row.createdAt;
   newRow
     .querySelector(".action button[data-edit-id]")
-    .setAttribute("data-edit-id", row.KasirId);
+    .setAttribute("data-edit-id", row.userId);
   newRow
     .querySelector(".action button[data-delete-id]")
-    .setAttribute("data-delete-id", row.KasirId);
+    .setAttribute("data-delete-id", row.userId);
 
   return newRow;
 }
@@ -58,16 +56,20 @@ const placeModalCreateMessage = document.getElementById("modal-create-message");
 formCreate.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const name = formCreate.querySelector('input[name="name"]').value;
-  const phone = formCreate.querySelector('input[name="phone"]').value;
-  const address = formCreate.querySelector('textarea[name="address"]').value;
+  const newCashier = {
+    username: document.getElementById("craeteUsername").value,
+    password: document.getElementById("craetePassword").value,
+    confirmPassword: document.getElementById("craeteConfirmPassword").value,
+  };
 
   http.client
-    .post("Kasir", { Username, Password })
+    .post("cashiers", newCashier)
     .then((response) => {
+      helpers.clearChieldElements(generalListMessages);
       const alertSuccess = createAlert("success", response.data.message);
-      placeModalCreateMessage.appendChild(alertSuccess);
+      generalListMessages.appendChild(alertSuccess);
       setTable();
+      helpers.hideModal("createModal");
     })
     .catch((err) => {
       helpers.showErrorMessages(err, placeModalCreateMessage);
@@ -81,15 +83,13 @@ const formEdit = document.getElementById("formEditKasir");
 
 // handle edit button to change value form
 function handleEditView(e) {
-  const KasirId = e.getAttribute("data-edit-id");
+  const cashierId = e.getAttribute("data-edit-id");
   http.client
-    .get(`Kasir/${KasirId}`)
+    .get(`cashiers/${cashierId}`)
     .then((response) => {
-      const Kasir = response.data.data;
-
-      formEdit.querySelector('input[name="Username"]').value = Kasir.Username;
-      formEdit.querySelector('input[name="Password"]').value = Kasir.KasirId;
-      
+      const cashier = response.data.data;
+      document.getElementById("editUsernameText").value = cashier.username;
+      document.getElementById("existingCashierId").value = cashier.userId;
     })
     .catch((err) => {
       helpers.showErrorMessages(err, generalListMessages);
@@ -102,17 +102,22 @@ const placeModalEditMessage = document.getElementById("modal-edit-message");
 formEdit.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const id = formEdit.querySelector('input[name="id"]').value;
-  const name = formEdit.querySelector('input[name="name"]').value;
-  const phone = formEdit.querySelector('input[name="phone"]').value;
-  const address = formEdit.querySelector('textarea[name="address"]').value;
+  const existCashier = {
+    username: document.getElementById("editUsernameText").value,
+    password: document.getElementById("editPasswordText").value ,
+    confirmPassword: document.getElementById("editConfirmPasswordText").value ,
+  };
+
+  const id = document.getElementById("existingCashierId").value;
 
   http.client
-    .put(`Kasir/${id}`, { Username, Password })
+    .put(`cashiers/${id}`, existCashier)
     .then((response) => {
+      helpers.clearChieldElements(generalListMessages);
       const alertSuccess = createAlert("success", response.data.message);
-      placeModalEditMessage.appendChild(alertSuccess);
+      generalListMessages.appendChild(alertSuccess);
       setTable();
+      helpers.hideModal("editModal");
     })
     .catch((err) => {
       helpers.showErrorMessages(err, placeModalEditMessage);
@@ -121,14 +126,11 @@ formEdit.addEventListener("submit", function (e) {
 
 // handle delete button
 function handleDelete(e) {
-  const isConfirmed = confirm("Are you sure you want to delete?");
-  if (!isConfirmed) return;
-
-  const KasirId = e.getAttribute("data-delete-id");
+  const cashierId = e.getAttribute("data-delete-id");
   http.client
-    .delete(`Kasir/${KasirId}`)
+    .delete(`cashiers/${cashierId}`)
     .then((response) => {
-      console.log(response.data);
+      helpers.clearChieldElements(generalListMessages);
       const alertSuccess = createAlert("success", response.data.message);
       generalListMessages.appendChild(alertSuccess);
       setTable();
