@@ -11,6 +11,10 @@ const listNewProducts = [];
 const listExistingProducts = [];
 const listOfProducts = [];
 
+const purchaseTotalPrice = document.getElementById("purchase-total-price");
+const purchaseTotalProduct = document.getElementById("purchase-total-product");
+const purchaseRefund = document.getElementById("purchase-refund");
+
 const placeModalCreateMessage = document.getElementById("modal-create-message");
 
 // Create New Product List
@@ -44,6 +48,12 @@ formCreate.addEventListener("submit", function (e) {
     createAlert("success", "Successfully added new Product")
   );
   addNewProductToTable(newProduct);
+
+  purchaseTotalProduct.textContent =
+    parseInt(purchaseTotalProduct.textContent) + 1;
+  purchaseTotalPrice.textContent =
+    parseInt(purchaseTotalPrice.textContent) +
+    newProduct.priceSell * newProduct.quantity;
 });
 
 function addNewProductToTable(product) {
@@ -75,7 +85,6 @@ function addExistingProductToTable(product) {
   const detailProduct = listOfProducts.find(
     (p) => p.productId == product.productId
   );
-  console.log(listOfProducts, detailProduct);
 
   newRow.classList.remove("d-none");
   newRow.querySelector(".barcode").textContent = detailProduct?.barcode;
@@ -101,15 +110,39 @@ function handleDelete(e) {
   // if (!isConfirmed) return;
 
   const productId = e.getAttribute("data-delete-id");
-  const indexNewProduct = listNewProducts.indexOf(
-    (product) => product.id === productId
+  const indexNewProduct = listNewProducts.findIndex(
+    (prod) => prod.id == productId
   );
-  listNewProducts.splice(indexNewProduct, 1);
 
-  const indexExistProduct = listExistingProducts.indexOf(
-    (product) => product.id === productId
+  let product = listNewProducts[indexNewProduct];
+  if (product != null) {
+    purchaseTotalProduct.textContent =
+      parseInt(purchaseTotalProduct.textContent) - 1;
+    purchaseTotalPrice.textContent =
+      parseInt(purchaseTotalPrice.textContent) -
+      product.priceSell * product.quantity;
+  }
+
+  if (indexNewProduct >= 0) {
+    listNewProducts.splice(indexNewProduct, 1);
+  }
+
+  const indexExistProduct = listExistingProducts.findIndex(
+    (prod) => prod.id == productId
   );
-  listExistingProducts.splice(indexExistProduct, 1);
+
+  product = listExistingProducts[indexExistProduct];
+  if (product != null) {
+    purchaseTotalProduct.textContent =
+      parseInt(purchaseTotalProduct.textContent) - 1;
+    purchaseTotalPrice.textContent =
+      parseInt(purchaseTotalPrice.textContent) -
+      product.priceSell * product.quantity;
+  }
+
+  if (indexExistProduct >= 0) {
+    listExistingProducts.splice(indexExistProduct, 1);
+  }
 
   helpers.clearChieldElements(generalListMessages);
   generalListMessages.appendChild(
@@ -122,13 +155,11 @@ function setTable() {
   helpers.clearChieldElements(tableBody);
 
   listNewProducts.forEach((product) => {
-    console.log(product);
     addNewProductToTable(product);
   });
 }
 
 function handleStorePurchase(e) {
-  console.log(document.getElementById("selectSupplier"));
   http.client
     .post("/admin/purchases", {
       supplierId: document.getElementById("selectSupplier").value,
@@ -164,7 +195,6 @@ function replaceSupplierOptions() {
         const newOption = document.createElement("option");
         newOption.value = supplier.supplierId;
         newOption.textContent = supplier.name;
-        console.log(newOption);
         selectElement.appendChild(newOption);
       });
     })
@@ -231,4 +261,15 @@ formEdit.addEventListener("submit", function (e) {
     createAlert("success", "Successfully added existing Product")
   );
   addExistingProductToTable(existingProduct);
+
+  purchaseTotalProduct.textContent =
+    parseInt(purchaseTotalProduct.textContent) + 1;
+  purchaseTotalPrice.textContent =
+    parseInt(purchaseTotalPrice.textContent) +
+    existingProduct.priceSell * existingProduct.quantity;
 });
+
+function calculateAmount(e) {
+  purchaseRefund.textContent =
+    parseInt(purchaseTotalPrice.textContent) - parseInt(e.value);
+}
