@@ -8,28 +8,22 @@
     <link
       rel="stylesheet"
       href="../../assets/bootstrap/css/bootstrap.min.css" />
+    <link
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.min.css"
+      rel="stylesheet" />
   </head>
   <body>
     <div class="container-fluid mt-4">
       <header>
-        <div class="row fw-bold col-md-4 align-items-start font-monospace">
-          <p class="col-md-6">Tanggal & Time: <span id="datetime"></span></p>
-          <p class="col-md-6">User: Kasir 1</p>
+        <div class="row fw-bold col-md-5 align-items-start font-monospace">
+          <p class="col-md-7">Time: <span id="datetime"></span></p>
+          <p class="col-md-5">User: Kasir 1</p>
         </div>
         <h1 class="fw-bold me-5">KASIR</h1>
         <button class="btn btn-danger">Logout</button>
       </header>
       <hr />
-      <div class="row col-md-2 ms-2 border">
-        <div class="input-group">
-          <label class="input-group-text" for="partner">Mitra</label>
-          <select class="form-select" id="partner">
-            <option value="partner1">Mitra 1</option>
-            <option value="partner2">Mitra 2</option>
-            <option value="partner3">Mitra 3</option>
-          </select>
-        </div>
-      </div>
+      <div id="alertContainer"></div>
       <main>
         <section class="order col-sm-8 order-2">
           <h2>Order List</h2>
@@ -45,7 +39,26 @@
               </tr>
             </thead>
             <tbody>
-              <!-- Data rows will be dynamically generated here -->
+              <tr class="d-none" id="sample-row">
+                <td class="barcode"></td>
+                <td class="name"></td>
+                <td class="qty">
+                  <input type="number" onchange="handleQtyChange(event)" />
+                </td>
+                <td class="price"></td>
+                <td class="subTotal"></td>
+                <td class="action">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-delete-id=""
+                    onclick="handleDelete(this)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal">
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </section>
@@ -53,106 +66,71 @@
           <h2>Add Product</h2>
           <div class="input-group mb-3">
             <span class="input-group-text" for="barcode">Barcode</span>
-            <input class="form-control" type="number" id="barcode" />
-          </div>
-          <div class="input-group">
-            <span class="input-group-text" for="product-name">Name</span>
-            <input
-              class="form-control"
-              type="text"
-              id="product-name"
-              disabled />
-          </div>
-          <div class="input-group">
-            <span class="input-group-text" for="product-name">Price</span>
-            <input class="form-control" type="text" id="price" disabled />
-          </div>
-
-          <div class="input-group">
-            <span class="input-group-text" for="quantity">Quantity:</span>
             <input
               class="form-control"
               type="number"
-              id="quantity"
-              min="1"
-              value="1" />
+              id="barcode"
+              onchange="handleBarcode(this)" />
           </div>
-          <button class="add-btn">Add</button>
+          <form id="formOrder">
+            <input type="hidden" id="profitSharingAmount" />
+            <input type="hidden" id="productId" />
+            <div class="input-group">
+              <span class="input-group-text" for="product-name">Name</span>
+              <input class="form-control" type="text" id="name" disabled />
+            </div>
+            <div class="input-group">
+              <span class="input-group-text" for="product-name">Price</span>
+              <input class="form-control" type="text" id="price" disabled />
+            </div>
+
+            <div class="input-group">
+              <span class="input-group-text" for="quantity">Quantity:</span>
+              <input
+                class="form-control"
+                type="number"
+                id="qty"
+                min="1"
+                value="1" />
+            </div>
+            <button type="submit" class="add-btn">Add</button>
+          </form>
         </section>
       </main>
-      <footer>
-        <div class="total">
+      <hr />
+      <footer class="container-fluid row">
+        <div class="col-md-3">
+          <div class="input-group">
+            <label class="input-group-text" for="selectTour">Tour</label>
+            <select class="form-select col-md-1" id="selectTour"></select>
+          </div>
+        </div>
+        <div class="total col-md-3 offset-md-4">
           <label class="fw-bold">Total:</label>
           <span class="fw-bold" id="total-price">Rp 0.00</span>
         </div>
-        <button
-          type="button"
-          class="btn btn-success"
-          data-bs-toggle="modal"
-          data-bs-target="#modalPay">
-          Pay
-        </button>
-      </footer>
-    </div>
-
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="recipient-name" class="col-form-label"
-                  >Recipient:</label
-                >
-                <input type="text" class="form-control" id="recipient-name" />
-              </div>
-              <div class="mb-3">
-                <label for="message-text" class="col-form-label"
-                  >Message:</label
-                >
-                <textarea class="form-control" id="message-text"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal">
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Send message</button>
-          </div>
+        <div class="col-md-auto">
+          <button type="button" id="pay" class="btn btn-success col-md-auto">
+            Pay
+          </button>
         </div>
-      </div>
+      </footer>
     </div>
 
     <div class="modal fade" id="modalPay">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title" id="exampleModalLabel">Payment</h2>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
+          <form id="formPay">
+            <div class="modal-header">
+              <h2 class="modal-title" id="exampleModalLabel">Payment</h2>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div id="alertPay"></div>
               <div class="input-group">
                 <span class="input-group-text" for="total-item"
                   >Total Item:</span
@@ -190,7 +168,41 @@
                 <span class="input-group-text" for="change">Kembalian:</span>
                 <input type="text" class="form-control" id="change" disabled />
               </div>
-            </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Bayar dan Cetak Struk
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="deleteModal"
+      tabindex="-1"
+      aria-labelledby="deleteModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this item?
           </div>
           <div class="modal-footer">
             <button
@@ -199,8 +211,12 @@
               data-bs-dismiss="modal">
               Close
             </button>
-            <button type="button" class="btn btn-primary">
-              Bayar dan Cetak Struk
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+              id="confirmDelete">
+              Delete
             </button>
           </div>
         </div>
@@ -210,7 +226,6 @@
     <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/kasir.js"></script>
     <script>
-      // Script untuk menampilkan tanggal & waktu secara real-time
       var dt = new Date();
       document.getElementById("datetime").innerHTML = dt.toLocaleString();
     </script>

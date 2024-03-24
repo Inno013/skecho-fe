@@ -114,14 +114,14 @@ input[type="number"] {
   background-color: #007bff;
 }
 
-footer {
+/* footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #ddd;
-}
+} */
 
 .total {
   font-size: 20px;
