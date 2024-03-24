@@ -9,27 +9,24 @@ const tableBody = document.querySelector("#data-table tbody");
 const filterData = new helpers.FilterData();
 
 function setTable() {
-    // Pengaturan tabel seperti sebelumnya
-    while (tableBody.firstChild) {
-        tableBody.removeChild(tableBody.firstChild);
-    }
+  // Pengaturan tabel seperti sebelumnya
+  while (tableBody.firstChild) {
+    tableBody.removeChild(tableBody.firstChild);
+  }
 
-    http.client
-        .get(filterData.toQueryParams("/tours"))
-        .then((response) => {
-            filterData.setTotalPage(response.data.totalPages);
-            response.data.content.forEach((row) => {
-                const newRow = createNewRow(row);
-                tableBody.appendChild(newRow);
-            });
-        })
-        .catch((err) => {
-            console.error(err);
-        });
+  http.client
+    .get(filterData.toQueryParams("/tours"))
+    .then((response) => {
+      filterData.setTotalPage(response.data.totalPages);
+      response.data.content.forEach((row) => {
+        const newRow = createNewRow(row);
+        tableBody.appendChild(newRow);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
-
-
-
 
 // call set table to populate the data and put it into the table
 setTable();
@@ -48,17 +45,13 @@ function createNewRow(row) {
   newRow
     .querySelector(".action button[data-delete-id]")
     .setAttribute("data-delete-id", row.tourId);
-  
+
   newRow
     .querySelector(".invoiceTour button")
-    .addEventListener("click", function () {
-      handleRegisterInvoice(row); // Panggil fungsi handleRegisterInvoice dengan argumen row saat tombol "Invoice" ditekan
-    });
+    .setAttribute("data-tour-id", row.tourId);
 
   return newRow;
 }
-
-
 
 // End Logic to populate the data
 
@@ -78,7 +71,10 @@ formCreate.addEventListener("submit", function (e) {
   const address = addressInput.value;
 
   if (!name || !phone || !address) {
-    const alertWarning = createAlert("warning", "Isi Kolom Kosong / No Tlp harus 10-13 Karakter");
+    const alertWarning = createAlert(
+      "warning",
+      "Isi Kolom Kosong / No Tlp harus 10-13 Karakter"
+    );
     placeModalCreateMessage.appendChild(alertWarning);
 
     // Hilangkan pesan peringatan setelah 1 detik
@@ -142,7 +138,7 @@ function handleEditView(e) {
     });
 }
 
-
+function handleInvoice(e) {}
 
 const placeModalEditMessage = document.getElementById("modal-edit-message");
 
@@ -180,95 +176,172 @@ formEdit.addEventListener("submit", function (e) {
 
 // handle delete button
 function handleDelete(e) {
-    const tourId = e.getAttribute("data-delete-id");
-  
-    // Set data-attribute for the delete button in the modal
-    document.getElementById('confirmDelete').setAttribute('data-delete-id', tourId);
-  
-    // Show the delete confirmation modal
-    var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    myModal.show();
-  }
-  
-  // Handle confirmed delete
-  document.getElementById('confirmDelete').addEventListener('click', function () {
-    const tourId = this.getAttribute('data-delete-id');
-    http.client
-      .delete(`tours/${tourId}`)
-      .then((response) => {
-        const alertSuccess = createAlert("success", response.data.message);
-        generalListMessages.appendChild(alertSuccess);
-        setTable();
+  const tourId = e.getAttribute("data-delete-id");
 
-        // Hilangkan pesan setelah 1 detik
-        setTimeout(() => {
-          generalListMessages.innerHTML = "";
-        }, 1000);
-      })
-      .catch((err) => {
-        const alertWarning = createAlert("warning", err.response.data.message);
-        generalListMessages.appendChild(alertWarning);
+  // Set data-attribute for the delete button in the modal
+  document
+    .getElementById("confirmDelete")
+    .setAttribute("data-delete-id", tourId);
 
-        // Hilangkan pesan peringatan setelah 1 detik
-        setTimeout(() => {
-          generalListMessages.innerHTML = "";
-        }, 1000);
-      });
-  });
+  // Show the delete confirmation modal
+  var myModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+  myModal.show();
+}
 
+// Handle confirmed delete
+document.getElementById("confirmDelete").addEventListener("click", function () {
+  const tourId = this.getAttribute("data-delete-id");
+  http.client
+    .delete(`tours/${tourId}`)
+    .then((response) => {
+      const alertSuccess = createAlert("success", response.data.message);
+      generalListMessages.appendChild(alertSuccess);
+      setTable();
 
-  function handleRegisterInvoice(row) {
-    const invoiceModal = new bootstrap.Modal(document.getElementById('invoiceModal'), {
-        keyboard: false
+      // Hilangkan pesan setelah 1 detik
+      setTimeout(() => {
+        generalListMessages.innerHTML = "";
+      }, 1000);
+    })
+    .catch((err) => {
+      const alertWarning = createAlert("warning", err.response.data.message);
+      generalListMessages.appendChild(alertWarning);
+
+      // Hilangkan pesan peringatan setelah 1 detik
+      setTimeout(() => {
+        generalListMessages.innerHTML = "";
+      }, 1000);
     });
-    invoiceModal.show();
+});
 
-    const formInvoice = document.getElementById('formInvoice');
-    const placeModalInvoiceMessage = document.getElementById('modal-invoice-message');
+function isCreateInvoice(tourId) {
+  let data;
+  http.client
+    .get(`/invoice/tour/status/tourID?status=NOW&tourId=4`)
+    .then((response) => {
+      data = response;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  return data;
+}
 
-    formInvoice.onsubmit = function (e) {
-        e.preventDefault();
+function sendDataInvoice(params) {
+  http.client
+    .post("/invoice/tour/save", params)
+    .then((response) => {
+      const alertSuccess = createAlert("success", response.data.message);
+      generalListMessages.appendChild(alertSuccess);
 
-        const tourId = formInvoice.querySelector('input[name="tourId"]').value;
-        const unitBus = formInvoice.querySelector('input[name="unitBus"]').value;
-        const jumlahIndividu = formInvoice.querySelector('input[name="jumlahIndividu"]').value;
+      // Hilangkan pesan setelah 1 detik
+      setTimeout(() => {
+        generalListMessages.innerHTML = "";
+      }, 1000);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
-        if (!tourId || !unitBus || !jumlahIndividu) {
-            const alertWarning = createAlert("warning", "Please fill in all fields.");
+function handleRegisterInvoice(row) {
+  const formInvoice = document.getElementById("formInvoice");
+  const placeModalInvoiceMessage = document.getElementById(
+    "modal-invoice-message"
+  );
+  const tourId = row.getAttribute("data-tour-id");
+  http.client
+    .get(`/invoice/tour/status/tourID?status=NOW&tourId=${tourId}`)
+    .then((response) => {
+      if (response.data.data == null) {
+        const invoiceModal = new bootstrap.Modal(
+          document.getElementById("invoiceModal"),
+          {
+            keyboard: false,
+          }
+        );
+        invoiceModal.show();
+
+        formInvoice.querySelector('input[name="tourId"]').value = tourId;
+        formInvoice.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const unitBus = formInvoice.querySelector("#unitBus").value;
+          const jumlahIndividu =
+            formInvoice.querySelector("#jumlahIndividu").value;
+
+          if (!tourId || !unitBus || !jumlahIndividu) {
+            const alertWarning = createAlert(
+              "warning",
+              "Please fill in all fields."
+            );
             placeModalInvoiceMessage.appendChild(alertWarning);
 
             setTimeout(() => {
-                placeModalInvoiceMessage.innerHTML = "";
+              placeModalInvoiceMessage.innerHTML = "";
             }, 1000);
+            console.log(tourId + "-" + unitBus + "-" + jumlahIndividu);
+          }
+          sendDataInvoice({
+            tourId: tourId,
+            unitBus: unitBus,
+            employee: jumlahIndividu,
+          });
+          const buttonInvoice = document.getElementsByClassName("ivoiceStatus");
+          for (let i = 0; i < buttonInvoice.length; i++) {
+            if (buttonInvoice[i].getAttribute("data-tour-id") == tourId) {
+              buttonInvoice[i].innerHTML =
+                '<i class="bi bi-file-earmark-text"></i> Open Invoice';
+            }
+          }
+        });
+      } else {
+        document.location.href =
+          rootPath + "/views/admin/tour/tourinvoice.html";
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
-            return;
-        }
+  // formInvoice.onsubmit = function (e) {
+  //     e.preventDefault();
 
-        // Simulate API call to register invoice
-        // You can replace this with your actual API call
-        setTimeout(() => {
-            const alertSuccess = createAlert("success", "Invoice registered successfully.");
-            placeModalInvoiceMessage.appendChild(alertSuccess);
+  //     if (!tourId || !unitBus || !jumlahIndividu) {
+  //         const alertWarning = createAlert("warning", "Please fill in all fields.");
+  //         placeModalInvoiceMessage.appendChild(alertWarning);
 
-            // Change button text to "Lihat Invoice"
-            const invoiceButton = row.querySelector('.invoiceTour button');
-            invoiceButton.innerHTML = '<i class="bi bi-file-earmark-text"></i> Lihat Invoice';
+  //         setTimeout(() => {
+  //             placeModalInvoiceMessage.innerHTML = "";
+  //         }, 1000);
 
-            // Change button color to yellow
-            invoiceButton.classList.remove("btn-primary");
-            invoiceButton.classList.add("btn-warning");
+  //         return;
+  //     }
 
-            // Disable the button after registration
-            invoiceButton.disabled = true;
+  //     // Simulate API call to register invoice
+  //     // You can replace this with your actual API call
+  //     setTimeout(() => {
+  //         const alertSuccess = createAlert("success", "Invoice registered successfully.");
+  //         placeModalInvoiceMessage.appendChild(alertSuccess);
 
-            setTimeout(() => {
-                placeModalInvoiceMessage.innerHTML = "";
-                invoiceModal.hide();
-            }, 1000);
-        }, 1000);
-    };
+  //         // Change button text to "Lihat Invoice"
+  //         const invoiceButton = row.querySelector('.invoiceTour button');
+  //         invoiceButton.innerHTML = '<i class="bi bi-file-earmark-text"></i> Lihat Invoice';
+
+  //         // Change button color to yellow
+  //         invoiceButton.classList.remove("btn-primary");
+  //         invoiceButton.classList.add("btn-warning");
+
+  //         // Disable the button after registration
+  //         invoiceButton.disabled = true;
+
+  //         setTimeout(() => {
+  //             placeModalInvoiceMessage.innerHTML = "";
+  //             invoiceModal.hide();
+  //         }, 1000);
+  //     }, 1000);
+  // };
 }
-
 
 // Handling fitering (search, next, previous page)
 function handleSearch(e) {
@@ -289,3 +362,18 @@ function handlePrevPage(e) {
     setTable();
   }
 }
+
+document.addEventListener("DOMContentLoaded", function (e) {
+  http.client.get(`/invoice/tour/status?status=NOW`).then((response) => {
+    const buttonInvoice = document.getElementsByClassName("ivoiceStatus");
+    for (let i = 0; i < buttonInvoice.length; i++) {
+      if (
+        buttonInvoice[i].getAttribute("data-tour-id") ==
+        response.data.data.tourId.tourId
+      ) {
+        buttonInvoice[i].innerHTML =
+          '<i class="bi bi-file-earmark-text"></i> Open Invoice';
+      }
+    }
+  });
+});

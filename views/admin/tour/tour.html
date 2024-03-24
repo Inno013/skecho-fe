@@ -263,7 +263,7 @@
       <td class="createdAt"></td>
       <td class="invoiceTour">
         <!-- Tambah tombol Invoice Tour di sini -->
-        <button type="button" class="btn btn-info" onclick="handleInvoice(this)">
+        <button type="button" class="btn btn-info ivoiceStatus" onclick="handleRegisterInvoice(this)">
           <i class="bi bi-file-earmark-text"></i> Register Invoice
         </button>
       </td>
@@ -493,7 +493,7 @@
               name="tourId"
               class="form-control"
               id="tourId"
-              placeholder="Enter Tour ID"
+              placeholder="Enter Tour ID" disabled
             />
           </div>
 
@@ -535,7 +535,6 @@
 </div>
 <!-- End Modal Invoice -->
 
-
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -553,16 +552,11 @@
           </div>
         </div>
       </div>
-
-      
-      
-
     <!-- List of Templates -->
     <!-- End List of Templates -->
 
     <script
       src="../../../assets/bootstrap/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
 
