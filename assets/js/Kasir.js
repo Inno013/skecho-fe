@@ -28,14 +28,14 @@ async function fetchDataWithUrl(url, params) {
 }
 
 // Post ordernya error
-// async function sendDataWithUrl(url, params) {
-//   try {
-//     const response = await http.client.post(url, { params });
-//     return response.data;
-//   } catch (error) {
-//     alert(`Gagal Order Barang`, "alertContainer");
-//   }
-// }
+async function sendDataWithUrl(url, params) {
+  try {
+    const response = await http.client.post(url, params);
+    return response.data;
+  } catch (error) {
+    alert(`Gagal Order Barang`, "alertContainer");
+  }
+}
 
 const formOrder = document.getElementById("formOrder");
 const formPay = document.getElementById("formPay");
@@ -67,7 +67,7 @@ formOrder.addEventListener("submit", function (e) {
       name: formOrder.querySelector("#name").value,
       price: price,
       qty: qty,
-      subTotal: qty * price,
+      subtotal: qty * price,
     });
   } else {
     dataOrder[rowIndex].qty += qty;
@@ -77,34 +77,34 @@ formOrder.addEventListener("submit", function (e) {
 });
 
 // Belum selesai krim order ke database
-// formPay.addEventListener("submit", function (e) {
-//   e.preventDefault();
-//   const formData = {
-//     amount: document.getElementById("amount-paid").value,
-//     refund: document.getElementById("change").value,
-//     totalItems: document.getElementById("total-item").value,
-//     totalPrice: document.getElementById("grand-total").value,
-//   };
-//   // sendDataWithUrl("/orders/save", dataToOrderRequest(formData))
-//   //   .then((data) => {
-//   //     // printPdf(data);
-//   //     console.log(data);
-//   //   })
-//   //   .catch((error) => {
-//   //     console.error("Error fetching data with pagination:", error);
-//   //   });
-// });
+formPay.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const formData = {
+    amount: document.getElementById("amount-paid").value,
+    refund: document.getElementById("change").value,
+    totalItems: document.getElementById("total-item").value,
+    totalPrice: document.getElementById("grand-total").value,
+  };
+  sendDataWithUrl("/orders/save", dataToOrderRequest(formData))
+    .then((data) => {
+      printPdf(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+});
 
-// function printPdf(pdf) {
-//   const iframe = document.createElement("iframe");
-//   iframe.style.display = "none";
-//   iframe.src = pdf;
-//   document.body.appendChild(iframe);
+function printPdf(pdf) {
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = pdf;
+  document.body.appendChild(iframe);
 
-//   iframe.onload = function () {
-//     iframe.contentWindow.print();
-//   };
-// }
+  iframe.onload = function () {
+    iframe.contentWindow.print();
+  };
+}
 
 function alert(message, id) {
   const alertContainer = document.getElementById(id);

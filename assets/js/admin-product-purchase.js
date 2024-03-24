@@ -9,6 +9,7 @@ const generalListMessages = document.getElementById("general-list-messages");
 
 const listNewProducts = [];
 const listExistingProducts = [];
+const listOfProducts = [];
 
 const placeModalCreateMessage = document.getElementById("modal-create-message");
 
@@ -67,6 +68,33 @@ function addNewProductToTable(product) {
   helpers.hideModal("newProductModal");
 }
 
+function addExistingProductToTable(product) {
+  const sampleRow = document.getElementById("sample-row");
+  const newRow = sampleRow.cloneNode(true);
+
+  const detailProduct = listOfProducts.find(
+    (p) => p.productId == product.productId
+  );
+  console.log(listOfProducts, detailProduct);
+
+  newRow.classList.remove("d-none");
+  newRow.querySelector(".barcode").textContent = detailProduct?.barcode;
+  newRow.querySelector(".name-product").textContent = detailProduct?.name;
+  newRow.querySelector(".price-sell").textContent = product.priceSell;
+  newRow.querySelector(".profit-sharing-amount").textContent =
+    product.profitSharingAmount;
+  newRow.querySelector(".product-stock").textContent = product.quantity;
+  // newRow
+  //   .querySelector(".action button[data-edit-id]")
+  //   .setAttribute("data-edit-id", product.id);
+  newRow
+    .querySelector(".action button[data-delete-id]")
+    .setAttribute("data-delete-id", product.id);
+
+  tableBody.appendChild(newRow);
+  helpers.hideModal("existingProductModal");
+}
+
 // handle delete button
 function handleDelete(e) {
   // const isConfirmed = confirm("Are you sure you want to delete?");
@@ -119,10 +147,11 @@ function handleStorePurchase(e) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  replaceOptions();
+  replaceSupplierOptions();
+  replaceProductOptions();
 });
 
-function replaceOptions() {
+function replaceSupplierOptions() {
   const selectElement = document.getElementById("selectSupplier");
 
   // Clear existing options
@@ -135,6 +164,7 @@ function replaceOptions() {
         const newOption = document.createElement("option");
         newOption.value = supplier.supplierId;
         newOption.textContent = supplier.name;
+        console.log(newOption);
         selectElement.appendChild(newOption);
       });
     })
@@ -142,4 +172,63 @@ function replaceOptions() {
       console.error(err);
     });
 }
-// create existing product 
+
+function replaceProductOptions() {
+  const selectElement = document.getElementById("existingSelectProduct");
+
+  // Clear existing options
+  selectElement.innerHTML = "";
+
+  http.client
+    .get("products/all")
+    .then((response) => {
+      response.data.data.forEach((product) => {
+        const newOption = document.createElement("option");
+        newOption.value = product.productId;
+        newOption.textContent = product.name;
+        selectElement.appendChild(newOption);
+        listOfProducts.push(product);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
+function selectedProduct(e) {
+  const product = listOfProducts.find(
+    (product) => product.productId == e.value
+  );
+  document.getElementById("existingProdBarcode").value = product?.barcode ?? "";
+}
+
+// create existing product
+const formEdit = document.getElementById("formexistingProd");
+formEdit.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const existingProduct = {
+    id: crypto.randomBytes(32).toString("hex"),
+    productId: document.getElementById("existingSelectProduct").value,
+    priceBuy: document.getElementById("existingProdPriceBuy").value,
+    priceSell: document.getElementById("existingProdPriceSell").value,
+    quantity: document.getElementById("existingProdQuantity").value,
+    profitSharingAmount: document.getElementById(
+      "existingProdPriceSharingAmount"
+    ).value,
+  };
+
+  // Clear input fields
+  document.getElementById("existingProdPriceBuy").value = "";
+  document.getElementById("existingProdPriceSell").value = "";
+  document.getElementById("existingProdQuantity").value = "";
+  document.getElementById("existingProdPriceSharingAmount").value = "";
+
+  listExistingProducts.push(existingProduct);
+
+  helpers.clearChieldElements(generalListMessages);
+  generalListMessages.appendChild(
+    createAlert("success", "Successfully added existing Product")
+  );
+  addExistingProductToTable(existingProduct);
+});

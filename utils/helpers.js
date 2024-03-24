@@ -1,6 +1,6 @@
 function showErrorMessages(err, parentElement) {
   err = err.response.data;
-  if (err.status == 422) {
+  if (err.status >= 400 && err.status <= 422) {
     err.errors.forEach((error) => {
       const alertError = createAlert("danger", error);
       parentElement.appendChild(alertError);
