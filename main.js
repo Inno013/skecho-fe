@@ -38,6 +38,30 @@ app.whenReady().then(() => {
     }
   });
 
+  ipcMain.on("openDialog", () => {
+    dialog
+      .showMessageBox(window, {
+        type: "question",
+        title: "Confirmation",
+        message: "Are you sure?",
+        buttons: ["Yes", "No"],
+      }) // Dialog returns a promise so let's handle it correctly
+      .then((result) => {
+        // Bail if the user pressed "No" or escaped (ESC) from the dialog box
+        if (result.response !== 0) {
+          return;
+        }
+
+        // Testing.
+        if (result.response === 0) {
+          console.log('The "Yes" button was pressed (main process)');
+        }
+
+        // Reply to the render process
+        window.webContents.send("dialogResponse", result.response);
+      });
+  });
+
   app.on("window-all-closed", () => {
     // selain Mac OS perlu memanggil method quit untuk benar2 close
     // darwin == Mac OS
