@@ -14,8 +14,12 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
       password,
     })
     .then((response) => {
-      console.log(response.data);
-      window.location.href = "./../views/admin/supplier/index.html";
+      if (response.data.role == "ROLE_ADMIN") {
+        document.location.href =
+          rootPath + "/views/admin/supplier/supplier.html";
+      } else {
+        document.location.href = rootPath + "/views/kasir/KasirPage.html";
+      }
     })
     .catch((err) => {
       console.error(err);
