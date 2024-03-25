@@ -26,6 +26,7 @@ function setTable() {
     .catch((err) => {
       console.error(err);
     });
+  buttonChange();
 }
 
 // call set table to populate the data and put it into the table
@@ -177,7 +178,7 @@ formEdit.addEventListener("submit", function (e) {
 // handle delete button
 function handleDelete(e) {
   const tourId = e.getAttribute("data-delete-id");
-
+  buttonChange();
   // Set data-attribute for the delete button in the modal
   document
     .getElementById("confirmDelete")
@@ -297,7 +298,8 @@ function handleRegisterInvoice(row) {
         });
       } else {
         document.location.href =
-          rootPath + "/views/admin/tour/tourinvoice.html";
+          rootPath +
+          `/views/admin/tour/tourinvoice.html?tourId=${response.data.data.invoiceTourId}`;
       }
     })
     .catch((error) => {
@@ -363,17 +365,22 @@ function handlePrevPage(e) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function (e) {
+function buttonChange() {
   http.client.get(`/invoice/tour/status?status=NOW`).then((response) => {
-    const buttonInvoice = document.getElementsByClassName("ivoiceStatus");
-    for (let i = 0; i < buttonInvoice.length; i++) {
-      if (
-        buttonInvoice[i].getAttribute("data-tour-id") ==
-        response.data.data.tourId.tourId
-      ) {
-        buttonInvoice[i].innerHTML =
-          '<i class="bi bi-file-earmark-text"></i> Open Invoice';
+    response.data.data.forEach((data) => {
+      const buttonInvoice = document.getElementsByClassName("ivoiceStatus");
+      for (let i = 0; i < buttonInvoice.length; i++) {
+        if (
+          buttonInvoice[i].getAttribute("data-tour-id") == data.tourId.tourId
+        ) {
+          buttonInvoice[i].innerHTML =
+            '<i class="bi bi-file-earmark-text"></i> Open Invoice';
+        }
       }
-    }
+    });
   });
+}
+
+document.addEventListener("DOMContentLoaded", function (e) {
+  buttonChange();
 });
