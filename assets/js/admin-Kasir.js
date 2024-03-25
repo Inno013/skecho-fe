@@ -102,30 +102,23 @@ function handleEditView(e) {
       const cashier = response.data.data;
       document.getElementById("editUsernameText").value = cashier.username;
       document.getElementById("existingCashierId").value = cashier.userId;
-
-      const editSuccessMessage = createAlert("success", "Cashier edited successfully.");
-      generalListMessages.appendChild(editSuccessMessage);
-
-      // Hapus pesan setelah satu detik
-      setTimeout(() => {
-        generalListMessages.innerHTML = "";
-      }, 1000);
     })
     .catch((err) => {
       helpers.showErrorMessages(err, generalListMessages);
+      
     });
 }
 
 const placeModalEditMessage = document.getElementById("modal-edit-message");
 
-// handle submit update
+//handle submit update
 formEdit.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const existCashier = {
     username: document.getElementById("editUsernameText").value,
-    password: document.getElementById("editPasswordText").value,
-    confirmPassword: document.getElementById("editConfirmPasswordText").value,
+    password: document.getElementById("editPasswordText").value ,
+    confirmPassword: document.getElementById("editConfirmPasswordText").value ,
   };
 
   const id = document.getElementById("existingCashierId").value;
@@ -143,7 +136,6 @@ formEdit.addEventListener("submit", function (e) {
       helpers.showErrorMessages(err, placeModalEditMessage);
     });
 });
-
 
 // Handle delete button in row
 function handleDelete(e) {
