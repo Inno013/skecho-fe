@@ -190,7 +190,7 @@ function handleDelete(e) {
     myModal.show();
   }
   
-  // Handle confirmed delete
+  // Handle  delete button
   document.getElementById('confirmDelete').addEventListener('click', function () {
     const tourId = this.getAttribute('data-delete-id');
     http.client
