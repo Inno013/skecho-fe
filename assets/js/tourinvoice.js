@@ -26,6 +26,10 @@ var tourId = urlParams.get("tourId");
 setData(tourId);
 
 function setData(tourId) {
+  while (tableBody.firstChild) {
+    tableBody.removeChild(tableBody.firstChild);
+  }
+
   http.client
     .get(`/invoice/tour/status/tourID?status=NOW&tourId=${tourId}`)
     .then((response) => {
@@ -34,6 +38,20 @@ function setData(tourId) {
       document.getElementById("po").innerHTML = response.data.data.tourId.name;
       document.getElementById("unitBus").innerHTML = response.data.data.unitBus;
       document.getElementById("omset").innerHTML = response.data.data.income;
+      http.client
+        .get(`/orders/invoiceTourId?invoiceTourId=${tourId}`)
+        .then((response) => {
+          response.data.data.forEach((element) => {
+            element.orderDetails.forEach((data) => {
+              const product = data.productId;
+              const newRow = createAlert(product);
+              tableBody.appendChild(newRow)
+            });
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     })
     .catch((error) => {
       console.error(error);
@@ -45,7 +63,7 @@ function createNewRow(row) {
   newRow.classList.remove("d-none");
 
   newRow.querySelector(".productName").innerHTML = row.name;
-  newRow.querySelector(".profitSharing").innerHTML = row.address;
+  newRow.querySelector(".profitSharing").innerHTML = row.profitSharing;
   newRow.querySelector(".qty").innerHTML = row.phone;
   newRow.querySelector(".subTotal").innerHTML = row.createdAt;
   newRow

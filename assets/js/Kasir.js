@@ -44,7 +44,7 @@ const formPay = document.getElementById("formPay");
 function dataToOrderRequest(data) {
   const orders = {
     userId: 1,
-    invoiceTourId: 2, // document.getElementById("selectTour").value,
+    invoiceTourId: document.getElementById("selectTour").value,
     totalItems: parseFloat(data.totalItems),
     totalPrice: parseFloat(data.totalPrice),
     amount: parseFloat(data.amount),
