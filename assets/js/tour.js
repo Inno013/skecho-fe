@@ -215,19 +215,6 @@ document.getElementById("confirmDelete").addEventListener("click", function () {
     });
 });
 
-function isCreateInvoice(tourId) {
-  let data;
-  http.client
-    .get(`/invoice/tour/status/tourID?status=NOW&tourId=4`)
-    .then((response) => {
-      data = response;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  return data;
-}
-
 function sendDataInvoice(params) {
   http.client
     .post("/invoice/tour/save", params)

@@ -11,7 +11,6 @@
     <link
       href="../../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
       rel="stylesheet" />
-    <!-- <link rel="stylesheet" href="./../../../assets/css/tourinvoice.css" /> -->
   </head>
   <body>
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -183,126 +182,76 @@
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"></div>
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header bg-primary text-white">Invoice Tour</div>
+                <div class="card-header bg-primary text-white">
+                    Invoice Tour
+                </div>
+                <div class="card-body">
+                    <form>
+                      <div class="row border">
+                        <div class="col-3 border d-flex justify-content-start">
+                            <h6 for="tourId" class="border">No Tour :&nbsp</h6>
+                            <h6 id="tourId" class="border"></h6>
+                        </div>
+                        <div class="col-3 d-flex justify-content-start">
+                            <h6 for="inputPO">PO :&nbsp</h6>
+                            <h6 id="po"></h6>
+                        </div>
+                        <div class="col-3 d-flex justify-content-start">
+                            <h6 for="inputUnitBus">Unit Bus :&nbsp</h6>
+                            <h6 id="unitBus"></h6>
+                        </div>
+                        <div class="col-3 d-flex justify-content-start">
+                            <h6 for="inputTanggal">Tanggal :&nbsp</h6>
+                            <h6 id="inputTanggal"></h6>
+                        </div>
+                    </div>
+                    
+                    </form>
+                </div>
+                 <!-- Table -->
+                 
               <div class="card-body">
-                <form>
-                  <div class="row align-items-center">
-                    <div class="col-md-auto">
-                      <label
-                        for="tourId"
-                        class="col-form-label col-form-label-sm"
-                        >No Tour</label
-                      >
-                    </div>
-                    <div class="col-md-1">
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="tourId"
-                        placeholder="No Tour"
-                        disabled />
-                    </div>
-                    <div class="col-md-auto">
-                      <label
-                        for="inputPO"
-                        class="col-form-label col-form-label-sm"
-                        >PO</label
-                      >
-                    </div>
-                    <div class="col-md-3">
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="inputPO"
-                        placeholder="PO" />
-                    </div>
-
-                    <div class="col-md-1">
-                      <label
-                        for="inputUnitBus"
-                        class="col-form-label col-form-label-sm"
-                        >Unit Bus</label
-                      >
-                    </div>
-                    <div class="col-md-1">
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="inputUnitBus"
-                        placeholder="Unit Bus" />
-                    </div>
-                    <div class="col-md-auto">
-                      <label
-                        for="inputTanggal"
-                        class="col-form-label col-form-label-sm"
-                        >Tanggal</label
-                      >
-                    </div>
-                    <div class="col-md-3">
-                      <input
-                        type="text"
-                        class="form-control form-control-sm"
-                        id="inputTanggal"
-                        placeholder="Tanggal" />
-                    </div>
-                  </div>
-                </form>
+                <div class="card-footer d-flex">
+                  <h6>Total Omset Toko: Rp&nbsp</h6>
+                  <h6 id="omset"></h6>
               </div>
-              <!-- Table -->
-
-              <div class="card-body">
                 <table class="table table-striped table-bordered">
                   <thead>
                     <tr>
                       <th scope="col">Nama Barang Yang Dibeli Pelanggan</th>
+                      <th scope="col">profit sharing</th>
                       <th scope="col">Qty</th>
-                      <th scope="col">Sub Total</th>
+                      <th scope="col">Sub Total </th>
+                    
                     </tr>
                   </thead>
                   <tbody>
                     <!-- Isi tabel -->
-                    <tr>
-                      <td>Barang 1</td>
-                      <td>10</td>
-                      <td>Rp 100.000</td>
+                    <tr class="d-none" id="sample-row">
+                      <td class="productName"></td>
+                      <td class="profitSharing"></td>
+                      <td class="qty"></td>
+                      <td class="subTotal"></td>
                     </tr>
-                    <tr>
-                      <td>Barang 2</td>
-                      <td>5</td>
-                      <td>Rp 50.000</td>
-                    </tr>
-                    <tr>
-                      <td>Barang 3</td>
-                      <td>10</td>
-                      <td>Rp 50.000</td>
-                    </tr>
-                    <tr>
-                      <td>Barang 3</td>
-                      <td>10</td>
-                      <td>Rp 50.000</td>
-                    </tr>
-                    <tr>
-                      <td>Barang 3</td>
-                      <td>10</td>
-                      <td>Rp 50.000</td>
-                    </tr>
-                    <!-- Dan seterusnya -->
                   </tbody>
                 </table>
-                <div class="card-footer">
-                  <h5>Total Omset: Rp XXX.XXX</h5>
-                </div>
+                <div class="card-footer d-flex justify-content-between">
+                  <h3>Total Profit Sharing: Rp 500.000</h3>
+                  <button type="button" class="btn btn-success">Cetak Struk</button>
+              </div>
+              
               </div>
             </div>
-          </div>
-        </main>
-      </div>
-    </div>
-
+          </main>
+        </div>
+    
+      
+        
     <script
       src="../../../assets/bootstrap/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"></script>
 
+    <script src="../../../assets/js/tourinvoice.js"></script>
     <script src="../../../assets/js/tourinvoice.js"></script>
 
     <div id="loom-companion-mv3" ext-id="liecbddmkiiihnedobmlmillhodjkdmb">
