@@ -218,38 +218,42 @@
                                 <label for="inputNoTour" class="col-form-label col-form-label-sm">No Tour</label>
                             </div>
                             <div class="col-md-1">
-                                <input type="text" class="form-control form-control-sm" id="inputNoTour" placeholder="No Tour">
+                                <input type="text" class="form-control form-control-sm" id="inputNoTour" disabled>
                             </div>
                             <div class="col-md-auto">
                                 <label for="inputPO" class="col-form-label col-form-label-sm">PO</label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control form-control-sm" id="inputPO" placeholder="PO">
+                                <input type="text" class="form-control form-control-sm" id="inputPO" disabled>
                             </div>
                         
                        
                             <div class="col-md-1">
                                 <label for="inputUnitBus" class="col-form-label col-form-label-sm">Unit Bus</label>
+                                
                             </div>
                             <div class="col-md-1">
-                                <input type="text" class="form-control form-control-sm" id="inputUnitBus" placeholder="Unit Bus">
+                                <input type="text" class="form-control form-control-sm" id="inputUnitBus" disabled>
                             </div>
                             <div class="col-md-auto">
                                 <label for="inputTanggal" class="col-form-label col-form-label-sm">Tanggal</label>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" class="form-control form-control-sm" id="inputTanggal" placeholder="Tanggal">
+                                <input type="text" class="form-control form-control-sm" id="inputTanggal" disabled>
                             </div>
                         </div>
                     </form>
                 </div>
                  <!-- Table -->
-            
+                 
               <div class="card-body">
+                <div class="card-footer">
+                  <h6>Total Omset Toko: Rp XXX.XXX</h6>
                 <table class="table table-striped table-bordered">
                   <thead>
                     <tr>
                       <th scope="col">Nama Barang Yang Dibeli Pelanggan</th>
+                      <th scope="col">Profit Sharing</th>
                       <th scope="col">Qty</th>
                       <th scope="col">Sub Total</th>
                     </tr>
@@ -258,36 +262,43 @@
                     <!-- Isi tabel -->
                     <tr>
                       <td>Barang 1</td>
+                      <td>Rp 100.000</td>
                       <td>10</td>
                       <td>Rp 100.000</td>
                     </tr>
                     <tr>
-                      <td>Barang 2</td>
-                      <td>5</td>
-                      <td>Rp 50.000</td>
+                      <td>Barang 1</td>
+                      <td>Rp 100.000</td>
+                      <td>10</td>
+                      <td>Rp 100.000</td>
                     </tr>
                     <tr>
-                      <td>Barang 3</td>
+                      <td>Barang 1</td>
+                      <td>Rp 100.000</td>
                       <td>10</td>
-                      <td>Rp 50.000</td>
+                      <td>Rp 100.000</td>
                     </tr>
                     <tr>
-                      <td>Barang 3</td>
+                      <td>Barang 1</td>
+                      <td>Rp 100.000</td>
                       <td>10</td>
-                      <td>Rp 50.000</td>
+                      <td>Rp 100.000</td>
                     </tr>
                     <tr>
-                      <td>Barang 3</td>
+                      <td>Barang 1</td>
+                      <td>Rp 100.000</td>
                       <td>10</td>
-                      <td>Rp 50.000</td>
+                      <td>Rp 100.000</td>
                     </tr>
                     <!-- Dan seterusnya -->
                   </tbody>
                 </table>
-                <div class="card-footer">
-                  <h5>Total Omset: Rp XXX.XXX</h5>
-                </div>
+                <div class="card-footer" style="position: relative;">
+                  <h5 style="display: inline-block;">Total Omset: Rp XXX.XXX</h5>
+                  <button class="print-button" style="position: absolute; top: 1; right: 0; background-color: rgb(50, 188, 50); color: white; border-radius: 5px;" >cetak</button>
               </div>
+              
+                </div>
             </div>
           </main>
         </div>
@@ -300,7 +311,7 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="../../../assets/js/tour.js"></script>
+    <script src="../../../assets/js/tourinvoice.js"></script>
 
     <div id="loom-companion-mv3" ext-id="liecbddmkiiihnedobmlmillhodjkdmb">
       <section id="shadow-host-companion"></section>

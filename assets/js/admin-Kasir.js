@@ -49,7 +49,7 @@ function createNewRow(row) {
 
 // End Logic to populate the data
 
-// Create Supplier
+// Create Cashier
 const formCreate = document.getElementById("formCreateKasir");
 const placeModalCreateMessage = document.getElementById("modal-create-message");
 
@@ -57,25 +57,37 @@ formCreate.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const newCashier = {
-    username: document.getElementById("craeteUsername").value,
-    password: document.getElementById("craetePassword").value,
-    confirmPassword: document.getElementById("craeteConfirmPassword").value,
+    username: document.getElementById("craeteUsername").value, // Perbaiki typo di sini
+    password: document.getElementById("craetePassword").value, // Perbaiki typo di sini
+    confirmPassword: document.getElementById("craeteConfirmPassword").value, // Perbaiki typo di sini
   };
 
   http.client
     .post("cashiers", newCashier)
     .then((response) => {
-      helpers.clearChieldElements(generalListMessages);
+      helpers.clearChieldElements(placeModalCreateMessage); // Perbaiki di sini
       const alertSuccess = createAlert("success", response.data.message);
-      generalListMessages.appendChild(alertSuccess);
+      placeModalCreateMessage.appendChild(alertSuccess); // Perbaiki di sini
       setTable();
       helpers.hideModal("createModal");
+
+      // Kosongkan field di modal setelah berhasil menambahkan kasir
+      document.getElementById("craeteUsername").value = ""; // Perbaiki di sini
+      document.getElementById("craetePassword").value = ""; // Perbaiki di sini
+      document.getElementById("craeteConfirmPassword").value = ""; // Perbaiki di sini
+
+      // Hilangkan pesan setelah 1 detik
+      setTimeout(() => {
+        placeModalCreateMessage.innerHTML = "";
+      }, 1000);
     })
     .catch((err) => {
       helpers.showErrorMessages(err, placeModalCreateMessage);
     });
 });
-// End Create Supplier
+
+
+// End Create Cashier
 
 const generalListMessages = document.getElementById("general-list-messages");
 
@@ -90,6 +102,14 @@ function handleEditView(e) {
       const cashier = response.data.data;
       document.getElementById("editUsernameText").value = cashier.username;
       document.getElementById("existingCashierId").value = cashier.userId;
+
+      const editSuccessMessage = createAlert("success", "Cashier edited successfully.");
+      generalListMessages.appendChild(editSuccessMessage);
+
+      // Hapus pesan setelah satu detik
+      setTimeout(() => {
+        generalListMessages.innerHTML = "";
+      }, 1000);
     })
     .catch((err) => {
       helpers.showErrorMessages(err, generalListMessages);
@@ -98,14 +118,14 @@ function handleEditView(e) {
 
 const placeModalEditMessage = document.getElementById("modal-edit-message");
 
-//handle submit update
+// handle submit update
 formEdit.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const existCashier = {
     username: document.getElementById("editUsernameText").value,
-    password: document.getElementById("editPasswordText").value ,
-    confirmPassword: document.getElementById("editConfirmPasswordText").value ,
+    password: document.getElementById("editPasswordText").value,
+    confirmPassword: document.getElementById("editConfirmPasswordText").value,
   };
 
   const id = document.getElementById("existingCashierId").value;
@@ -124,23 +144,50 @@ formEdit.addEventListener("submit", function (e) {
     });
 });
 
-// handle delete button
+
+// Handle delete button in row
 function handleDelete(e) {
   const cashierId = e.getAttribute("data-delete-id");
+
+  // Set data-attribute for the delete button in the modal
+  document.getElementById('confirmDelete').setAttribute('data-delete-id', cashierId);
+
+  // Show the delete confirmation modal
+  var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+  myModal.show();
+}
+
+// Handle delete button in modal
+document.getElementById('confirmDelete').addEventListener('click', function () {
+  const cashierId = this.getAttribute('data-delete-id');
   http.client
     .delete(`cashiers/${cashierId}`)
     .then((response) => {
-      helpers.clearChieldElements(generalListMessages);
       const alertSuccess = createAlert("success", response.data.message);
       generalListMessages.appendChild(alertSuccess);
       setTable();
+
+      // Hide the modal
+      var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+      myModal.hide();
+
+      // Clear any previous messages after 1 second
+      setTimeout(() => {
+        generalListMessages.innerHTML = "";
+      }, 1000);
     })
     .catch((err) => {
-      helpers.showErrorMessages(err, generalListMessages);
-    });
-}
+      const alertWarning = createAlert("warning", err.response.data.message);
+      generalListMessages.appendChild(alertWarning);
 
-// Handling fitering (search, next, previous page)
+      // Clear any previous messages after 1 second
+      setTimeout(() => {
+        generalListMessages.innerHTML = "";
+      }, 1000);
+    });
+});
+
+// Handling filtering (search, next, previous page)
 function handleSearch(e) {
   filterData.setSearch(e.value);
   setTable();
