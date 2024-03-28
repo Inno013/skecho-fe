@@ -244,7 +244,8 @@
                 <th>Barcode</th>
                 <th>Nama Barang</th>
                 <th>Harga Jual</th>
-                <th>Profit Sharing Amount</th>
+                <th>Profit Sharing</th>
+                <th>Profit Sharing Type</th>
                 <th>Stock</th>
                 <th>Action</th>
               </tr>
@@ -259,6 +260,7 @@
               <td class="name-product"></td>
               <td class="price-sell"></td>
               <td class="profit-sharing-amount"></td>
+              <td class="profit-sharing-type"></td>
               <td class="product-stock"></td>
               <td class="action">
                 <!-- <button
@@ -276,7 +278,8 @@
                   onclick="handleDelete(this)"
                   class="btn btn-danger"
                   data-delete-id=""
-                >
+                  data-bs-toggle="modal"
+                    data-bs-target="#deleteModal">
                   <i class="bi bi-trash3-fill"></i>
                 </button>
               </td>
@@ -309,7 +312,7 @@
                       >Total Product</label
                     >
                     <div class="col-sm-8 mt-2" id="purchase-total-product">
-                    0
+                      0
                     </div>
                   </div>
                   <!-- End Supplier -->
@@ -319,9 +322,7 @@
                     <label for="colFormLabel" class="col-sm-4 col-form-label"
                       >Total Price</label
                     >
-                    <div class="col-sm-8 mt-2" id="purchase-total-price">
-                    0
-                    </div>
+                    <div class="col-sm-8 mt-2" id="purchase-total-price">0</div>
                   </div>
                   <!-- End Supplier -->
 
@@ -383,81 +384,6 @@
     <!-- Modal Create -->
     <!-- Button trigger modal -->
 
-    <!-- Modal Update -->
-    <div
-      class="modal fade"
-      id="editModal"
-      tabindex="-1"
-      aria-labelledby="createModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <form id="formEditSupplier">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="createModalLabel">
-                Edit Supplier
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div id="modal-edit-message"></div>
-
-              <!-- Backup edit id -->
-              <input type="hidden" name="id" />
-
-              <div class="mb-3">
-                <label for="createNameText" class="form-label">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  class="form-control"
-                  placeholder="Enter Name"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="createPhoneText" class="form-label"
-                  >Phone Number</label
-                >
-                <input
-                  type="tel"
-                  name="phone"
-                  class="form-control"
-                  placeholder="Enter Phone Number"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="createAddressText" class="form-label"
-                  >Address</label
-                >
-                <textarea
-                  class="form-control"
-                  name="address"
-                  rows="3"
-                ></textarea>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="submit" class="btn btn-success">Edit</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
     <!-- End Modal Update -->
 
     <!-- Modal Create New Product -->
@@ -538,15 +464,33 @@
                 />
               </div>
               <div class="mb-3">
-                <label for="newProdPriceSharing?amount" class="form-label"
-                  >Price Sharing Amount</label
+                <label for="newProdSharingType" class="form-label"
+                  >Profit Sharing Type</label
+                >
+                <select
+                  id="newProdSharingType"
+                  class="form-control"
+                  onchange="changedProfitSharingType(this)"
+                >
+                  <option value="SHARING_AMOUNT">SHARING_AMOUNT</option>
+                  <option value="PERCENTAGE">PERCENTAGE</option>
+                  <option value="NONE">NONE</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="newProdPriceSharingAmount" class="form-label"
+                  >Profit Sharing Value</label
                 >
                 <input
                   type="number"
                   class="form-control"
                   id="newProdPriceSharingAmount"
-                  placeholder="Enter Price Sharing Amount"
+                  placeholder="Enter profit Sharing Value"
                 />
+                <div class="form-text">
+                  if type 'SHARING_AMOUNT' enter IDR money, if type 'PERCENTAGE'
+                  enter percentage
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -595,8 +539,11 @@
                 <label for="SelectPeoduct" class="form-label"
                   >Select Product</label
                 >
-                <select onchange="selectedProduct(this)" class="form-select" id="existingSelectProduct">
-                </select>
+                <select
+                  onchange="selectedProduct(this)"
+                  class="form-select"
+                  id="existingSelectProduct"
+                ></select>
               </div>
 
               <div class="mb-3">
@@ -647,15 +594,32 @@
                 />
               </div>
               <div class="mb-3">
-                <label for="existingProdPriceSharing?amount" class="form-label"
-                  >Price Sharing Amount</label
+                <label for="existingProdSharingType" class="form-label"
+                  >Profit Sharing Type</label
+                >
+                <select
+                  id="existingProdSharingType"
+                  class="form-control"
+                  onchange="changedProfitSharingType(this)"
+                >
+                  <option value="SHARING_AMOUNT">SHARING_AMOUNT</option>
+                  <option value="PERCENTAGE">PERCENTAGE</option>
+                  <option value="NONE">NONE</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="existingProdPriceSharingAmount" class="form-label"
+                  >Profit Sharing Value</label
                 >
                 <input
                   type="number"
                   class="form-control"
                   id="existingProdPriceSharingAmount"
-                  placeholder="Enter Price Sharing Amount"
+                  placeholder="Enter profit Sharing Value"
                 />
+                <div class="form-text">
+                if type 'SHARING_AMOUNT' enter IDR money, if type 'PERCENTAGE' enter percentage
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -674,8 +638,44 @@
     </div>
 
     <!-- End Modal Existing Product -->
-    <!-- List of Templates -->
-    <!-- End List of Templates -->
+
+    <div
+      class="modal fade"
+      id="deleteModal"
+      tabindex="-1"
+      aria-labelledby="deleteModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this item?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal">
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+              id="confirmDelete">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script
       src="../../../assets/bootstrap/js/bootstrap.bundle.min.js"

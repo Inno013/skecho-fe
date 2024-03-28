@@ -35,11 +35,24 @@ function createNewRow(row) {
   const newRow = sampleRow.cloneNode(true);
   newRow.classList.remove("d-none");
 
+  let profitSharingType;
+  let profitSharingValue;
+  if (row.profitSharedType == "SHARING_AMOUNT") {
+    profitSharingType = `<div class="badge bg-primary ">${row.profitSharedType}</div>`;
+    profitSharingValue = helpers.convertToIDR(row.profitSharing);
+  } else if (row.profitSharedType == "PERCENTAGE") {
+    profitSharingType = `<div class="badge bg-success ">${row.profitSharedType}</div>`;
+    profitSharingValue = `${row.profitSharing}%`;
+  } else {
+    profitSharingType = `<div class="badge bg-danger ">${row.profitSharedType}</div>`;
+    profitSharingValue = 0;
+  }
+
   newRow.querySelector(".barcode").innerHTML = row.barcode;
   newRow.querySelector(".name").innerHTML = row.name;
-  newRow.querySelector(".price").innerHTML = row.price;
-  newRow.querySelector(".profitSharingAmount").innerHTML =
-    row.profitSharingAmount;
+  newRow.querySelector(".price").innerHTML = helpers.convertToIDR(row.price);
+  newRow.querySelector(".profitSharingAmount").innerHTML = profitSharingValue;
+  newRow.querySelector(".profitSharingType").innerHTML = profitSharingType;
   newRow.querySelector(".stock").innerHTML = row.stock;
   newRow
     .querySelector(".action button[data-edit-id]")
@@ -140,16 +153,16 @@ function handlePrevPage(e) {
     setTable();
   }
 }
-function redirect(e){
-  document.location.href =
-  rootPath + e
+function redirect(e) {
+  document.location.href = rootPath + e;
 }
-function redirect(e){
-  document.location.href =
-  rootPath + e
+function redirect(e) {
+  document.location.href = rootPath + e;
 }
 
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-  });
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
