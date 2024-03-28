@@ -26,7 +26,43 @@
       <div id="alertContainer"></div>
       <main>
         <section class="order col-sm-8 order-2">
-          <h2>Order List</h2>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">Order List</h2>
+            <div class="input-group me-2" style="width: 150px;">
+              <select class="form-select" id="selectName">
+                <option selected>Pilih Nama</option>
+                <option value="nama1">Nama 1</option>
+                <option value="nama2">Nama 2</option>
+                <option value="nama3">Nama 3</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInputName">Simpan Sementara</button>
+
+          </div>
+        
+          <div class="modal fade" id="modalInputName">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Input Nama</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="inputName" class="form-label">Nama:</label>
+                    <input type="text" class="form-control" id="inputName">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  <button type="button" class="btn btn-primary" onclick="saveName()">Simpan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          
           <table id="order-table">
             <thead>
               <tr>

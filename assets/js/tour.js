@@ -239,7 +239,7 @@ function handleDelete(e) {
 
             setTimeout(() => {
                 placeModalInvoiceMessage.innerHTML = "";
-            }, 1000);
+            },2500);
 
             return;
         }
@@ -256,10 +256,13 @@ function handleDelete(e) {
 
             // Change button color to yellow
             invoiceButton.classList.remove("btn-primary");
-            invoiceButton.classList.add("btn-warning");
+            invoiceButton.classList.remove("btn-warning");
+           
 
             // Disable the button after registration
             invoiceButton.disabled = true;
+
+          
 
             setTimeout(() => {
                 placeModalInvoiceMessage.innerHTML = "";
@@ -288,12 +291,12 @@ function handlePrevPage(e) {
   if (isPageChanged) {
     setTable();
   }
-}
-function redirect(e){
+
+
+function redirect (e){
   document.location.href =
   rootPath + e
 }
-
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
