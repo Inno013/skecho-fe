@@ -49,3 +49,23 @@ table, th, td {
 .pagination button {
     margin: 0 5px;
 }
+
+.nav-link::after {
+    content: attr(data-bs-original-title);
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 4px;
+    transition: opacity 0.3s ease;
+  }
+  
+  .nav-link:hover::after {
+    opacity: 1;
+  }
+  

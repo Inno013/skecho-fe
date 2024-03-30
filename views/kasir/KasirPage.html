@@ -64,15 +64,15 @@
         </section>
         <section class="col-sm-4">
           <h2>Add Product</h2>
-          <div class="input-group mb-3">
-            <span class="input-group-text" for="barcode">Barcode</span>
-            <input
-              class="form-control"
-              type="number"
-              id="barcode"
-              onchange="handleBarcode(this)" />
-          </div>
           <form id="formOrder">
+            <div class="input-group mb-3">
+              <span class="input-group-text" for="barcode">Barcode</span>
+              <input
+                class="form-control"
+                type="number"
+                id="barcode"
+                onchange="handleBarcode(this)" />
+            </div>
             <input type="hidden" id="profitSharingAmount" />
             <input type="hidden" id="productId" />
             <div class="input-group">

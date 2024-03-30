@@ -54,45 +54,43 @@
         <div class="d-flex flex-nowrap main-sidebar col-md-1 col-lg-1 p-0">
           <div
             class="d-flex flex-column flex-shrink-0 bg-body-tertiary"
-            style="width: 4.5rem">
-            <a
-              href="#"
-              class="d-block p-3 link-body-emphasis text-decoration-none"
-              data-bs-toggle="tooltip"
-              data-bs-placement="right"
-              data-bs-original-title="Icon-only">
-              <svg class="bi pe-none" width="40" height="32">
-                <use xlink:href="#bootstrap"></use>
-              </svg>
-              <span class="visually-hidden">Icon-only</span>
-            </a>
+            style="width: 4.5rem"
+          >
+            
             <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
               <li class="nav-item">
+                <!--Product-->
                 <a
-                  href="#"
-                  class="nav-link active py-3 border-bottom rounded-0"
+                 class="nav-link active py-3 border-bottom rounded-0"
                   aria-current="page"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  aria-label="Home"
-                  data-bs-original-title="Home">
-                  <svg
-                    class="bi pe-none"
-                    width="24"
-                    height="24"
-                    role="img"
-                    aria-label="Home">
-                    <use xlink:href="#home"></use>
-                  </svg>
-                </a>
+                  aria-label="Product"
+                  onclick="redirect('/views/admin/products/Produk.html')"
+                  data-bs-original-title="Product"
+                  >
+                      <svg
+                          class="bi pe-none"
+                          width="24"
+                          height="24"
+                          role="img"
+                          aria-label="Home"
+                      >
+                          <use xlink:href="#home"></use>
+                      </svg>
+                  </a>
+
               </li>
               <li>
+                <!--TOUR-->
                 <a
-                  href="#"
+               
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  data-bs-title="Tooltip on right">
+                  onclick="redirect('/views/admin/tour/tour.html')"
+                  data-bs-title="Tour"
+                >
                   <svg
                     class="bi pe-none"
                     width="24"
@@ -104,13 +102,16 @@
                 </a>
               </li>
               <li>
+                <!--SUPPLIER-->
                 <a
-                  href="#"
+                
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  aria-label="Orders"
-                  data-bs-original-title="Orders">
+                  onclick="redirect('/views/admin/supplier/supplier.html')"
+                  aria-label="Supplier"
+                  data-bs-original-title="Supplier"
+                >
                   <svg
                     class="bi pe-none"
                     width="24"
@@ -122,13 +123,16 @@
                 </a>
               </li>
               <li>
+                <!--ADMIN CASHIER-->
                 <a
-                  href="#"
+                  
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  aria-label="Products"
-                  data-bs-original-title="Products">
+                  onclick="redirect('/views/admin/kasir/adminkasir.html')"
+                  aria-label="Cashier Administrator"
+                  data-bs-original-title="Cashier Administrator"
+                >
                   <svg
                     class="bi pe-none"
                     width="24"
@@ -140,13 +144,16 @@
                 </a>
               </li>
               <li>
+                <!--REKAP-->
                 <a
-                  href="#"
+                  
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  aria-label="Customers"
-                  data-bs-original-title="Customers">
+                  onclick="redirect('/views/admin/recap/recap.html')"
+                  aria-label="Recap"
+                  data-bs-original-title="Recap"
+                >
                   <svg
                     class="bi pe-none"
                     width="24"
@@ -172,7 +179,7 @@
                   class="rounded-circle" />
               </a>
               <ul class="dropdown-menu text-small shadow">
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                <li><a class="dropdown-item" onclick="redirect('/views/auth/login.html')">Sign out</a></li>
               </ul>
             </div>
           </div>
@@ -460,8 +467,8 @@
 
     <script
       src="../../../assets/bootstrap/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"></script>
+      crossorigin="anonymous"
+    ></script>
 
     <script src="../../../assets/js/admin-supplier.js"></script>
 

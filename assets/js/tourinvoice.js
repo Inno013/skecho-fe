@@ -22,6 +22,7 @@ function updateDateTime() {
 setInterval(updateDateTime, 1000);
 var urlParams = new URLSearchParams(window.location.search);
 var tourId = urlParams.get("tourId");
+console.log(tourId);
 
 setData(tourId);
 
@@ -39,13 +40,15 @@ function setData(tourId) {
       document.getElementById("unitBus").innerHTML = response.data.data.unitBus;
       document.getElementById("omset").innerHTML = response.data.data.income;
       http.client
-        .get(`/orders/invoiceTourId?invoiceTourId=${tourId}`)
+        .get(
+          `/orders/invoiceTourId?invoiceTourId=${response.data.data.invoiceTourId}`
+        )
         .then((response) => {
           response.data.data.forEach((element) => {
             element.orderDetails.forEach((data) => {
               const product = data.productId;
               const newRow = createAlert(product);
-              tableBody.appendChild(newRow)
+              tableBody.appendChild(newRow);
             });
           });
         })
@@ -78,4 +81,8 @@ function createNewRow(row) {
     .setAttribute("data-tour-id", row.tourId);
 
   return newRow;
+}
+
+function redirect(e) {
+  document.location.href = rootPath + e;
 }

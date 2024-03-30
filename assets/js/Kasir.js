@@ -23,7 +23,7 @@ async function fetchDataWithUrl(url, params) {
 
     return response.data;
   } catch (error) {
-    alert(`Data Barang tidak ditemukan`, "alertContainer");
+    alert(`Data tidak ditemukan`, "alertContainer");
   }
 }
 
@@ -56,6 +56,7 @@ function dataToOrderRequest(data) {
 
 formOrder.addEventListener("submit", function (e) {
   e.preventDefault();
+  
   let rowIndex = indexDataOrder(formOrder.querySelector("#productId").value);
   let qty = parseFloat(formOrder.querySelector("#qty").value);
   let price = formOrder.querySelector("#price").value;
@@ -240,7 +241,7 @@ function handleBarcode(e) {
 }
 
 function setDataProduct(data) {
-  formOrder.querySelector("#profitSharingAmount");
+  formOrder.querySelector("#profitSharingAmount").value = data.profitSharingAmount;
   formOrder.querySelector("#productId").value = data.productId;
   formOrder.querySelector("#name").value = data.name;
   formOrder.querySelector("#price").value = data.price;

@@ -139,8 +139,6 @@ function handleEditView(e) {
     });
 }
 
-function handleInvoice(e) {}
-
 const placeModalEditMessage = document.getElementById("modal-edit-message");
 
 //handle submit update
@@ -178,7 +176,6 @@ formEdit.addEventListener("submit", function (e) {
 // handle delete button
 function handleDelete(e) {
   const tourId = e.getAttribute("data-delete-id");
-  buttonChange();
   // Set data-attribute for the delete button in the modal
   document
     .getElementById("confirmDelete")
@@ -286,50 +283,12 @@ function handleRegisterInvoice(row) {
       } else {
         document.location.href =
           rootPath +
-          `/views/admin/tour/tourinvoice.html?tourId=${response.data.data.invoiceTourId}`;
+          `/views/admin/tour/tourinvoice.html?tourId=${response.data.data.tourId.tourId}`;
       }
     })
     .catch((error) => {
       console.error(error);
     });
-
-  // formInvoice.onsubmit = function (e) {
-  //     e.preventDefault();
-
-  //     if (!tourId || !unitBus || !jumlahIndividu) {
-  //         const alertWarning = createAlert("warning", "Please fill in all fields.");
-  //         placeModalInvoiceMessage.appendChild(alertWarning);
-
-  //         setTimeout(() => {
-  //             placeModalInvoiceMessage.innerHTML = "";
-  //         }, 1000);
-
-  //         return;
-  //     }
-
-  //     // Simulate API call to register invoice
-  //     // You can replace this with your actual API call
-  //     setTimeout(() => {
-  //         const alertSuccess = createAlert("success", "Invoice registered successfully.");
-  //         placeModalInvoiceMessage.appendChild(alertSuccess);
-
-  //         // Change button text to "Lihat Invoice"
-  //         const invoiceButton = row.querySelector('.invoiceTour button');
-  //         invoiceButton.innerHTML = '<i class="bi bi-file-earmark-text"></i> Lihat Invoice';
-
-  //         // Change button color to yellow
-  //         invoiceButton.classList.remove("btn-primary");
-  //         invoiceButton.classList.add("btn-warning");
-
-  //         // Disable the button after registration
-  //         invoiceButton.disabled = true;
-
-  //         setTimeout(() => {
-  //             placeModalInvoiceMessage.innerHTML = "";
-  //             invoiceModal.hide();
-  //         }, 1000);
-  //     }, 1000);
-  // };
 }
 
 // Handling fitering (search, next, previous page)
@@ -370,4 +329,15 @@ function buttonChange() {
 
 document.addEventListener("DOMContentLoaded", function (e) {
   buttonChange();
+});
+
+function redirect(e) {
+  document.location.href = rootPath + e;
+}
+
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
 });
