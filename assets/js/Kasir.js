@@ -2,7 +2,8 @@ const rootPath = require("electron-root-path").rootPath;
 const http = require(rootPath + "/utils/http");
 
 // Begin Logic to populate the data
-const selectElement = document.getElementById("selectTour");
+const selectTour = document.getElementById("selectTour");
+const selectName = document.getElementById("selectName");
 const payButton = document.getElementById("pay");
 const amount = document.getElementById("amount-paid");
 const sampleRow = document.getElementById("sample-row");
@@ -56,26 +57,37 @@ function dataToOrderRequest(data) {
 
 formOrder.addEventListener("submit", function (e) {
   e.preventDefault();
-  
-  let rowIndex = indexDataOrder(formOrder.querySelector("#productId").value);
-  let qty = parseFloat(formOrder.querySelector("#qty").value);
-  let price = formOrder.querySelector("#price").value;
-  if (rowIndex == null || dataOrder.length == 0) {
-    dataOrder.push({
-      productId: formOrder.querySelector("#productId").value,
-      profitSharingAmount: formOrder.querySelector("#profitSharingAmount")
-        .value,
-      barcode: document.getElementById("barcode").value,
-      name: formOrder.querySelector("#name").value,
-      price: price,
-      qty: qty,
-      subtotal: qty * price,
+  const barcode = formOrder.querySelector("#barcode");
+
+  fetchDataWithUrl("/products/barcode", { barcode: barcode.value })
+    .then((data) => {
+      setDataProduct(data.data);
+      let rowIndex = indexDataOrder(
+        formOrder.querySelector("#productId").value
+      );
+      let qty = parseFloat(formOrder.querySelector("#qty").value);
+      let price = parseFloat(formOrder.querySelector("#price").value);
+      console.log(selectTour.value);
+      if (rowIndex == null || dataOrder.length == 0) {
+        dataOrder.push({
+          productId: formOrder.querySelector("#productId").value,
+          profitSharing: formOrder.querySelector("#profitSharing").value,
+          profitSharedType: formOrder.querySelector("#profitSharedType").value,
+          barcode: document.getElementById("barcode").value,
+          price: price,
+          name: formOrder.querySelector("#name").value,
+          quantity: qty,
+          subtotal: qty * price,
+        });
+      } else {
+        dataOrder[rowIndex].quantity += qty;
+        dataOrder[rowIndex].subtotal = dataOrder[rowIndex].quantity * price;
+      }
+      addDataInTable();
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
     });
-  } else {
-    dataOrder[rowIndex].qty += qty;
-    dataOrder[rowIndex].subTotal = qty * price;
-  }
-  addDataInTable();
 });
 
 // Belum selesai krim order ke database
@@ -96,6 +108,19 @@ formPay.addEventListener("submit", function (e) {
       console.error("Error fetching data with pagination:", error);
     });
 });
+
+document
+  .getElementById("simpanSementara")
+  .addEventListener("click", function () {
+    const currentDataString = sessionStorage.getItem("simpanSementara");
+    const currentData = currentDataString ? JSON.parse(currentDataString) : [];
+    currentData.push({
+      name: document.getElementById("inputName").value,
+      dataOrder: dataOrder,
+    });
+
+    sessionStorage.setItem("simpanSementara", JSON.stringify(currentData));
+  });
 
 function printPdf(pdf) {
   const iframe = document.createElement("iframe");
@@ -129,7 +154,7 @@ payButton.addEventListener("click", function (e) {
   } else {
     let totalItems = 0;
     dataOrder.forEach((data) => {
-      totalItems += data.qty;
+      totalItems += data.quantity;
     });
     document.getElementById("total-item").value = totalItems;
     document.getElementById("grand-total").value = sumTotalPrice();
@@ -171,7 +196,7 @@ function addDataInTable() {
 function sumTotalPrice() {
   let totalPrice = 0;
   dataOrder.forEach((data) => {
-    totalPrice += data.qty * data.price;
+    totalPrice += data.subtotal;
   });
   return totalPrice;
 }
@@ -183,8 +208,8 @@ function handleQtyChange(event) {
   const qtyInput = event.target;
   const rowIndex = qtyInput.closest("tr").rowIndex - 1;
 
-  dataOrder[rowIndex].qty = parseFloat(qtyInput.value);
-  dataOrder[rowIndex].subTotal = qtyInput.value * dataOrder[rowIndex].price;
+  dataOrder[rowIndex].quantity = parseFloat(qtyInput.value);
+  dataOrder[rowIndex].subtotal = qtyInput.value * dataOrder[rowIndex].price;
   addDataInTable();
 }
 
@@ -194,9 +219,9 @@ function createNewRow(row) {
 
   newRow.querySelector(".barcode").innerHTML = row.barcode;
   newRow.querySelector(".name").innerHTML = row.name;
-  newRow.querySelector('.qty input[type="number"]').value = row.qty;
+  newRow.querySelector('.qty input[type="number"]').value = row.quantity;
   newRow.querySelector(".price").innerHTML = row.price;
-  newRow.querySelector(".subTotal").innerHTML = row.qty * row.price;
+  newRow.querySelector(".subTotal").innerHTML = row.subtotal;
   newRow
     .querySelector(".action button[data-delete-id]")
     .setAttribute("data-delete-id", row.productId);
@@ -230,18 +255,9 @@ function indexDataOrder(id) {
   return null;
 }
 
-function handleBarcode(e) {
-  fetchDataWithUrl("/products/barcode", { barcode: e.value })
-    .then((data) => {
-      setDataProduct(data.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching data with pagination:", error);
-    });
-}
-
 function setDataProduct(data) {
-  formOrder.querySelector("#profitSharingAmount").value = data.profitSharingAmount;
+  formOrder.querySelector("#profitSharing").value = data.profitSharing;
+  formOrder.querySelector("#profitSharedType").value = data.profitSharedType;
   formOrder.querySelector("#productId").value = data.productId;
   formOrder.querySelector("#name").value = data.name;
   formOrder.querySelector("#price").value = data.price;
@@ -252,12 +268,22 @@ function setDataTour() {
     data.data.forEach((tour) => {
       let optionElement = document.createElement("option");
       optionElement.textContent = tour.tourId.name;
-      optionElement.value = tour.tourId.tourId;
-      selectElement.appendChild(optionElement);
+      optionElement.value = tour.invoiceTourId;
+      selectTour.appendChild(optionElement);
     });
   });
+}
+function setDataSimpan() {
+  const dataSimpan = JSON.parse(sessionStorage.getItem("simpanSementara"));
+  for (let i = 0; i < dataSimpan.length; i++) {
+    let optionElement = document.createElement("option");
+    optionElement.textContent = dataSimpan[i].name;
+    optionElement.value = dataSimpan[i].name;
+    selectName.appendChild(optionElement);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function (e) {
   setDataTour();
+  setDataSimpan();
 });

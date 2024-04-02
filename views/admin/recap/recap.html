@@ -226,18 +226,18 @@
                 <div class="row mt-3">
                   <div class="col-md-3">
                     <label for="start-date" class="form-label">Start Date:</label>
-                    <input type="date" class="form-control" id="start-date" />
+                    <input type="date" class="form-control" id="start-date-purchase" />
                   </div>
                   <div class="col-md-3">
                     <label for="end-date" class="form-label">End Date:</label>
-                    <input type="date" class="form-control" id="end-date" />
+                    <input type="date" class="form-control" id="end-date-purchase" />
                   </div>
                   <div class="col-md-1 ms-4 mt-4">
-                    <button class="btn btn-success" type="button">Filter</button>
+                    <button class="btn btn-success" type="button" onclick="handleFilter('/recap/purchase','start-date-purchase','end-date-purchase')">Filter</button>
                   </div>
                   <div class="col-md-3 offset-md-1">
                     <label for="total" class="form-label">Total:</label>
-                    <input type="text" value="Rp 000" class="form-control border border-3 border-warning" id="total" disabled readonly />
+                    <input type="text" value="Rp 000" class="form-control border border-3 border-warning" id="total-purchase" disabled readonly />
                   </div>
                 </div>
               </form>
@@ -251,7 +251,7 @@
                       <th>Total Item</th>
                       <th>Total Price</th>
                       <th>Amount</th>
-                      <th>Aksi</th>
+                      <th>CreateAt</th>
                     </tr>
                   </thead>
                   <tbody id="purchase-table-body">
@@ -274,7 +274,7 @@
                     <input type="date" class="form-control" id="end-date-order" />
                   </div>
                   <div class="col-md-1 ms-4 mt-4">
-                    <button class="btn btn-success" type="button">Filter</button>
+                    <button class="btn btn-success" type="button" onclick="handleFilter('/recap/order','start-date-order','end-date-order')">Filter</button>
                   </div>
                   <div class="col-md-3 offset-md-1">
                     <label for="total-order" class="form-label">Total:</label>
@@ -317,7 +317,7 @@
                     <input type="date" class="form-control" id="end-date-invoice" />
                   </div>
                   <div class="col-md-1 ms-4 mt-4">
-                    <button class="btn btn-success" type="button">Filter</button>
+                    <button class="btn btn-success" type="button" onclick="handleFilter('/recap/invoice','start-date-invoice','end-date-invoice')">Filter</button>
                   </div>
                   <div class="col-md-3 offset-md-1">
                     <label for="total-invoice" class="form-label">Total:</label>
@@ -331,12 +331,12 @@
                   <thead>
                     <tr>
                       <th>No</th>
-                      <th>Customer Name</th>
-                      <th>Tour</th>
-                      <th>Total Participants</th>
-                      <th>Total Price</th>
+                      <th>Tour Name</th>
+                      <th>Tour Address</th>
+                      <th>Profit Sharing</th>
+                      <th>Employee</th>
                       <th>Status</th>
-                      <th>Aksi</th>
+                      <th>CreateAt</th>
                     </tr>
                   </thead>
                   <tbody id="invoice-table-body">

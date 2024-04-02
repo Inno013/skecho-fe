@@ -59,10 +59,31 @@ class FilterData {
     return `${endpoint}?search=${this.attributes.search}&page=${this.attributes.page}&size=${this.attributes.size}`;
   }
 }
+function convertToIDR(amount) {
+  return amount;
+  // Format the amount with comma as thousand separator and IDR currency symbol
+  var formattedResult = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(amount);
+
+  return formattedResult;
+}
+function convertIDRtoInt(idrString) {
+  // Remove non-digit characters from the IDR string
+  // var cleanIDR = idrString.replace(/\D/g, "");
+  return parseInt(idrString);
+  // Parse the cleaned string to an integer
+  var intValue = parseInt(cleanIDR, 10);
+
+  return intValue;
+}
 
 module.exports = {
   showErrorMessages,
   clearChieldElements,
+  convertToIDR,
+  convertIDRtoInt,
   hideModal,
   FilterData,
 };

@@ -29,8 +29,8 @@ formCreate.addEventListener("submit", function (e) {
     priceBuy: document.getElementById("newProdPriceBuy").value,
     priceSell: document.getElementById("newProdPriceSell").value,
     quantity: document.getElementById("newProdQuantity").value,
-    profitSharingAmount: document.getElementById("newProdPriceSharingAmount")
-      .value,
+    profitSharing: document.getElementById("newProdPriceSharingAmount").value,
+    profitSharedType: document.getElementById("newProdSharingType").value,
   };
 
   // Clear input fields
@@ -39,8 +39,11 @@ formCreate.addEventListener("submit", function (e) {
   document.getElementById("newProdPriceBuy").value = "";
   document.getElementById("newProdPriceSell").value = "";
   document.getElementById("newProdQuantity").value = "";
+  document.getElementById("newProdSharingType").value = "";
   document.getElementById("newProdPriceSharingAmount").value = "";
-
+  document
+    .getElementById("newProdPriceSharingAmount")
+    .removeAttribute("disabled");
   listNewProducts.push(newProduct);
 
   helpers.clearChieldElements(generalListMessages);
@@ -51,9 +54,10 @@ formCreate.addEventListener("submit", function (e) {
 
   purchaseTotalProduct.textContent =
     parseInt(purchaseTotalProduct.textContent) + 1;
-  purchaseTotalPrice.textContent =
-    parseInt(purchaseTotalPrice.textContent) +
+  let calculate =
+    helpers.convertIDRtoInt(purchaseTotalPrice.textContent) +
     newProduct.priceSell * newProduct.quantity;
+  purchaseTotalPrice.textContent = helpers.convertToIDR(calculate);
 });
 
 function addNewProductToTable(product) {
@@ -65,7 +69,9 @@ function addNewProductToTable(product) {
   newRow.querySelector(".name-product").textContent = product.name;
   newRow.querySelector(".price-sell").textContent = product.priceSell;
   newRow.querySelector(".profit-sharing-amount").textContent =
-    product.profitSharingAmount;
+    product.profitSharing;
+  newRow.querySelector(".profit-sharing-type").textContent =
+    product.profitSharedType;
   newRow.querySelector(".product-stock").textContent = product.quantity;
   // newRow
   //   .querySelector(".action button[data-edit-id]")
@@ -91,7 +97,9 @@ function addExistingProductToTable(product) {
   newRow.querySelector(".name-product").textContent = detailProduct?.name;
   newRow.querySelector(".price-sell").textContent = product.priceSell;
   newRow.querySelector(".profit-sharing-amount").textContent =
-    product.profitSharingAmount;
+    product.profitSharing;
+  newRow.querySelector(".profit-sharing-type").textContent =
+    product.profitSharedType;
   newRow.querySelector(".product-stock").textContent = product.quantity;
   // newRow
   //   .querySelector(".action button[data-edit-id]")
@@ -110,20 +118,27 @@ function handleDelete(e) {
   // if (!isConfirmed) return;
 
   const productId = e.getAttribute("data-delete-id");
+  document
+    .getElementById("confirmDelete")
+    .setAttribute("data-delete-id", productId);
+}
+
+document.getElementById("confirmDelete").addEventListener("click", function () {
+  const productId = this.getAttribute("data-delete-id");
+  console.log(productId);
   const indexNewProduct = listNewProducts.findIndex(
     (prod) => prod.id == productId
   );
+  console.log("indexNewProduct: ", indexNewProduct);
 
   let product = listNewProducts[indexNewProduct];
-  if (product != null) {
+  console.log("NewProduct: ", product);
+  if (product) {
     purchaseTotalProduct.textContent =
       parseInt(purchaseTotalProduct.textContent) - 1;
+    let calculate = helpers.convertIDRtoInt(purchaseTotalPrice.textContent);
     purchaseTotalPrice.textContent =
-      parseInt(purchaseTotalPrice.textContent) -
-      product.priceSell * product.quantity;
-  }
-
-  if (indexNewProduct >= 0) {
+      helpers.convertToIDR(calculate) - product.priceSell * product.quantity;
     listNewProducts.splice(indexNewProduct, 1);
   }
 
@@ -131,16 +146,18 @@ function handleDelete(e) {
     (prod) => prod.id == productId
   );
 
+  console.log("indexExistingProduct: ", indexExistProduct);
+
   product = listExistingProducts[indexExistProduct];
-  if (product != null) {
+  console.log("ExistingProduct: ", product);
+  if (product) {
     purchaseTotalProduct.textContent =
       parseInt(purchaseTotalProduct.textContent) - 1;
-    purchaseTotalPrice.textContent =
-      parseInt(purchaseTotalPrice.textContent) -
+    let cal =
+      helpers.convertIDRtoInt(purchaseTotalPrice.textContent) -
       product.priceSell * product.quantity;
-  }
 
-  if (indexExistProduct >= 0) {
+    purchaseTotalPrice.textContent = helpers.convertToIDR(cal);
     listExistingProducts.splice(indexExistProduct, 1);
   }
 
@@ -149,13 +166,16 @@ function handleDelete(e) {
     createAlert("success", "Successfully deleted product")
   );
   setTable();
-}
+});
 
 function setTable() {
   helpers.clearChieldElements(tableBody);
 
   listNewProducts.forEach((product) => {
     addNewProductToTable(product);
+  });
+  listExistingProducts.forEach((product) => {
+    addExistingProductToTable(product);
   });
 }
 
@@ -168,8 +188,7 @@ function handleStorePurchase(e) {
       existingProducts: listExistingProducts,
     })
     .then((response) => {
-      alert(response.data.message);
-      window.location.href = "./index.html";
+      window.location.href = "./Produk.html";
     })
     .catch((err) => {
       helpers.clearChieldElements(generalListMessages);
@@ -243,16 +262,20 @@ formEdit.addEventListener("submit", function (e) {
     priceBuy: document.getElementById("existingProdPriceBuy").value,
     priceSell: document.getElementById("existingProdPriceSell").value,
     quantity: document.getElementById("existingProdQuantity").value,
-    profitSharingAmount: document.getElementById(
-      "existingProdPriceSharingAmount"
-    ).value,
+    profitSharing: document.getElementById("existingProdPriceSharingAmount")
+      .value,
+    profitSharedType: document.getElementById("existingProdSharingType").value,
   };
 
   // Clear input fields
   document.getElementById("existingProdPriceBuy").value = "";
   document.getElementById("existingProdPriceSell").value = "";
   document.getElementById("existingProdQuantity").value = "";
+  document.getElementById("existingProdSharingType").value = "";
   document.getElementById("existingProdPriceSharingAmount").value = "";
+  document
+    .getElementById("existingProdPriceSharingAmount")
+    .removeAttribute("disabled");
 
   listExistingProducts.push(existingProduct);
 
@@ -264,12 +287,36 @@ formEdit.addEventListener("submit", function (e) {
 
   purchaseTotalProduct.textContent =
     parseInt(purchaseTotalProduct.textContent) + 1;
-  purchaseTotalPrice.textContent =
-    parseInt(purchaseTotalPrice.textContent) +
+  let cal =
+    helpers.convertIDRtoInt(purchaseTotalPrice.textContent) +
     existingProduct.priceSell * existingProduct.quantity;
+
+  purchaseTotalPrice.textContent = helpers.convertToIDR(cal);
 });
 
 function calculateAmount(e) {
-  purchaseRefund.textContent =
-    parseInt(purchaseTotalPrice.textContent) - parseInt(e.value);
+  let cal =
+    parseInt(e.value) - helpers.convertIDRtoInt(purchaseTotalPrice.textContent);
+  purchaseRefund.textContent = helpers.convertToIDR(cal);
+}
+
+function changedProfitSharingType(e) {
+  const newProfitSharingValue = document.getElementById(
+    "newProdPriceSharingAmount"
+  );
+  const existingProfitSharingValue = document.getElementById(
+    "existingProdPriceSharingAmount"
+  );
+
+  if (e.value == "NONE") {
+    newProfitSharingValue.setAttribute("disabled", true);
+    newProfitSharingValue.value = 0;
+
+    existingProfitSharingValue.setAttribute("disabled", true);
+    existingProfitSharingValue.value = 0;
+  } else {
+    newProfitSharingValue.removeAttribute("disabled");
+
+    existingProfitSharingValue.removeAttribute("disabled");
+  }
 }

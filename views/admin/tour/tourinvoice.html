@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap demo</title>
+    <title>Invoice Tour</title>
     <link
       href="../../../assets/bootstrap/css/bootstrap.min.css"
       rel="stylesheet"
@@ -15,7 +15,7 @@
   <body>
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="bootstrap" viewBox="0 0 118 94">
-        <title>Bootstrap</title>
+        <title>Invoice Tour</title>
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -54,17 +54,6 @@
           <div
             class="d-flex flex-column flex-shrink-0 bg-body-tertiary"
             style="width: 4.5rem">
-            <a
-              href="#"
-              class="d-block p-3 link-body-emphasis text-decoration-none"
-              data-bs-toggle="tooltip"
-              data-bs-placement="right"
-              data-bs-original-title="Icon-only">
-              <svg class="bi pe-none" width="40" height="32">
-                <use xlink:href="#bootstrap"></use>
-              </svg>
-              <span class="visually-hidden">Icon-only</span>
-            </a>
             <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
               <li class="nav-item">
                 <a
@@ -182,73 +171,92 @@
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"></div>
           <div class="col-md-12">
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                    Invoice Tour
-                </div>
-                <div class="card-body">
-                    <form>
-                      <div class="row \">
-                        <div class="col-3 d-flex justify-content-start">
-                            <h6 for="tourId">No Tour :&nbsp</h6>
-                            <h6 id="tourId"></h6>
-                        </div>
-                        <div class="col-3 d-flex justify-content-start">
-                            <h6 for="inputPO">PO :&nbsp</h6>
-                            <h6 id="po"></h6>
-                        </div>
-                        <div class="col-3 d-flex justify-content-start">
-                            <h6 for="inputUnitBus">Unit Bus :&nbsp</h6>
-                            <h6 id="unitBus"></h6>
-                        </div>
-                        <div class="col-3 d-flex justify-content-start">
-                            <h6 for="inputTanggal">Tanggal :&nbsp</h6>
-                            <h6 id="inputTanggal"></h6>
-                        </div>
-                    </div>
-                    
-                    </form>
-                </div>
-                 <!-- Table -->
-                 
+              <div class="card-header bg-primary text-white">Invoice Tour</div>
               <div class="card-body">
-                <div class="card-footer d-flex">
+                <div class="row \">
+                  <div class="col-3 d-flex justify-content-start">
+                    <h6 for="tourId">No Tour :&nbsp</h6>
+                    <h6 id="tourId"></h6>
+                    <h6 id="invoiceTourId" class="d-none"></h6>
+                  </div>
+                  <div class="col-3 d-flex justify-content-start">
+                    <h6 for="inputPO">PO :&nbsp</h6>
+                    <h6 id="po"></h6>
+                  </div>
+                  <div class="col-3 d-flex justify-content-start">
+                    <h6 for="inputUnitBus">Unit Bus :&nbsp</h6>
+                    <h6 id="unitBus"></h6>
+                  </div>
+                  <div class="col-3 d-flex justify-content-start">
+                    <h6 for="inputTanggal">Tanggal :&nbsp</h6>
+                    <h6 id="inputTanggal"></h6>
+                  </div>
+                </div>
+              </div>
+              <!-- Table -->
+
+              <div class="card-body">
+                <div class="d-flex">
                   <h6>Total Omset Toko: Rp&nbsp</h6>
                   <h6 id="omset"></h6>
-              </div>
-                <table class="table table-striped table-bordered" id="data-table">
+                </div>
+                <div class="d-flex">
+                  <table class="table table-borderless" id="tabel-disc">
+                    <thead>
+                      <tr class="d-none" id="row-disk">
+                        <th id="disk"></th>
+                        <th class="text-end" id="subTotal"></th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+                <table
+                  class="table table-striped table-bordered"
+                  id="data-table">
                   <thead>
                     <tr>
                       <th scope="col">Nama Barang Yang Dibeli Pelanggan</th>
                       <th scope="col">profit sharing</th>
                       <th scope="col">Qty</th>
-                      <th scope="col">Sub Total </th>
-                    
+                      <th scope="col">Sub Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     <!-- Isi tabel -->
                     <tr class="d-none" id="sample-row">
-                      <td class="productName"></td>
-                      <td class="profitSharing"></td>
-                      <td class="qty"></td>
-                      <td class="subTotal"></td>
+                      <td id="productName"></td>
+                      <td id="profitSharing"></td>
+                      <td id="qty"></td>
+                      <td id="subTotal"></td>
                     </tr>
                   </tbody>
                 </table>
                 <div class="card-footer d-flex justify-content-between">
-                  <h3>Total Profit Sharing: Rp 500.000</h3>
-                  
-                  <button type="button" class="btn btn-danger" onclick="redirect('/views/admin/products/produk.html')">Cancel</button>
-                  <button type="button" class="btn btn-success">Cetak Struk</button>
-              </div>
-              
+                  <h4 id="totalProfitSharing">Total Profit Sharing: Rp 000</h4>
+                </div>
+                <div class="justify-content-start mt-4 row">
+                  <h5 class="col-12">Pembagian :</h5>
+                  <h6 id="employee" class="col-6">Employee (2)</h6>
+                  <h6 id="employeeSharing" class="col-6 text-end">Rp 000</h6>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    onclick="redirect('/views/admin/products/Produk.html')">
+                    Cancel
+                  </button>
+                  <button type="submit" class="btn btn-success" id="print">
+                    Cetak Struk
+                  </button>
+                </div>
               </div>
             </div>
-          </main>
-        </div>
-    
-      
-        
+          </div>
+        </main>
+      </div>
+    </div>
+
     <script
       src="../../../assets/bootstrap/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"></script>

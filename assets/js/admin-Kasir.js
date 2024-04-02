@@ -185,12 +185,14 @@ function handleSearch(e) {
   setTable();
 }
 
+
 function handleNextPage(e) {
   const isPageChanged = filterData.incrementPage();
   if (isPageChanged) {
     setTable();
   }
 }
+
 
 function handlePrevPage(e) {
   const isPageChanged = filterData.decremnetPage();
