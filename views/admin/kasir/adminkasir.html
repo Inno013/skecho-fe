@@ -65,10 +65,9 @@
             class="d-flex flex-column flex-shrink-0 bg-body-tertiary"
             style="width: 4.5rem"
           >
-            
             <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
               <li class="nav-item">
-                 <!--PRODUUCT-->
+                <!--PRODUUCT-->
                 <a
                   class="nav-link active py-3 border-bottom rounded-0"
                   aria-current="page"
@@ -79,22 +78,20 @@
                   data-bs-original-title="Home"
                   title="Home"
                 >
-                      <svg
-                          class="bi pe-none"
-                          width="24"
-                          height="24"
-                          role="img"
-                          aria-label="Home"
-                      >
-                          <use xlink:href="#home"></use>
-                      </svg>
-                  </a>
-
+                  <svg
+                    class="bi pe-none"
+                    width="24"
+                    height="24"
+                    role="img"
+                    aria-label="Home"
+                  >
+                    <use xlink:href="#home"></use>
+                  </svg>
+                </a>
               </li>
               <li>
                 <!--TOUR-->
                 <a
-               
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
@@ -115,7 +112,6 @@
               <li>
                 <!--SUPPLIER-->
                 <a
-                
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
@@ -137,7 +133,6 @@
               <li>
                 <!--ADMIN CASHIER-->
                 <a
-                  
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
@@ -157,9 +152,8 @@
                 </a>
               </li>
               <li>
-           <!--REKAP-->
+                <!--REKAP-->
                 <a
-                  
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
@@ -187,8 +181,8 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-              <!---->
-              <img
+                <!---->
+                <img
                   src="https://github.com/mdo.png"
                   alt="mdo"
                   width="24"
@@ -196,20 +190,23 @@
                   class="rounded-circle"
                 />
               </a>
-              
+
               <ul class="dropdown-menu text-small shadow">
-                <li><a class="dropdown-item" onclick="redirect('/views/auth/login.html')">Sign out</a></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    onclick="redirect('/views/auth/login.html')"
+                    >Sign out</a
+                  >
+                </li>
               </ul>
             </div>
           </div>
 
-              <!---->
-               
-
+          <!---->
 
           <div class="b-example-divider b-example-vr"></div>
         </div>
-
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-10">
           <div
@@ -249,40 +246,42 @@
 
           <div id="general-list-messages"></div>
 
-          <table class="table table-striped" id="data-table">
-            <thead>
-              <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Created At</th>
-                <th scope="col">Action</th>
+          <div class="scrollable overflow-auto">
+            <table class="table table-striped" id="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Username</th>
+                  <th scope="col">Created At</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+              <tr class="d-none" id="sample-row">
+                <td class="username"></td>
+                <td class="createdAt"></td>
+                <td class="action">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick="handleEditView(this)"
+                    data-edit-id=""
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal"
+                  >
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button
+                    type="button"
+                    onclick="handleDelete(this)"
+                    class="btn btn-danger"
+                    data-delete-id=""
+                  >
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody></tbody>
-            <tr class="d-none" id="sample-row">
-              <td class="username"></td>
-              <td class="createdAt"></td>
-              <td class="action">
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  onclick="handleEditView(this)"
-                  data-edit-id=""
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  <i class="bi bi-pencil-square"></i>
-                </button>
-                <button
-                  type="button"
-                  onclick="handleDelete(this)"
-                  class="btn btn-danger"
-                  data-delete-id=""
-                >
-                  <i class="bi bi-trash3-fill"></i>
-                </button>
-              </td>
-            </tr>
-          </table>
+            </table>
+          </div>
 
           <nav aria-label="Page navigation example" class="mx-auto mt-4">
             <ul class="pagination justify-content-center">
@@ -460,25 +459,48 @@
     </div>
     <!-- End Modal Update -->
 
-    
-   <!--  Modal Delete -->    
-   <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to delete this item?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="confirmDelete">Delete</button>
+    <!--  Modal Delete -->
+    <div
+      class="modal fade"
+      id="deleteModal"
+      tabindex="-1"
+      aria-labelledby="deleteModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete this item?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+              id="confirmDelete"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
     <!-- List of Templates -->
     <!-- End List of Templates -->

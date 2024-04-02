@@ -30,7 +30,7 @@
           d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"
         ></path>
       </symbol>
-      
+
       <symbol id="speedometer2" viewBox="0 0 16 16">
         <path
           d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"
@@ -58,7 +58,6 @@
         ></path>
       </symbol>
     </svg>
-    
 
     <div class="container-fluid">
       <div class="row">
@@ -67,35 +66,32 @@
             class="d-flex flex-column flex-shrink-0 bg-body-tertiary"
             style="width: 4.5rem"
           >
-            
             <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
               <li class="nav-item">
                 <!--Product-->
                 <a
-                 class="nav-link active py-3 border-bottom rounded-0"
+                  class="nav-link active py-3 border-bottom rounded-0"
                   aria-current="page"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
                   aria-label="Product"
                   onclick="redirect('/views/admin/products/Produk.html')"
                   data-bs-original-title="Product"
+                >
+                  <svg
+                    class="bi pe-none"
+                    width="24"
+                    height="24"
+                    role="img"
+                    aria-label="Home"
                   >
-                      <svg
-                          class="bi pe-none"
-                          width="24"
-                          height="24"
-                          role="img"
-                          aria-label="Home"
-                      >
-                          <use xlink:href="#home"></use>
-                      </svg>
-                  </a>
-
+                    <use xlink:href="#home"></use>
+                  </svg>
+                </a>
               </li>
               <li>
                 <!--TOUR-->
                 <a
-               
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
@@ -116,7 +112,6 @@
               <li>
                 <!--SUPPLIER-->
                 <a
-                
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
@@ -138,7 +133,6 @@
               <li>
                 <!--ADMIN CASHIER-->
                 <a
-                  
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
@@ -160,7 +154,6 @@
               <li>
                 <!--REKAP-->
                 <a
-                  
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
@@ -196,7 +189,13 @@
                 />
               </a>
               <ul class="dropdown-menu text-small shadow">
-                <li><a class="dropdown-item" onclick="redirect('/views/auth/login.html')">Sign out</a></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    onclick="redirect('/views/auth/login.html')"
+                    >Sign out</a
+                  >
+                </li>
               </ul>
             </div>
           </div>
@@ -242,44 +241,46 @@
 
           <div id="general-list-messages"></div>
 
-          <table class="table table-striped" id="data-table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Created At</th>
-                <th scope="col">Action</th>
+          <div class="scrollable overflow-auto">
+            <table class="table table-striped" id="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Created At</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+              <tr class="d-none" id="sample-row">
+                <td class="name"></td>
+                <td class="address"></td>
+                <td class="phone"></td>
+                <td class="createdAt"></td>
+                <td class="action">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    onclick="handleEditView(this)"
+                    data-edit-id=""
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal"
+                  >
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button
+                    type="button"
+                    onclick="handleDelete(this)"
+                    class="btn btn-danger"
+                    data-delete-id=""
+                  >
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody></tbody>
-            <tr class="d-none" id="sample-row">
-              <td class="name"></td>
-              <td class="address"></td>
-              <td class="phone"></td>
-              <td class="createdAt"></td>
-              <td class="action">
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  onclick="handleEditView(this)"
-                  data-edit-id=""
-                  data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
-                  <i class="bi bi-pencil-square"></i>
-                </button>
-                <button
-                  type="button"
-                  onclick="handleDelete(this)"
-                  class="btn btn-danger"
-                  data-delete-id=""
-                >
-                  <i class="bi bi-trash3-fill"></i>
-                </button>
-              </td>
-            </tr>
-          </table>
+            </table>
+          </div>
 
           <nav aria-label="Page navigation example" class="mx-auto mt-4">
             <ul class="pagination justify-content-center">
@@ -457,24 +458,47 @@
     <!-- End Modal Update -->
 
     <!-- Modal Delete -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="deleteModal"
+      tabindex="-1"
+      aria-labelledby="deleteModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             Are you sure you want to delete this item?
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="confirmDelete">Delete</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              data-bs-dismiss="modal"
+              id="confirmDelete"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
     </div>
-
 
     <!-- List of Templates -->
     <!-- End List of Templates -->

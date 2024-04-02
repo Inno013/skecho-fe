@@ -238,32 +238,33 @@
 
           <div id="general-list-messages"></div>
 
-          <table class="table table-striped" id="dataTable">
-            <thead>
-              <tr>
-                <th>Barcode</th>
-                <th>Nama Barang</th>
-                <th>Harga Jual</th>
-                <th>Profit Sharing</th>
-                <th>Profit Sharing Type</th>
-                <th>Stock</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Table rows will be dynamically populated -->
+          <div class="scrollable overflow-auto">
+            <table class="table table-striped" id="dataTable">
+              <thead>
+                <tr>
+                  <th>Barcode</th>
+                  <th>Nama Barang</th>
+                  <th>Harga Jual</th>
+                  <th>Profit Sharing</th>
+                  <th>Profit Sharing Type</th>
+                  <th>Stock</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Table rows will be dynamically populated -->
 
-              <!-- Additional rows can be added dynamically -->
-            </tbody>
-            <tr class="d-none" id="sample-row">
-              <td class="barcode"></td>
-              <td class="name-product"></td>
-              <td class="price-sell"></td>
-              <td class="profit-sharing-amount"></td>
-              <td class="profit-sharing-type"></td>
-              <td class="product-stock"></td>
-              <td class="action">
-                <!-- <button
+                <!-- Additional rows can be added dynamically -->
+              </tbody>
+              <tr class="d-none" id="sample-row">
+                <td class="barcode"></td>
+                <td class="name-product"></td>
+                <td class="price-sell"></td>
+                <td class="profit-sharing-amount"></td>
+                <td class="profit-sharing-type"></td>
+                <td class="product-stock"></td>
+                <td class="action">
+                  <!-- <button
                     type="button"
                     class="btn btn-success"
                     onclick="handleEditView(this)"
@@ -273,18 +274,20 @@
                   >
                     <i class="bi bi-pencil-square"></i>
                   </button> -->
-                <button
-                  type="button"
-                  onclick="handleDelete(this)"
-                  class="btn btn-danger"
-                  data-delete-id=""
-                  data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">
-                  <i class="bi bi-trash3-fill"></i>
-                </button>
-              </td>
-            </tr>
-          </table>
+                  <button
+                    type="button"
+                    onclick="handleDelete(this)"
+                    class="btn btn-danger"
+                    data-delete-id=""
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal"
+                  >
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
 
           <div class="concwtainer">
             <div class="row">
@@ -618,7 +621,8 @@
                   placeholder="Enter profit Sharing Value"
                 />
                 <div class="form-text">
-                if type 'SHARING_AMOUNT' enter IDR money, if type 'PERCENTAGE' enter percentage
+                  if type 'SHARING_AMOUNT' enter IDR money, if type 'PERCENTAGE'
+                  enter percentage
                 </div>
               </div>
             </div>
@@ -644,7 +648,8 @@
       id="deleteModal"
       tabindex="-1"
       aria-labelledby="deleteModalLabel"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -653,7 +658,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             Are you sure you want to delete this item?
@@ -662,14 +668,16 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
             <button
               type="button"
               class="btn btn-danger"
               data-bs-dismiss="modal"
-              id="confirmDelete">
+              id="confirmDelete"
+            >
               Delete
             </button>
           </div>
