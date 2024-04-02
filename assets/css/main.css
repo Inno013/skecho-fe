@@ -8,3 +8,7 @@ body {
 .scrollable{
     max-height: 50vh !important;
 }
+
+.scrollable-purchase {
+    max-height: 25vh !important;
+}
