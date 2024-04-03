@@ -20,7 +20,7 @@
           <p class="col-md-5">User: Kasir 1</p>
         </div>
         <h1 class="fw-bold me-5">KASIR</h1>
-        <button class="btn btn-danger">Logout</button>
+        <button class="btn btn-danger" onclick="handleLogout()">Logout</button>
       </header>
       <hr />
       <div id="alertContainer"></div>
@@ -263,6 +263,7 @@
 
     <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/Kasir.js"></script>
+    <script src="../../assets/js/main.js"></script>
     <script>
       var dt = new Date();
       document.getElementById("datetime").innerHTML = dt.toLocaleString();

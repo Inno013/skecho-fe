@@ -13,7 +13,7 @@ const createWindow = () => {
     },
   });
   win.webContents.openDevTools(); // helper only for development
-  win.loadFile("views/admin/products/Produk.html");
+  win.loadFile("views/auth/login.html");
   // win.on("close", function (e) {
   //   const choice = dialog.showMessageBoxSync(this, {
   //     type: "question",

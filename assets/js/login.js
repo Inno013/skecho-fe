@@ -14,6 +14,8 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
       password,
     })
     .then((response) => {
+      sessionStorage.setItem("user", JSON.stringify(response.data) );
+
       if (response.data.role == "ROLE_ADMIN") {
         document.location.href =
           rootPath + "/views/admin/supplier/supplier.html";
