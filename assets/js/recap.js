@@ -51,7 +51,15 @@ document.getElementById("invoice-tab").addEventListener("click", function (e) {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {});
+document.addEventListener("DOMContentLoaded", function () {
+  fetchDataWithPagination("/recap/purchase", 0)
+    .then((data) => {
+      populateTablePurchase(data.content); // Panggil fungsi populateTable untuk memasukkan data ke dalam tabel
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+});
 
 function populateTableOrder(data) {
   const tbody = document.getElementById("order-table-body");
@@ -122,31 +130,43 @@ function populateTableInvoice(data) {
   document.getElementById("total-invoice").value = sumTotalPrice;
 }
 
-// function handleFilter(url, startDate, endDate) {
-//   const startDate = document.getElementById(startDate).value;
-//   const endDate = document.getElementById(endDate).value;
+function handleFilterOrder() {
+  const startDate = document.getElementById("start-date-order").value;
+  const endDate = document.getElementById("end-date-order").value;
 
-//   fetchDataWithPagination(url, 0, startDate, endDate)
-//     .then((data) => {
-//       if (url == "/recap/order") {
-//         populateTableOrder(data.content); // Panggil fungsi populateTable untuk memasukkan data ke dalam tabel
-//       } else if (url == "/recap/purchase") {
-//         populateTablePurchase(data.content);
-//       } else if (url == "/recap/invoice") {
-//       }
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching data with pagination:", error);
-//     });
-// }
+  fetchDataWithPagination("/recap/order", 0, startDate, endDate)
+    .then((data) => {
+      populateTableOrder(data.content);
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+}
+function handleFilterInvoice() {
+  const startDate = document.getElementById("start-date-invoice").value;
+  const endDate = document.getElementById("end-date-invoice").value;
+
+  fetchDataWithPagination("/recap/invoice", 0, startDate, endDate)
+    .then((data) => {
+      populateTableInvoice(data.content);
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+}
+function handleFilterPurchase() {
+  const startDate = document.getElementById("start-date-purchase").value;
+  const endDate = document.getElementById("end-date-purchase").value;
+
+  fetchDataWithPagination("/recap/purchase", 0, startDate, endDate)
+    .then((data) => {
+      populateTablePurchase(data.content);
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+}
 
 function redirect(e) {
   document.location.href = rootPath + e;
 }
-
-var tooltipTriggerList = [].slice.call(
-  document.querySelectorAll('[data-bs-toggle="tooltip"]')
-);
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl);
-});

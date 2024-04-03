@@ -67,7 +67,10 @@ formCreate.addEventListener("submit", function (e) {
   const address = addressInput.value;
 
   if (!name || !phone || !address) {
-    const alertWarning = createAlert("warning", "Isi Kolom Kosong / No Tlp harus 10-13 Karakter");
+    const alertWarning = createAlert(
+      "warning",
+      "Isi Kolom Kosong / No Tlp harus 10-13 Karakter"
+    );
     placeModalCreateMessage.appendChild(alertWarning);
 
     // Hilangkan pesan peringatan setelah 1 detik
@@ -122,7 +125,8 @@ function handleEditView(e) {
       formEdit.querySelector('input[name="name"]').value = supplier.name;
       formEdit.querySelector('input[name="id"]').value = supplier.supplierId;
       formEdit.querySelector('input[name="phone"]').value = supplier.phone;
-      formEdit.querySelector('textarea[name="address"]').value = supplier.address; // Ubah menjadi 'value'
+      formEdit.querySelector('textarea[name="address"]').value =
+        supplier.address; // Ubah menjadi 'value'
     })
     .catch((err) => {
       helpers.showErrorMessages(err, generalListMessages);
@@ -163,25 +167,28 @@ formEdit.addEventListener("submit", function (e) {
     });
 });
 
+// Handle confirmed delete
+document
+  .getElementById("data-table")
+  .addEventListener("click", function (event) {
+    if (event.target.matches(".btn-danger")) {
+      const supplierId = event.target.getAttribute("data-delete-id"); // Mengambil supplierId dari tombol delete yang ditekan
+
+      // Menampilkan modal konfirmasi penghapusan
+      const deleteModal = new bootstrap.Modal(
+        document.getElementById("deleteModal")
+      );
+      deleteModal.show();
+
+      // Set data-delete-id pada tombol Delete di modal konfirmasi
+      const confirmDeleteBtn = document.getElementById("confirmDelete");
+      confirmDeleteBtn.setAttribute("data-delete-id", supplierId);
+    }
+  });
 
 // Handle confirmed delete
-document.getElementById('data-table').addEventListener('click', function (event) {
-  if (event.target.matches('.btn-danger')) {
-    const supplierId = event.target.getAttribute('data-delete-id'); // Mengambil supplierId dari tombol delete yang ditekan
-
-    // Menampilkan modal konfirmasi penghapusan
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-    deleteModal.show();
-
-    // Set data-delete-id pada tombol Delete di modal konfirmasi
-    const confirmDeleteBtn = document.getElementById('confirmDelete');
-    confirmDeleteBtn.setAttribute('data-delete-id', supplierId);
-  }
-});
-
-// Handle confirmed delete
-document.getElementById('confirmDelete').addEventListener('click', function () {
-  const supplierId = this.getAttribute('data-delete-id');
+document.getElementById("confirmDelete").addEventListener("click", function () {
+  const supplierId = this.getAttribute("data-delete-id");
 
   http.client
     .delete(`suppliers/${supplierId}`)
@@ -206,7 +213,6 @@ document.getElementById('confirmDelete').addEventListener('click', function () {
     });
 });
 
-
 // Handling fitering (search, next, previous page)
 function handleSearch(e) {
   filterData.setSearch(e.value);
@@ -227,12 +233,6 @@ function handlePrevPage(e) {
   }
 }
 
-function redirect(e){
-  document.location.href =
-  rootPath + e
+function redirect(e) {
+  document.location.href = rootPath + e;
 }
-
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-  });

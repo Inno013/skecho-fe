@@ -11,40 +11,86 @@
     <link
       href="../../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
       rel="stylesheet" />
+    <style>
+      body {
+        overflow: hidden;
+      }
+
+      .main-sidebar {
+        background-color: #3e92e7; /* Ganti warna dengan yang diinginkan */
+        width: 75px;
+      }
+      /* Menentukan warna yang ingin digunakan saat ikon dihover */
+      .nav-link:hover svg {
+        fill: rgb(47, 9, 199); /* Ganti warna dengan yang diinginkan */
+      }
+
+      .nav-link {
+        position: relative;
+      }
+
+      .nav-link::after {
+        content: attr(data-bs-original-title);
+        position: absolute;
+        top: 50%;
+        left: 105%; /* Mengatur jarak teks dari ikon */
+        transform: translate(-50%, -50%);
+        padding: 0.25rem 0.5rem; /* Penyesuaian panjang teks */
+        border-radius: 0.25rem;
+        font-size: 0.8rem;
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.8
+        ); /* Menyesuaikan warna latar belakang teks */
+        color: #fff;
+        opacity: 0; /* Mulai dengan teks tersembunyi */
+        pointer-events: none; /* Hindari interaksi dengan teks */
+        transition: opacity 0.3s ease; /* Efek transisi */
+        white-space: nowrap; /* Mencegah pemisahan kata */
+        z-index: 999; /* Pastikan teks selalu muncul di atas ikon */
+      }
+
+      .nav-link:hover::after {
+        opacity: 1; /* Tampilkan teks saat kursor diarahkan */
+      }
+    </style>
   </head>
   <body>
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-      <symbol id="bootstrap" viewBox="0 0 118 94">
-        <title>Invoice Tour</title>
+      <!-- Product icon -->
+      <symbol id="product-icon" viewBox="0 0 16 16">
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+          d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z" />
       </symbol>
-      <symbol id="home" viewBox="0 0 16 16">
+
+      <!-- Tour icon -->
+      <symbol id="tour-icon" viewBox="0 0 16 16">
         <path
-          d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"></path>
+          d="M16 7a1 1 0 0 1-1 1v3.5c0 .818-.393 1.544-1 2v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5V14H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2a2.5 2.5 0 0 1-1-2V8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1V2.64C1 1.452 1.845.408 3.064.268A44 44 0 0 1 8 0c2.1 0 3.792.136 4.936.268C14.155.408 15 1.452 15 2.64V4a1 1 0 0 1 1 1zM3.552 3.22A43 43 0 0 1 8 3c1.837 0 3.353.107 4.448.22a.5.5 0 0 0 .104-.994A44 44 0 0 0 8 2c-1.876 0-3.426.109-4.552.226a.5.5 0 1 0 .104.994M8 4c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9s3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44 44 0 0 0 8 4m-3 7a1 1 0 1 0-2 0 1 1 0 0 0 2 0m8 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m-7 0a1 1 0 0 0 1 1h2a1 1 0 1 0 0-2H7a1 1 0 0 0-1 1" />
       </symbol>
-      <symbol id="speedometer2" viewBox="0 0 16 16">
+
+      <!-- Supplier icon -->
+      <symbol id="supplier-icon" viewBox="0 0 16 16">
         <path
-          d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"></path>
-        <path
-          fill-rule="evenodd"
-          d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"></path>
+          d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
       </symbol>
-      <symbol id="table" viewBox="0 0 16 16">
+
+      <!-- Cashier Administrator icon -->
+      <symbol id="cashier-icon" viewBox="0 0 16 16">
         <path
-          d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"></path>
+          d="M1.5 0A1.5 1.5 0 0 0 0 1.5v7A1.5 1.5 0 0 0 1.5 10H6v1H1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5v-1h4.5A1.5 1.5 0 0 0 16 8.5v-7A1.5 1.5 0 0 0 14.5 0zm0 1h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5M12 12.5a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0m2 0a.5.5 0 1 1 1 0 .5.5 0 0 1-1 0M1.5 12h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M1 14.25a.25.25 0 0 1 .25-.25h5.5a.25.25 0 1 1 0 .5h-5.5a.25.25 0 0 1-.25-.25" />
       </symbol>
-      <symbol id="people-circle" viewBox="0 0 16 16">
-        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+
+      <!-- Recap icon -->
+      <symbol id="recap-icon" viewBox="0 0 16 16">
         <path
-          fill-rule="evenodd"
-          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"></path>
-      </symbol>
-      <symbol id="grid" viewBox="0 0 16 16">
+          d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0z" />
         <path
-          d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"></path>
+          d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z" />
+        <path
+          d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z" />
       </symbol>
     </svg>
 
@@ -54,94 +100,70 @@
           <div
             class="d-flex flex-column flex-shrink-0 bg-body-tertiary"
             style="width: 4.5rem">
-            <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+            <ul class="nav flex-column mb-auto text-center">
               <li class="nav-item">
+                <!-- Product -->
                 <a
-                  href="#"
                   class="nav-link active py-3 border-bottom rounded-0"
                   aria-current="page"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  aria-label="Home"
-                  data-bs-original-title="Home">
-                  <svg
-                    class="bi pe-none"
-                    width="24"
-                    height="24"
-                    role="img"
-                    aria-label="Home">
-                    <use xlink:href="#home"></use>
+                  aria-label="Product"
+                  onclick="redirect('/views/admin/products/Produk.html')"
+                  data-bs-original-title="Product">
+                  <svg class="bi pe-none" width="24" height="24" role="img">
+                    <use xlink:href="#product-icon"></use>
                   </svg>
                 </a>
-              </li>
-              <li>
+
+                <!-- Tour -->
                 <a
-                  href="#"
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  data-bs-title="Tooltip on right">
-                  <svg
-                    class="bi pe-none"
-                    width="24"
-                    height="24"
-                    role="img"
-                    aria-label="Dashboard">
-                    <use xlink:href="#speedometer2"></use>
+                  onclick="redirect('/views/admin/tour/tour.html')"
+                  data-bs-original-title="Tour">
+                  <svg class="bi pe-none" width="24" height="24" role="img">
+                    <use xlink:href="#tour-icon"></use>
                   </svg>
                 </a>
-              </li>
-              <li>
+
+                <!-- Supplier -->
                 <a
-                  href="#"
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  aria-label="Orders"
-                  data-bs-original-title="Orders">
-                  <svg
-                    class="bi pe-none"
-                    width="24"
-                    height="24"
-                    role="img"
-                    aria-label="Orders">
-                    <use xlink:href="#table"></use>
+                  onclick="redirect('/views/admin/supplier/supplier.html')"
+                  aria-label="Supplier"
+                  data-bs-original-title="Supplier">
+                  <svg class="bi pe-none" width="24" height="24" role="img">
+                    <use xlink:href="#supplier-icon"></use>
                   </svg>
                 </a>
-              </li>
-              <li>
+
+                <!-- Cashier Administrator -->
                 <a
-                  href="#"
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  aria-label="Products"
-                  data-bs-original-title="Products">
-                  <svg
-                    class="bi pe-none"
-                    width="24"
-                    height="24"
-                    role="img"
-                    aria-label="Products">
-                    <use xlink:href="#grid"></use>
+                  onclick="redirect('/views/admin/kasir/adminkasir.html')"
+                  aria-label="Cashier Administrator"
+                  data-bs-original-title="Cashier Administrator">
+                  <svg class="bi pe-none" width="24" height="24" role="img">
+                    <use xlink:href="#cashier-icon"></use>
                   </svg>
                 </a>
-              </li>
-              <li>
+
+                <!-- Recap -->
                 <a
-                  href="#"
                   class="nav-link py-3 border-bottom rounded-0"
                   data-bs-toggle="tooltip"
                   data-bs-placement="right"
-                  aria-label="Customers"
-                  data-bs-original-title="Customers">
-                  <svg
-                    class="bi pe-none"
-                    width="24"
-                    height="24"
-                    role="img"
-                    aria-label="Customers">
-                    <use xlink:href="#people-circle"></use>
+                  onclick="redirect('/views/admin/recap/recap.html')"
+                  aria-label="Recap"
+                  data-bs-original-title="Recap">
+                  <svg class="bi pe-none" width="24" height="24" role="img">
+                    <use xlink:href="#recap-icon"></use>
                   </svg>
                 </a>
               </li>
@@ -153,14 +175,20 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <img
-                  src="https://github.com/mdo.png"
+                  src="../../../assets/img/fotologin.jpg"
                   alt="mdo"
                   width="24"
                   height="24"
                   class="rounded-circle" />
               </a>
               <ul class="dropdown-menu text-small shadow">
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    onclick="redirect('/views/auth/login.html')"
+                    >Sign out</a
+                  >
+                </li>
               </ul>
             </div>
           </div>
@@ -243,7 +271,7 @@
                   <button
                     type="button"
                     class="btn btn-danger"
-                    onclick="redirect('/views/admin/products/Produk.html')">
+                    onclick="redirect('/views/admin/tour/tour.html')">
                     Cancel
                   </button>
                   <button type="submit" class="btn btn-success" id="print">
@@ -256,6 +284,12 @@
         </main>
       </div>
     </div>
+
+    <script>
+      function redirect(e) {
+        document.location.href = rootPath + e;
+      }
+    </script>
 
     <script
       src="../../../assets/bootstrap/js/bootstrap.bundle.min.js"

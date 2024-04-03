@@ -51,6 +51,9 @@ formCreate.addEventListener("submit", function (e) {
     createAlert("success", "Successfully added new Product")
   );
   addNewProductToTable(newProduct);
+  setTimeout(function(){
+    helpers.clearChieldElements(generalListMessages);
+  },3000);
 
   purchaseTotalProduct.textContent =
     parseInt(purchaseTotalProduct.textContent) + 1;
@@ -166,6 +169,9 @@ document.getElementById("confirmDelete").addEventListener("click", function () {
     createAlert("success", "Successfully deleted product")
   );
   setTable();
+  setTimeout(function(){
+    helpers.clearChieldElements(generalListMessages);
+  },3000);
 });
 
 function setTable() {
@@ -284,6 +290,9 @@ formEdit.addEventListener("submit", function (e) {
     createAlert("success", "Successfully added existing Product")
   );
   addExistingProductToTable(existingProduct);
+  setTimeout(function(){
+    helpers.clearChieldElements(generalListMessages);
+  },3000);
 
   purchaseTotalProduct.textContent =
     parseInt(purchaseTotalProduct.textContent) + 1;

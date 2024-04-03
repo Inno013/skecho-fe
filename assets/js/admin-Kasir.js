@@ -69,7 +69,6 @@ formCreate.addEventListener("submit", function (e) {
       const alertSuccess = createAlert("success", response.data.message);
       placeModalCreateMessage.appendChild(alertSuccess); // Perbaiki di sini
       setTable();
-      helpers.hideModal("createModal");
 
       // Kosongkan field di modal setelah berhasil menambahkan kasir
       document.getElementById("craeteUsername").value = ""; // Perbaiki di sini
@@ -85,7 +84,6 @@ formCreate.addEventListener("submit", function (e) {
       helpers.showErrorMessages(err, placeModalCreateMessage);
     });
 });
-
 
 // End Create Cashier
 
@@ -105,7 +103,6 @@ function handleEditView(e) {
     })
     .catch((err) => {
       helpers.showErrorMessages(err, generalListMessages);
-      
     });
 }
 
@@ -117,8 +114,8 @@ formEdit.addEventListener("submit", function (e) {
 
   const existCashier = {
     username: document.getElementById("editUsernameText").value,
-    password: document.getElementById("editPasswordText").value ,
-    confirmPassword: document.getElementById("editConfirmPasswordText").value ,
+    password: document.getElementById("editPasswordText").value,
+    confirmPassword: document.getElementById("editConfirmPasswordText").value,
   };
 
   const id = document.getElementById("existingCashierId").value;
@@ -130,7 +127,6 @@ formEdit.addEventListener("submit", function (e) {
       const alertSuccess = createAlert("success", response.data.message);
       generalListMessages.appendChild(alertSuccess);
       setTable();
-      helpers.hideModal("editModal");
     })
     .catch((err) => {
       helpers.showErrorMessages(err, placeModalEditMessage);
@@ -142,16 +138,18 @@ function handleDelete(e) {
   const cashierId = e.getAttribute("data-delete-id");
 
   // Set data-attribute for the delete button in the modal
-  document.getElementById('confirmDelete').setAttribute('data-delete-id', cashierId);
+  document
+    .getElementById("confirmDelete")
+    .setAttribute("data-delete-id", cashierId);
 
   // Show the delete confirmation modal
-  var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+  var myModal = new bootstrap.Modal(document.getElementById("deleteModal"));
   myModal.show();
 }
 
 // Handle delete button in modal
-document.getElementById('confirmDelete').addEventListener('click', function () {
-  const cashierId = this.getAttribute('data-delete-id');
+document.getElementById("confirmDelete").addEventListener("click", function () {
+  const cashierId = this.getAttribute("data-delete-id");
   http.client
     .delete(`cashiers/${cashierId}`)
     .then((response) => {
@@ -160,7 +158,7 @@ document.getElementById('confirmDelete').addEventListener('click', function () {
       setTable();
 
       // Hide the modal
-      var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+      var myModal = new bootstrap.Modal(document.getElementById("deleteModal"));
       myModal.hide();
 
       // Clear any previous messages after 1 second
@@ -185,14 +183,12 @@ function handleSearch(e) {
   setTable();
 }
 
-
 function handleNextPage(e) {
   const isPageChanged = filterData.incrementPage();
   if (isPageChanged) {
     setTable();
   }
 }
-
 
 function handlePrevPage(e) {
   const isPageChanged = filterData.decremnetPage();
@@ -201,12 +197,6 @@ function handlePrevPage(e) {
   }
 }
 
-function redirect(e){
-  document.location.href =
-  rootPath + e
+function redirect(e) {
+  document.location.href = rootPath + e;
 }
-
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-  });
