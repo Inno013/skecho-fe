@@ -1,5 +1,5 @@
 {
-  "name": "skeco-fe-electron",
+  "name": "skeco-pos",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@electron/packager": "^18.3.1",
     "electron": "^29.1.5"
   },
   "dependencies": {

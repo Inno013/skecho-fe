@@ -20,7 +20,7 @@
           <p class="col-md-5">User: Kasir 1</p>
         </div>
         <h1 class="fw-bold me-5">KASIR</h1>
-        <button class="btn btn-danger">Logout</button>
+        <button class="btn btn-danger" onclick="handleLogout()">Logout</button>
       </header>
       <hr />
       <div id="alertContainer"></div>
@@ -75,40 +75,42 @@
               </div>
             </div>
           </div>
-          <table id="order-table">
-            <thead>
-              <tr>
-                <th>Kode Barang</th>
-                <th>Nama Barang</th>
-                <th>Qty</th>
-                <th>Harga</th>
-                <th>Subtotal</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="d-none" id="sample-row">
-                <td class="barcode"></td>
-                <td class="name"></td>
-                <td class="qty">
-                  <input type="number" onchange="handleQtyChange(event)" />
-                </td>
-                <td class="price"></td>
-                <td class="subTotal"></td>
-                <td class="action">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    data-delete-id=""
-                    onclick="handleDelete(this)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">
-                    <i class="bi bi-trash3-fill"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="scrollable overflow-auto">
+            <table id="order-table">
+              <thead>
+                <tr>
+                  <th>Kode Barang</th>
+                  <th>Nama Barang</th>
+                  <th>Qty</th>
+                  <th>Harga</th>
+                  <th>Subtotal</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="d-none" id="sample-row">
+                  <td class="barcode"></td>
+                  <td class="name"></td>
+                  <td class="qty">
+                    <input type="number" onchange="handleQtyChange(event)" />
+                  </td>
+                  <td class="price"></td>
+                  <td class="subTotal"></td>
+                  <td class="action">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      data-delete-id=""
+                      onclick="handleDelete(this)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal">
+                      <i class="bi bi-trash3-fill"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
         <section class="col-sm-4">
           <h2>Add Product</h2>
@@ -270,6 +272,7 @@
 
     <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../../assets/js/Kasir.js"></script>
+    <script src="../../assets/js/main.js"></script>
     <script>
       var dt = new Date();
       document.getElementById("datetime").innerHTML = dt.toLocaleString();

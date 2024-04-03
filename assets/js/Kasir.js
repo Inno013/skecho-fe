@@ -1,6 +1,8 @@
 const rootPath = require("electron-root-path").rootPath;
 const http = require(rootPath + "/utils/http");
 
+const userAuth = JSON.parse(sessionStorage.getItem('user'))
+
 // Begin Logic to populate the data
 const selectTour = document.getElementById("selectTour");
 const selectName = document.getElementById("selectName");
@@ -44,7 +46,7 @@ const formPay = document.getElementById("formPay");
 
 function dataToOrderRequest(data) {
   const orders = {
-    userId: 1,
+    userId: userAuth.userId,
     invoiceTourId: document.getElementById("selectTour").value,
     totalItems: parseFloat(data.totalItems),
     totalPrice: parseFloat(data.totalPrice),

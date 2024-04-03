@@ -5,3 +5,10 @@ body {
 .main-sidebar {
     height: 100vh !important;
 }
+.scrollable{
+    max-height: 50vh !important;
+}
+
+.scrollable-purchase {
+    max-height: 25vh !important;
+}

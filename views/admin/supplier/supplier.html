@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -258,17 +260,18 @@
 
           <div id="general-list-messages"></div>
 
-          <table class="table table-striped" id="data-table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Created At</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div class="scrollable overflow-auto">
+            <table class="table table-striped" id="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Created At</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
               <tr class="d-none" id="sample-row">
                 <td class="name"></td>
                 <td class="address"></td>
@@ -281,20 +284,22 @@
                     onclick="handleEditView(this)"
                     data-edit-id=""
                     data-bs-toggle="modal"
-                    data-bs-target="#editModal">
+                    data-bs-target="#editModal"
+                  >
                     <i class="bi bi-pencil-square"></i>
                   </button>
                   <button
                     type="button"
                     onclick="handleDelete(this)"
                     class="btn btn-danger"
-                    data-delete-id="">
+                    data-delete-id=""
+                  >
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </td>
               </tr>
-            </tbody>
-          </table>
+            </table>
+          </div>
 
           <nav aria-label="Page navigation example" class="mx-auto mt-4">
             <ul class="pagination justify-content-center">
@@ -474,7 +479,8 @@
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
-              aria-label="Close"></button>
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             Are you sure you want to delete this item?
@@ -483,14 +489,16 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-bs-dismiss="modal">
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
             <button
               type="button"
               class="btn btn-danger"
               data-bs-dismiss="modal"
-              id="confirmDelete">
+              id="confirmDelete"
+            >
               Delete
             </button>
           </div>
@@ -506,6 +514,7 @@
       crossorigin="anonymous"></script>
 
     <script src="../../../assets/js/admin-supplier.js"></script>
+    <script src="../../../assets/js/main.js"></script>
 
     <div id="loom-companion-mv3" ext-id="liecbddmkiiihnedobmlmillhodjkdmb">
       <section id="shadow-host-companion"></section>
