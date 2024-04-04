@@ -1,7 +1,8 @@
 const rootPath = require("electron-root-path").rootPath;
 const http = require(rootPath + "/utils/http");
+const helpers = require(rootPath + "/utils/helpers");
 
-const userAuth = JSON.parse(sessionStorage.getItem('user'))
+const userAuth = JSON.parse(sessionStorage.getItem("user"));
 
 // Begin Logic to populate the data
 const selectTour = document.getElementById("selectTour");
@@ -10,7 +11,8 @@ const payButton = document.getElementById("pay");
 const amount = document.getElementById("amount-paid");
 const sampleRow = document.getElementById("sample-row");
 const tableBody = document.querySelector("#order-table tbody");
-const dataOrder = [];
+let dataOrder = [];
+let sessionName;
 
 function updateDateTime() {
   var dt = new Date();
@@ -34,7 +36,6 @@ async function fetchDataWithUrl(url, params) {
 async function sendDataWithUrl(url, params) {
   try {
     const response = await http.client.post(url, params);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     alert(`Gagal Order Barang`, "alertContainer");
@@ -69,7 +70,6 @@ formOrder.addEventListener("submit", function (e) {
       );
       let qty = parseFloat(formOrder.querySelector("#qty").value);
       let price = parseFloat(formOrder.querySelector("#price").value);
-      console.log(selectTour.value);
       if (rowIndex == null || dataOrder.length == 0) {
         dataOrder.push({
           productId: formOrder.querySelector("#productId").value,
@@ -92,36 +92,72 @@ formOrder.addEventListener("submit", function (e) {
     });
 });
 
-// Belum selesai krim order ke database
 formPay.addEventListener("submit", function (e) {
   e.preventDefault();
+  document.getElementById("change").value =
+    document.getElementById("amount-paid").value - sumTotalPrice();
   const formData = {
     amount: document.getElementById("amount-paid").value,
     refund: document.getElementById("change").value,
     totalItems: document.getElementById("total-item").value,
     totalPrice: document.getElementById("grand-total").value,
   };
-  sendDataWithUrl("/orders/save", dataToOrderRequest(formData))
-    .then((data) => {
-      printPdf(data);
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error("Error fetching data with pagination:", error);
-    });
+
+  if (parseFloat(formData.amount) < parseFloat(formData.refund)) {
+    alert("<strong>Not enough money</strong>", "alertPay");
+  } else {
+    sendDataWithUrl("/orders/save", dataToOrderRequest(formData))
+      .then((data) => {
+        const dataSimpan = JSON.parse(
+          sessionStorage.getItem("simpanSementara")
+        );
+        for (let i = 0; i < dataSimpan.length; i++) {
+          if (dataSimpan[i].name == sessionName) {
+            dataSimpan.splice(i, 1);
+          }
+        }
+        sessionStorage.setItem("simpanSementara", JSON.stringify(dataSimpan));
+
+        setDataSimpan();
+        // printPdf(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data with pagination:", error);
+      });
+    dataOrder = [];
+    addDataInTable();
+    helpers.hideModal("modalPay");
+  }
 });
 
 document
   .getElementById("simpanSementara")
   .addEventListener("click", function () {
-    const currentDataString = sessionStorage.getItem("simpanSementara");
-    const currentData = currentDataString ? JSON.parse(currentDataString) : [];
-    currentData.push({
-      name: document.getElementById("inputName").value,
-      dataOrder: dataOrder,
-    });
-
-    sessionStorage.setItem("simpanSementara", JSON.stringify(currentData));
+    if (document.getElementById("inputName").value.trim() != "") {
+      if (dataOrder.length > 0) {
+        const currentDataString = sessionStorage.getItem("simpanSementara");
+        const currentData = currentDataString
+          ? JSON.parse(currentDataString)
+          : [];
+        currentData.push({
+          name: document.getElementById("inputName").value,
+          dataOrder: dataOrder,
+        });
+        document.getElementById("inputName").value = "";
+        sessionStorage.setItem("simpanSementara", JSON.stringify(currentData));
+        helpers.hideModal("modalInputName");
+        setDataSimpan();
+        dataOrder = [];
+        addDataInTable();
+      } else {
+        alert(
+          "<strong>Empty shopping list!!</strong> Please input the items first.",
+          "alertContainer"
+        );
+      }
+    } else {
+      alert("<strong>Inputan Kosong!!</strong>", "alertName");
+    }
   });
 
 function printPdf(pdf) {
@@ -266,6 +302,14 @@ function setDataProduct(data) {
 }
 
 function setDataTour() {
+  while (selectTour.firstChild) {
+    selectTour.removeChild(selectName.firstChild);
+  }
+  let optionTest = document.createElement("option");
+  optionTest.textContent = "Pilih Tour";
+  selectTour.appendChild(optionTest);
+
+  document.getElementById("user").innerHTML = "User: " + userAuth.username;
   fetchDataWithUrl("/invoice/tour/status", { status: "NOW" }).then((data) => {
     data.data.forEach((tour) => {
       let optionElement = document.createElement("option");
@@ -276,14 +320,36 @@ function setDataTour() {
   });
 }
 function setDataSimpan() {
+  while (selectName.firstChild) {
+    selectName.removeChild(selectName.firstChild);
+  }
+  let optionTest = document.createElement("option");
+  optionTest.textContent = "Pilih Nama";
+  selectName.appendChild(optionTest);
+
   const dataSimpan = JSON.parse(sessionStorage.getItem("simpanSementara"));
-  for (let i = 0; i < dataSimpan.length; i++) {
-    let optionElement = document.createElement("option");
-    optionElement.textContent = dataSimpan[i].name;
-    optionElement.value = dataSimpan[i].name;
-    selectName.appendChild(optionElement);
+  if (dataSimpan != null) {
+    for (let i = 0; i < dataSimpan.length; i++) {
+      let optionElement = document.createElement("option");
+      optionElement.textContent = dataSimpan[i].name;
+      optionElement.value = dataSimpan[i].name;
+      selectName.appendChild(optionElement);
+    }
   }
 }
+
+selectName.addEventListener("change", function () {
+  const name = selectName.value;
+  const dataSimpan = JSON.parse(sessionStorage.getItem("simpanSementara"));
+  for (let i = 0; i < dataSimpan.length; i++) {
+    if (dataSimpan[i].name == name) {
+      dataOrder = [];
+      sessionName = dataSimpan[i].name;
+      dataOrder = dataSimpan[i].dataOrder;
+      addDataInTable();
+    }
+  }
+});
 
 document.addEventListener("DOMContentLoaded", function (e) {
   setDataTour();

@@ -17,7 +17,7 @@
       <header>
         <div class="row fw-bold col-md-5 align-items-start font-monospace">
           <p class="col-md-7">Time: <span id="datetime"></span></p>
-          <p class="col-md-5">User: Kasir 1</p>
+          <p class="col-md-5" id="user">User: Kasir 1</p>
         </div>
         <h1 class="fw-bold me-5">KASIR</h1>
         <button class="btn btn-danger" onclick="handleLogout()">Logout</button>
@@ -53,6 +53,7 @@
                     aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                  <div id="alertName"></div>
                   <div class="mb-3">
                     <label for="inputName" class="form-label">Nama:</label>
                     <input type="text" class="form-control" id="inputName" />
