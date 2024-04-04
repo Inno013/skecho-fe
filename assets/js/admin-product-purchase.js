@@ -16,6 +16,7 @@ const purchaseTotalProduct = document.getElementById("purchase-total-product");
 const purchaseRefund = document.getElementById("purchase-refund");
 
 const placeModalCreateMessage = document.getElementById("modal-create-message");
+const placeModalExistingMessage = document.getElementById("modal-existing-message");
 
 // Create New Product List
 const formCreate = document.getElementById("formNewProd");
@@ -37,6 +38,25 @@ formCreate.addEventListener("submit", function (e) {
     profitSharing: document.getElementById("newProdPriceSharingAmount").value,
     profitSharedType: document.getElementById("newProdSharingType").value,
   };
+
+  if (
+    newProduct.barcode == "" ||
+    newProduct.name == "" ||
+    newProduct.priceBuy == "" ||
+    newProduct.priceSell == "" ||
+    newProduct.quantity == "" ||
+    newProduct.profitSharedType == ""
+  ) {
+    placeModalCreateMessage.appendChild(
+      createAlert("danger", "You must fill all the required fields")
+    );
+
+    setInterval(() => {
+      placeModalCreateMessage.innerHTML = "";
+    }, 2000);
+
+    return;
+  }
 
   // Clear input fields
   document.getElementById("newProdBarcode").value = "";
@@ -64,7 +84,7 @@ formCreate.addEventListener("submit", function (e) {
     parseInt(purchaseTotalProduct.textContent) + 1;
   let calculate =
     helpers.convertIDRtoInt(purchaseTotalPrice.textContent) +
-    newProduct.priceSell * newProduct.quantity;
+    newProduct.priceBuy * newProduct.quantity;
   purchaseTotalPrice.textContent = helpers.convertToIDR(calculate);
 });
 
@@ -75,7 +95,7 @@ function addNewProductToTable(product) {
   newRow.classList.remove("d-none");
   newRow.querySelector(".barcode").textContent = product.barcode;
   newRow.querySelector(".name-product").textContent = product.name;
-  newRow.querySelector(".price-sell").textContent = product.priceSell;
+  newRow.querySelector(".price-buy").textContent = product.priceBuy;
   newRow.querySelector(".profit-sharing-amount").textContent =
     product.profitSharing;
   newRow.querySelector(".profit-sharing-type").textContent =
@@ -146,7 +166,7 @@ document.getElementById("confirmDelete").addEventListener("click", function () {
       parseInt(purchaseTotalProduct.textContent) - 1;
     let calculate = helpers.convertIDRtoInt(purchaseTotalPrice.textContent);
     purchaseTotalPrice.textContent =
-      helpers.convertToIDR(calculate) - product.priceSell * product.quantity;
+      helpers.convertToIDR(calculate) - product.priceBuy * product.quantity;
     listNewProducts.splice(indexNewProduct, 1);
   }
 
@@ -163,7 +183,7 @@ document.getElementById("confirmDelete").addEventListener("click", function () {
       parseInt(purchaseTotalProduct.textContent) - 1;
     let cal =
       helpers.convertIDRtoInt(purchaseTotalPrice.textContent) -
-      product.priceSell * product.quantity;
+      product.priceBuy * product.quantity;
 
     purchaseTotalPrice.textContent = helpers.convertToIDR(cal);
     listExistingProducts.splice(indexExistProduct, 1);
@@ -191,10 +211,22 @@ function setTable() {
 }
 
 function handleStorePurchase(e) {
+  let amount = document.getElementById("colFormAmount").value;
+
+  if (amount < helpers.convertIDRtoInt(purchaseTotalPrice.textContent)) {
+    generalListMessages.appendChild(
+      createAlert(
+        "danger",
+        "Amount should be higher or equals than total price"
+      )
+    );
+    return;
+  }
+
   http.client
     .post("/admin/purchases", {
       supplierId: document.getElementById("selectSupplier").value,
-      amount: document.getElementById("colFormAmount").value,
+      amount: amount,
       newProducts: listNewProducts,
       existingProducts: listExistingProducts,
     })
@@ -283,6 +315,24 @@ formEdit.addEventListener("submit", function (e) {
     profitSharedType: document.getElementById("existingProdSharingType").value,
   };
 
+  if (
+    existingProduct.productId == "" ||
+    existingProduct.priceBuy == "" ||
+    existingProduct.priceSell == "" ||
+    existingProduct.quantity == "" ||
+    existingProduct.profitSharedType == ""
+  ) {
+    placeModalExistingMessage.appendChild(
+      createAlert("danger", "You must fill all the required fields")
+    );
+
+    setInterval(() => {
+      placeModalExistingMessage.innerHTML = "";
+    }, 2000);
+
+    return;
+  }
+
   // Clear input fields
   document.getElementById("existingProdPriceBuy").value = "";
   document.getElementById("existingProdPriceSell").value = "";
@@ -308,7 +358,7 @@ formEdit.addEventListener("submit", function (e) {
     parseInt(purchaseTotalProduct.textContent) + 1;
   let cal =
     helpers.convertIDRtoInt(purchaseTotalPrice.textContent) +
-    existingProduct.priceSell * existingProduct.quantity;
+    existingProduct.priceBuy * existingProduct.quantity;
 
   purchaseTotalPrice.textContent = helpers.convertToIDR(cal);
 });

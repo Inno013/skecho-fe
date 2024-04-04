@@ -260,7 +260,7 @@
                 <tr>
                   <th>Barcode</th>
                   <th>Nama Barang</th>
-                  <th>Harga Jual</th>
+                  <th>Harga Beli</th>
                   <th>Profit Sharing</th>
                   <th>Profit Sharing Type</th>
                   <th>Stock</th>
@@ -275,7 +275,7 @@
               <tr class="d-none" id="sample-row">
                 <td class="barcode"></td>
                 <td class="name-product"></td>
-                <td class="price-sell"></td>
+                <td class="price-buy"></td>
                 <td class="profit-sharing-amount"></td>
                 <td class="profit-sharing-type"></td>
                 <td class="product-stock"></td>
@@ -355,7 +355,7 @@
                         class="form-control"
                         id="colFormAmount"
                         placeholder="Enter amount price"
-                        onkeydown="calculateAmount(this)" />
+                        onchange="calculateAmount(this)" />
                     </div>
                   </div>
                   <!-- End Amount -->
@@ -538,7 +538,7 @@
                 aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div id="modal-create-message"></div>
+              <div id="modal-existing-message"></div>
               <div class="mb-3">
                 <label for="SelectPeoduct" class="form-label"
                   >Select Product</label
