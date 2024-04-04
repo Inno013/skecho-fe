@@ -329,81 +329,60 @@
     <!-- Modal Create -->
     <!-- Button trigger modal -->
 
-    <!-- Modal Update -->
-    <div
-      class="modal fade"
-      id="editModal"
-      tabindex="-1"
-      aria-labelledby="createModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <form id="formEditSupplier">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="createModalLabel">
-                Edit Supplier
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div id="modal-edit-message"></div>
+<!-- Modal Update -->
+   <!-- Modal Update Produk -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="formEditProduct">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="createModalLabel">Edit Product</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="modal-edit-message"></div>
+          <!-- Hidden input for product ID -->
+          <input type="hidden" name="id" />
 
-              <!-- Backup edit id -->
-              <input type="hidden" name="id" />
-
-              <div class="mb-3">
-                <label for="createNameText" class="form-label">Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  class="form-control"
-                  placeholder="Enter Name"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="createPhoneText" class="form-label"
-                  >Phone Number</label
-                >
-                <input
-                  type="tel"
-                  name="phone"
-                  class="form-control"
-                  placeholder="Enter Phone Number"
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="createAddressText" class="form-label"
-                  >Address</label
-                >
-                <textarea
-                  class="form-control"
-                  name="address"
-                  rows="3"
-                ></textarea>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="submit" class="btn btn-success">Edit</button>
-            </div>
+          <div class="mb-3">
+            <label for="createBarcodeText" class="form-label">Barcode</label>
+            <input type="number" name="barcode" class="form-control" placeholder="Barcode" />
           </div>
-        </form>
+          <div class="mb-3">
+            <label for="createNameText" class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" placeholder="Enter Name" />
+          </div>
+          <div class="mb-3">
+            <label for="createPriceText" class="form-label">Price</label>
+            <input type="number" name="price" class="form-control" placeholder="Enter Price" />
+          </div>
+          <div class="mb-3">
+            <label for="editprofitSharingType" class="form-label">Profit Sharing Type</label>
+            <select id="editprofitSharingType" class="form-control" >
+              <option value="SHARING_AMOUNT">SHARING_AMOUNT</option>
+              <option value="PERCENTAGE">PERCENTAGE</option>
+              <option value="NONE">NONE</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="createProfitSharingValue" class="form-label">Profit Sharing Value</label>
+            <input type="number" name="profitSharingValue" class="form-control" placeholder="Enter Profit Sharing Value" />
+          </div>
+          <div class="mb-3">
+            <label for="createStockText" class="form-label">Stock</label>
+            <input type="number" name="stock" class="form-control" placeholder="Enter Stock" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Edit</button>
+        </div>
       </div>
-    </div>
+    </form>
+  </div>
+</div>
+<!-- End Modal Update Produk -->
+
     <!-- End Modal Update -->
   <!-- Modal Delete -->
   <div
@@ -444,10 +423,6 @@
       </div>
     </div>
   <!-- End Modal Delete -->
-    <script
-      src="../../../assets/bootstrap/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"
-    ></script>
 
     <script defer src="../../../assets/js/admin-product.js"></script>
     <script defer src="../../../assets/js/main.js"></script>
@@ -457,5 +432,9 @@
     </div>
     <script src="../../../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+
+    <script src="../../../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Icons -->
+    <script src="../../../node_modules/bootstrap-icons/bootstrap-icons.svg"></script>
   </body>
 </html>
