@@ -19,6 +19,11 @@ const placeModalCreateMessage = document.getElementById("modal-create-message");
 
 // Create New Product List
 const formCreate = document.getElementById("formNewProd");
+formCreate.addEventListener("keypress", function (e) {
+  if (e.key == "Enter") {
+    e.preventDefault();
+  }
+});
 formCreate.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -51,9 +56,9 @@ formCreate.addEventListener("submit", function (e) {
     createAlert("success", "Successfully added new Product")
   );
   addNewProductToTable(newProduct);
-  setTimeout(function(){
+  setTimeout(function () {
     helpers.clearChieldElements(generalListMessages);
-  },3000);
+  }, 3000);
 
   purchaseTotalProduct.textContent =
     parseInt(purchaseTotalProduct.textContent) + 1;
@@ -169,9 +174,9 @@ document.getElementById("confirmDelete").addEventListener("click", function () {
     createAlert("success", "Successfully deleted product")
   );
   setTable();
-  setTimeout(function(){
+  setTimeout(function () {
     helpers.clearChieldElements(generalListMessages);
-  },3000);
+  }, 3000);
 });
 
 function setTable() {
@@ -259,6 +264,11 @@ function selectedProduct(e) {
 
 // create existing product
 const formEdit = document.getElementById("formexistingProd");
+formCreate.addEventListener("keypress", function (e) {
+  if (e.key == "Enter") {
+    e.preventDefault();
+  }
+});
 formEdit.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -290,9 +300,9 @@ formEdit.addEventListener("submit", function (e) {
     createAlert("success", "Successfully added existing Product")
   );
   addExistingProductToTable(existingProduct);
-  setTimeout(function(){
+  setTimeout(function () {
     helpers.clearChieldElements(generalListMessages);
-  },3000);
+  }, 3000);
 
   purchaseTotalProduct.textContent =
     parseInt(purchaseTotalProduct.textContent) + 1;
