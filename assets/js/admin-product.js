@@ -81,9 +81,15 @@ function handleEditView(e) {
       formEdit.querySelector('input[name="name"]').value = product.name;
       formEdit.querySelector('input[name="price"]').value = product.price;
       formEdit.querySelector("#editprofitSharingType").innerHTML = `
-              <option value="SHARING_AMOUNT" ${ product.profitSharedType == 'SHARING_AMOUNT' ? 'selected': ''} >SHARING_AMOUNT</option>
-              <option value="PERCENTAGE" ${ product.profitSharedType == 'PERCENTAGE' ? 'selected': ''} >PERCENTAGE</option>
-              <option value="NONE" ${ product.profitSharedType == 'NONE' ? 'selected': ''} >NONE</option>
+              <option value="SHARING_AMOUNT" ${
+                product.profitSharedType == "SHARING_AMOUNT" ? "selected" : ""
+              } >SHARING_AMOUNT</option>
+              <option value="PERCENTAGE" ${
+                product.profitSharedType == "PERCENTAGE" ? "selected" : ""
+              } >PERCENTAGE</option>
+              <option value="NONE" ${
+                product.profitSharedType == "NONE" ? "selected" : ""
+              } >NONE</option>
         `;
       formEdit.querySelector('input[name="profitSharingValue"]').value =
         product.profitSharing;
@@ -104,6 +110,7 @@ formEdit.addEventListener("submit", function (e) {
   const barcode = formEdit.querySelector('input[name="barcode"]').value;
   const name = formEdit.querySelector('input[name="name"]').value;
   const price = formEdit.querySelector('input[name="price"]').value;
+  console.log(price);
   const profitSharedType = formEdit.querySelector(
     "#editprofitSharingType"
   ).value;
@@ -190,10 +197,3 @@ function redirect(e) {
 function redirect(e) {
   document.location.href = rootPath + e;
 }
-
-var tooltipTriggerList = [].slice.call(
-  document.querySelectorAll('[data-bs-toggle="tooltip"]')
-);
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl);
-});

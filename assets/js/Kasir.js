@@ -48,7 +48,7 @@ const formPay = document.getElementById("formPay");
 function dataToOrderRequest(data) {
   const orders = {
     userId: userAuth.userId,
-    invoiceTourId: document.getElementById("selectTour").value,
+    invoiceTourId: parseInt(document.getElementById("selectTour").value),
     totalItems: parseFloat(data.totalItems),
     totalPrice: parseFloat(data.totalPrice),
     amount: parseFloat(data.amount),
@@ -108,6 +108,7 @@ formPay.addEventListener("submit", function (e) {
   } else {
     sendDataWithUrl("/orders/save", dataToOrderRequest(formData))
       .then((data) => {
+        console.log(dataToOrderRequest(formData));
         const dataSimpan = JSON.parse(
           sessionStorage.getItem("simpanSementara")
         );
@@ -307,6 +308,7 @@ function setDataTour() {
   }
   let optionTest = document.createElement("option");
   optionTest.textContent = "Pilih Tour";
+  optionTest.value = -1;
   selectTour.appendChild(optionTest);
 
   document.getElementById("user").innerHTML = "User: " + userAuth.username;
