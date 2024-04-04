@@ -22,37 +22,6 @@
   background-color: #3e92e7; /* Ganti warna dengan yang diinginkan */
   width: 75px;
 }
-/* Menentukan warna yang ingin digunakan saat ikon dihover */
-.nav-link:hover svg {
-    fill: rgb(47, 9, 199); /* Ganti warna dengan yang diinginkan */
-}
-
-.nav-link {
-  position: relative;
-}
-
-.nav-link::after {
-  content: attr(data-bs-original-title);
-  position: absolute;
-  top: 50%;
-  left: 105%; /* Mengatur jarak teks dari ikon */
-  transform: translate(-50%, -50%);
-  padding: 0.25rem 0.5rem; /* Penyesuaian panjang teks */
-  border-radius: 0.25rem;
-  font-size: 0.8rem;
-  background-color: rgba(0, 0, 0, 0.8); /* Menyesuaikan warna latar belakang teks */
-  color: #fff;
-  opacity: 0; /* Mulai dengan teks tersembunyi */
-  pointer-events: none; /* Hindari interaksi dengan teks */
-  transition: opacity 0.3s ease; /* Efek transisi */
-  white-space: nowrap; /* Mencegah pemisahan kata */
-  z-index: 999; /* Pastikan teks selalu muncul di atas ikon */
-}
-
-.nav-link:hover::after {
-  opacity: 1; /* Tampilkan teks saat kursor diarahkan */
-}
-
 </style>
 
 </head>
@@ -207,7 +176,7 @@
               aria-expanded="false"
             >
               <img
-                src="../../../assets/img/fotologin.jpg"
+                src="../../../assets/login.jpg"
                 alt="mdo"
                 width="24"
                 height="24"
