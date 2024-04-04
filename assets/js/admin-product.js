@@ -66,21 +66,28 @@ function createNewRow(row) {
 
 const generalListMessages = document.getElementById("general-list-messages");
 
-const formEdit = document.getElementById("formEditSupplier");
+const formEdit = document.getElementById("formEditProduct");
 
 // handle edit button to change value form
 function handleEditView(e) {
-  const supplierId = e.getAttribute("data-edit-id");
+  const productId = e.getAttribute("data-edit-id");
   http.client
-    .get(`suppliers/${supplierId}`)
+    .get(`products/${productId}`)
     .then((response) => {
-      const supplier = response.data.data;
+      const product = response.data.data;
 
-      formEdit.querySelector('input[name="name"]').value = supplier.name;
-      formEdit.querySelector('input[name="id"]').value = supplier.supplierId;
-      formEdit.querySelector('input[name="phone"]').value = supplier.phone;
-      formEdit.querySelector('textarea[name="address"]').innerHTML =
-        supplier.address;
+      formEdit.querySelector('input[name="id"]').value = productId;
+      formEdit.querySelector('input[name="barcode"]').value = product.barcode;
+      formEdit.querySelector('input[name="name"]').value = product.name;
+      formEdit.querySelector('input[name="price"]').value = product.price;
+      formEdit.querySelector("#editprofitSharingType").innerHTML = `
+              <option value="SHARING_AMOUNT" ${ product.profitSharedType == 'SHARING_AMOUNT' ? 'selected': ''} >SHARING_AMOUNT</option>
+              <option value="PERCENTAGE" ${ product.profitSharedType == 'PERCENTAGE' ? 'selected': ''} >PERCENTAGE</option>
+              <option value="NONE" ${ product.profitSharedType == 'NONE' ? 'selected': ''} >NONE</option>
+        `;
+      formEdit.querySelector('input[name="profitSharingValue"]').value =
+        product.profitSharing;
+      formEdit.querySelector('input[name="stock"]').value = product.stock;
     })
     .catch((err) => {
       helpers.showErrorMessages(err, generalListMessages);
@@ -94,19 +101,43 @@ formEdit.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const id = formEdit.querySelector('input[name="id"]').value;
+  const barcode = formEdit.querySelector('input[name="barcode"]').value;
   const name = formEdit.querySelector('input[name="name"]').value;
-  const phone = formEdit.querySelector('input[name="phone"]').value;
-  const address = formEdit.querySelector('textarea[name="address"]').value;
+  const price = formEdit.querySelector('input[name="price"]').value;
+  const profitSharedType = formEdit.querySelector(
+    "#editprofitSharingType"
+  ).value;
+  const profitSharing = formEdit.querySelector(
+    'input[name="profitSharingValue"]'
+  ).value;
+  const stock = formEdit.querySelector('input[name="stock"]').value;
 
   http.client
-    .put(`suppliers/${id}`, { name, phone, address })
+    .put(`products/${id}`, {
+      barcode,
+      name,
+      price,
+      profitSharing,
+      profitSharedType,
+      stock,
+    })
     .then((response) => {
       const alertSuccess = createAlert("success", response.data.message);
       placeModalEditMessage.appendChild(alertSuccess);
       setTable();
+
+      // Hilangkan pesan setelah 1 detik
+      setTimeout(() => {
+        placeModalEditMessage.innerHTML = "";
+      }, 1500);
     })
     .catch((err) => {
       helpers.showErrorMessages(err, placeModalEditMessage);
+
+      // Hilangkan pesan peringatan setelah 1 detik
+      setTimeout(() => {
+        placeModalEditMessage.innerHTML = "";
+      }, 3000);
     });
 });
 

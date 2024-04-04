@@ -7,6 +7,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   console.log(username);
+  const alertList = document.getElementById("alert-list");
 
   http.client
     .post("/auth/login", {
@@ -14,7 +15,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
       password,
     })
     .then((response) => {
-      sessionStorage.setItem("user", JSON.stringify(response.data) );
+      sessionStorage.setItem("user", JSON.stringify(response.data));
 
       if (response.data.role == "ROLE_ADMIN") {
         document.location.href =
@@ -24,6 +25,35 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
       }
     })
     .catch((err) => {
-      console.error(err);
+      err = err.response.data;
+
+      if (err.status >= 400 && err.status <= 422) {
+        err.errors.forEach((error) => {
+          const alertError = `
+      <div class="alert">
+        <span
+          class="closebtn"
+          onclick="this.parentElement.style.display='none';"
+          >&times;</span
+        >
+${error}
+      </div>
+      `;
+
+          alertList.innerHTML = alertError;
+        });
+      } else {
+        const alertError = `
+      <div class="alert">
+        <span
+          class="closebtn"
+          onclick="this.parentElement.style.display='none';"
+          >&times;</span
+        >
+${err.message}
+      </div>
+      `;
+        alertList.innerHTML = alertError;
+      }
     });
 });

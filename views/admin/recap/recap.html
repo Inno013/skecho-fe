@@ -22,16 +22,17 @@
   background-color: #3e92e7; /* Ganti warna dengan yang diinginkan */
   width: 75px;
 }
+
 /* Menentukan warna yang ingin digunakan saat ikon dihover */
-.nav-link:hover svg {
+.show-tooltips:hover svg {
     fill: rgb(47, 9, 199); /* Ganti warna dengan yang diinginkan */
 }
 
-.nav-link {
+.show-tooltips {
   position: relative;
 }
 
-.nav-link::after {
+.show-tooltips::after {
   content: attr(data-bs-original-title);
   position: absolute;
   top: 50%;
@@ -49,7 +50,7 @@
   z-index: 999; /* Pastikan teks selalu muncul di atas ikon */
 }
 
-.nav-link:hover::after {
+.show-tooltips:hover::after {
   opacity: 1; /* Tampilkan teks saat kursor diarahkan */
 }
 
@@ -99,7 +100,7 @@
             <li class="nav-item">
                <!-- Product -->
                <a
-               class="nav-link active py-3 border-bottom rounded-0"
+               class="nav-link show-tooltips  active py-3 border-bottom rounded-0"
                aria-current="page"
                data-bs-toggle="tooltip"
                data-bs-placement="right"
@@ -119,7 +120,7 @@
 
           <!-- Tour -->
           <a
-            class="nav-link py-3 border-bottom rounded-0"
+            class="nav-link show-tooltips  py-3 border-bottom rounded-0"
             data-bs-toggle="tooltip"
             data-bs-placement="right"
             onclick="redirect('/views/admin/tour/tour.html')"
@@ -138,7 +139,7 @@
 
           <!-- Supplier -->
           <a
-            class="nav-link py-3 border-bottom rounded-0"
+            class="nav-link show-tooltips  py-3 border-bottom rounded-0"
             data-bs-toggle="tooltip"
             data-bs-placement="right"
             onclick="redirect('/views/admin/supplier/supplier.html')"
@@ -158,7 +159,7 @@
 
           <!-- Cashier Administrator -->
           <a
-            class="nav-link py-3 border-bottom rounded-0"
+            class="nav-link show-tooltips  py-3 border-bottom rounded-0"
             data-bs-toggle="tooltip"
             data-bs-placement="right"
             onclick="redirect('/views/admin/kasir/adminkasir.html')"
@@ -178,7 +179,7 @@
 
           <!-- Recap -->
           <a
-            class="nav-link py-3 border-bottom rounded-0"
+            class="nav-link show-tooltips  py-3 border-bottom rounded-0"
             data-bs-toggle="tooltip"
             data-bs-placement="right"
             onclick="redirect('/views/admin/recap/recap.html')"
@@ -232,7 +233,7 @@
               <a class="nav-link active" id="purchase-tab" data-bs-toggle="tab" href="#purchase" role="tab" aria-controls="purchase" aria-selected="true">Purchase</a>
             </li>
             <li class="nav-item" role="presentation">
-              <a class="nav-link" id="order-tab" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="false">Order</a>
+              <a class="nav-link " id="order-tab" data-bs-toggle="tab" href="#order" role="tab" aria-controls="order" aria-selected="false">Order</a>
             </li>
             <li class="nav-item" role="presentation">
               <a class="nav-link" id="invoice-tab" data-bs-toggle="tab" href="#invoice" role="tab" aria-controls="invoice" aria-selected="false">Invoice Tour</a>
