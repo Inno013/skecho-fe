@@ -18,8 +18,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
       sessionStorage.setItem("user", JSON.stringify(response.data));
 
       if (response.data.role == "ROLE_ADMIN") {
-        document.location.href =
-          rootPath + "/views/admin/supplier/supplier.html";
+        document.location.href = rootPath + "/views/admin/products/Produk.html";
       } else {
         document.location.href = rootPath + "/views/kasir/KasirPage.html";
       }

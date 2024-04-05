@@ -69,16 +69,40 @@ function populateTableOrder(data) {
   data.forEach((item, index) => {
     const row = document.createElement("tr");
     sumTotalPrice += item.totalPrice;
-    row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${item.userId.username}</td>
-        <td>${item.invoiceTourId.tourId.name}</td>
-        <td>${item.totalItems}</td>
-        <td>${item.totalPrice}</td>
-        <td>${item.amount}</td>
-        <td>${item.refund}</td>
-        <td>${item.createdAt}</td>
-      `;
+    if (item.invoiceTourId == null) {
+      row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${item.userId.username}</td>
+          <td> - </td>
+          <td>${item.totalItems}</td>
+          <td>${item.totalPrice}</td>
+          <td>${item.amount}</td>
+          <td>${item.refund}</td>
+          <td>${item.createdAt}</td>
+        `;
+    } else if (item.userId == null) {
+      row.innerHTML = `
+          <td>${index + 1}</td>
+          <td> - </td>
+          <td>${item.invoiceTourId.tourId.name}</td>
+          <td>${item.totalItems}</td>
+          <td>${item.totalPrice}</td>
+          <td>${item.amount}</td>
+          <td>${item.refund}</td>
+          <td>${item.createdAt}</td>
+        `;
+    } else {
+      row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${item.userId.username}</td>
+          <td>${item.invoiceTourId.tourId.name}</td>
+          <td>${item.totalItems}</td>
+          <td>${item.totalPrice}</td>
+          <td>${item.amount}</td>
+          <td>${item.refund}</td>
+          <td>${item.createdAt}</td>
+        `;
+    }
     // <td><button onclick="handleRefund(${item.orderId})"></button></td>
     tbody.appendChild(row);
   });
@@ -93,14 +117,25 @@ function populateTablePurchase(data) {
   data.forEach((item, index) => {
     const row = document.createElement("tr");
     sumTotalPrice += item.totalPrice;
-    row.innerHTML = `
+    if (item.supplier == null) {
+      row.innerHTML = `
         <td>${index + 1}</td>
-        <td>${item.supplier.name}</td>
+        <td>-</td>
         <td>${item.totalItems}</td>
         <td>${item.totalPrice}</td>
         <td>${item.amount}</td>
         <td>${item.createdAt}</td>
       `;
+    } else {
+      row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${item.supplier.name}</td>
+          <td>${item.totalItems}</td>
+          <td>${item.totalPrice}</td>
+          <td>${item.amount}</td>
+          <td>${item.createdAt}</td>
+        `;
+    }
     // <td><button onclick="handleRefund(${item.orderId})"></button></td>
     tbody.appendChild(row);
   });

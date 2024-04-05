@@ -58,11 +58,22 @@ function dataToOrderRequest(data) {
   return orders;
 }
 
+document.getElementById("barcode").addEventListener("change", function () {
+  const barcode = formOrder.querySelector("#barcode").value;
+  fetchDataWithUrl("/products/barcode", { barcode: barcode })
+    .then((data) => {
+      setDataProduct(data.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+});
+
 formOrder.addEventListener("submit", function (e) {
   e.preventDefault();
-  const barcode = formOrder.querySelector("#barcode");
 
-  fetchDataWithUrl("/products/barcode", { barcode: barcode.value })
+  const barcode = formOrder.querySelector("#barcode").value;
+  fetchDataWithUrl("/products/barcode", { barcode: barcode })
     .then((data) => {
       setDataProduct(data.data);
       let rowIndex = indexDataOrder(
@@ -85,6 +96,10 @@ formOrder.addEventListener("submit", function (e) {
         dataOrder[rowIndex].quantity += qty;
         dataOrder[rowIndex].subtotal = dataOrder[rowIndex].quantity * price;
       }
+      document.getElementById("barcode").value = "";
+      formOrder.querySelector("#name").value = "";
+      formOrder.querySelector("#price").value = "";
+      formOrder.querySelector("#qty").value = 1;
       addDataInTable();
     })
     .catch((error) => {
@@ -102,25 +117,26 @@ formPay.addEventListener("submit", function (e) {
     totalItems: document.getElementById("total-item").value,
     totalPrice: document.getElementById("grand-total").value,
   };
-
-  if (parseFloat(formData.amount) < parseFloat(formData.refund)) {
+  if (parseFloat(formData.refund) < 0) {
     alert("<strong>Not enough money</strong>", "alertPay");
   } else {
     sendDataWithUrl("/orders/save", dataToOrderRequest(formData))
       .then((data) => {
-        console.log(dataToOrderRequest(formData));
         const dataSimpan = JSON.parse(
           sessionStorage.getItem("simpanSementara")
         );
-        for (let i = 0; i < dataSimpan.length; i++) {
-          if (dataSimpan[i].name == sessionName) {
-            dataSimpan.splice(i, 1);
+        if (dataSimpan != null) {
+          for (let i = 0; i < dataSimpan.length; i++) {
+            if (dataSimpan[i].name == sessionName) {
+              dataSimpan.splice(i, 1);
+            }
           }
+          sessionStorage.setItem("simpanSementara", JSON.stringify(dataSimpan));
         }
-        sessionStorage.setItem("simpanSementara", JSON.stringify(dataSimpan));
-
+        document.getElementById("amount-paid").value = 1;
+        document.getElementById("change").value = 0;
         setDataSimpan();
-        // printPdf(data);
+        printPdf(data);
       })
       .catch((error) => {
         console.error("Error fetching data with pagination:", error);
@@ -181,6 +197,10 @@ function alert(message, id) {
   </div>
   `;
   alertContainer.innerHTML = alertHTML;
+
+  setTimeout(() => {
+    alertContainer.innerHTML = "";
+  }, 2000);
 }
 
 payButton.addEventListener("click", function (e) {

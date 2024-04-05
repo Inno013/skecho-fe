@@ -148,29 +148,47 @@ formEdit.addEventListener("submit", function (e) {
     });
 });
 
+function alert(message, id) {
+  const alertContainer = document.getElementById(id);
+  const alertHTML = `
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  ${message}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  `;
+  alertContainer.innerHTML = alertHTML;
+
+  setTimeout(() => {
+    alertContainer.innerHTML = "";
+  }, 2000);
+}
+
 // handle delete button
 function handleDelete(e) {
-  window.ipcRenderer.openDialog("openDialog");
+  const productId = e.getAttribute("data-delete-id");
+  document
+    .getElementById("confirmDelete")
+    .setAttribute("data-delete-id", productId);
 
-  const isConfirmed = confirm("Are you sure you want to delete?");
-  if (!isConfirmed) return;
-
-  const supplierId = e.getAttribute("data-delete-id");
-  http.client
-    .delete(`products/${supplierId}`)
-    .then((response) => {
-      console.log(response.data);
-      const alertSuccess = createAlert("success", response.data.message);
-      generalListMessages.appendChild(alertSuccess);
-      setTable();
-    })
-    .catch((err) => {
-      const generalListMessages = document.getElementById(
-        "general-list-messages"
-      );
-      helpers.showErrorMessages(err, generalListMessages);
-    });
+  // Show the delete confirmation modal
+  var myModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+  myModal.show();
 }
+
+document
+  .getElementById("confirmDelete")
+  .addEventListener("click", function (e) {
+    const productId = this.getAttribute("data-delete-id");
+    http.client
+      .delete(`products/${productId}`)
+      .then((response) => {
+        alert(response.data.message, "general-list-messages");
+        setTable();
+      })
+      .catch((error) => {
+        alert(error, "general-list-messages");
+      });
+  });
 
 // Handling fitering (search, next, previous page)
 function handleSearch(e) {

@@ -168,23 +168,19 @@ formEdit.addEventListener("submit", function (e) {
 });
 
 // Handle confirmed delete
-document
-  .getElementById("data-table")
-  .addEventListener("click", function (event) {
-    if (event.target.matches(".btn-danger")) {
-      const supplierId = event.target.getAttribute("data-delete-id"); // Mengambil supplierId dari tombol delete yang ditekan
+function handleDelete(e) {
+  const supplierId = e.getAttribute("data-delete-id"); // Mengambil supplierId dari tombol delete yang ditekan
 
-      // Menampilkan modal konfirmasi penghapusan
-      const deleteModal = new bootstrap.Modal(
-        document.getElementById("deleteModal")
-      );
-      deleteModal.show();
+  // Menampilkan modal konfirmasi penghapusan
+  const deleteModal = new bootstrap.Modal(
+    document.getElementById("deleteModal")
+  );
+  deleteModal.show();
 
-      // Set data-delete-id pada tombol Delete di modal konfirmasi
-      const confirmDeleteBtn = document.getElementById("confirmDelete");
-      confirmDeleteBtn.setAttribute("data-delete-id", supplierId);
-    }
-  });
+  // Set data-delete-id pada tombol Delete di modal konfirmasi
+  const confirmDeleteBtn = document.getElementById("confirmDelete");
+  confirmDeleteBtn.setAttribute("data-delete-id", supplierId);
+}
 
 // Handle confirmed delete
 document.getElementById("confirmDelete").addEventListener("click", function () {

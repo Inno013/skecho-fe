@@ -11,6 +11,7 @@
     <link
       href="../../node_modules/bootstrap-icons/font/bootstrap-icons.min.css"
       rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="../../assets/css/main.css" /> -->
   </head>
   <body>
     <div class="container-fluid mt-4">
@@ -76,7 +77,7 @@
               </div>
             </div>
           </div>
-          <div class="scrollable overflow-auto">
+          <div class="scrollable overflow-auto" style="max-height: 350px">
             <table id="order-table">
               <thead>
                 <tr>
@@ -118,7 +119,7 @@
           <form id="formOrder">
             <div class="input-group mb-3">
               <span class="input-group-text" for="barcode">Barcode</span>
-              <input class="form-control" type="number" id="barcode" />
+              <input class="form-control" type="text" id="barcode" autofocus />
             </div>
             <input type="hidden" id="profitSharing" />
             <input type="hidden" id="profitSharedType" />
