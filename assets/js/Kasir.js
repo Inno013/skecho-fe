@@ -35,7 +35,9 @@ async function fetchDataWithUrl(url, params) {
 // Post ordernya error
 async function sendDataWithUrl(url, params) {
   try {
-    const response = await http.client.post(url, params);
+    const response = await http.client.post(url, params, {
+      responseType: "arraybuffer",
+    });
     return response.data;
   } catch (error) {
     alert(`Gagal Order Barang`, "alertContainer");
@@ -134,7 +136,7 @@ formPay.addEventListener("submit", function (e) {
           sessionStorage.setItem("simpanSementara", JSON.stringify(dataSimpan));
         }
         document.getElementById("amount-paid").value = 1;
-        document.getElementById("change").value = 0;
+        document.getElementById("change").value = "";
         setDataSimpan();
         printPdf(data);
       })
@@ -178,14 +180,19 @@ document
   });
 
 function printPdf(pdf) {
-  const iframe = document.createElement("iframe");
-  iframe.style.display = "none";
-  iframe.src = pdf;
-  document.body.appendChild(iframe);
-
-  iframe.onload = function () {
-    iframe.contentWindow.print();
-  };
+  const data = new Blob([pdf], {
+    type: "application/pdf",
+  });
+  const url = URL.createObjectURL(data);
+  // const iframe = document.createElement("iframe");
+  // iframe.src = url;
+  // iframe.style.display = "none";
+  // document.body.appendChild(iframe);
+  // // console.log(iframe);
+  // iframe.onload = function () {
+  //   iframe.contentWindow.print();
+  // };
+  window.open(url);
 }
 
 function alert(message, id) {
