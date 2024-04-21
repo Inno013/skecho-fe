@@ -1,4 +1,5 @@
 const rootPath = require("electron-root-path").rootPath;
+const { ipcRenderer } = require("electron");
 const http = require(rootPath + "/utils/http");
 const createAlert = require(rootPath + "/utils/alert");
 const helpers = require(rootPath + "/utils/helpers");
@@ -146,29 +147,18 @@ function addDataInTable() {
   };
 }
 
-document.getElementById("print").addEventListener("click", function () {
-  console.log(printInvoice);
-  http.client
-    .post("/invoice/tour/print_invoice", printInvoice)
+document.getElementById("print").addEventListener("click", async function () {
+  await http.client
+    .post("/invoice/tour/print_invoice", printInvoice, {
+      responseType: "arraybuffer",
+    })
     .then((response) => {
-      printPdf(response);
-      console.log(response);
+      ipcRenderer.send("print", { data: response.data, name: "tour" });
     })
     .catch((error) => {
       console.error(error);
     });
 });
-
-function printPdf(pdf) {
-  const iframe = document.createElement("iframe");
-  // iframe.style.display = "none";
-  iframe.src = pdf;
-  document.body.appendChild(iframe);
-
-  iframe.onload = function () {
-    iframe.contentWindow.print();
-  };
-}
 
 function createNewRow(row) {
   const newRow = sampleRow.cloneNode(true);

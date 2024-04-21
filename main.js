@@ -1,4 +1,9 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
+const electronPrint = require("electron-print");
+const PDFWindow = require("electron-pdf-window");
+const { print } = require("pdf-to-printer");
+const fs = require("fs");
+const path = require("path");
 
 console.log("Hello from Electron 👋");
 const createWindow = () => {
@@ -9,10 +14,12 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true, //  nodeIntegration agar file index.html bisa berintegrasi dnegna nodeJS dan IPC
       contextIsolation: false,
+      printToPDF: true,
+      enableRemoteModule: true,
       // preload: path.join(__dirname, "preload.js"), // script yg akan di exec sebelum aplikasi utama di exec
     },
   });
-  win.webContents.openDevTools(); // helper only for development
+  //win.webContents.openDevTools(); // helper only for development
   win.loadFile("views/auth/login.html");
   // win.on("close", function (e) {
   //   const choice = dialog.showMessageBoxSync(this, {
@@ -36,6 +43,45 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
+  });
+
+  // ipcMain.on("print", async (event, arg) => {
+  //   try {
+  //     electronPrint.print({});
+  //     const pdfPath = path.join(__dirname, "print.pdf");
+  //     await fs.writeFile(pdfPath, Buffer.from(arg.data));
+
+  //     const win = new BrowserWindow({ show: false });
+  //     win.loadURL("file://" + pdfPath);
+  //     win.webContents.on("did-stop-loading", () => {
+  //       win.webContents.print({ silent: true, scaleFactor: 0.9 });
+  //     });
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // });
+
+  ipcMain.on("print", (event, arg) => {
+    fs.writeFile(path.join("print.pdf"), Buffer.from(arg.data), () => {
+      let options;
+      if (arg.name == "kasir") {
+        options = {
+          printer: "Blueprint_M80 1.0.0",
+          scale: "noscale",
+          monochrome: true,
+          silent: true,
+        };
+      } else {
+        options = {
+          printer: "EPSON LX-300+II ESC/P",
+          scale: "fit",
+          monochrome: true,
+          paperSize: "letter",
+          silent: true,
+        };
+      }
+      print("print.pdf", options);
+    });
   });
 
   ipcMain.on("openDialog", () => {

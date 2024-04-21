@@ -1,14 +1,14 @@
 body {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .main-sidebar {
-    height: 100vh !important;
+  height: 100vh !important;
 }
-.scrollable{
-    max-height: 50vh !important;
+.scrollable {
+  max-height: 68vh !important;
 }
 
 .scrollable-purchase {
-    max-height: 25vh !important;
+  max-height: 25vh !important;
 }

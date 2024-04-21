@@ -11,11 +11,14 @@
   "license": "ISC",
   "devDependencies": {
     "@electron/packager": "^18.3.1",
-    "electron": "^21.4.4"
+    "electron": "^29.2.0"
   },
   "dependencies": {
     "axios": "^1.6.8",
     "bootstrap-icons": "^1.11.3",
-    "electron-root-path": "^1.1.0"
+    "electron-pdf-window": "^1.0.12",
+    "electron-print": "^1.0.2",
+    "electron-root-path": "^1.1.0",
+    "pdf-to-printer": "^5.6.0"
   }
 }

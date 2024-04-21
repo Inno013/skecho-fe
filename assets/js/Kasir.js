@@ -1,4 +1,5 @@
 const rootPath = require("electron-root-path").rootPath;
+const { ipcRenderer } = require("electron");
 const http = require(rootPath + "/utils/http");
 const helpers = require(rootPath + "/utils/helpers");
 
@@ -84,19 +85,29 @@ formOrder.addEventListener("submit", function (e) {
       let qty = parseFloat(formOrder.querySelector("#qty").value);
       let price = parseFloat(formOrder.querySelector("#price").value);
       if (rowIndex == null || dataOrder.length == 0) {
-        dataOrder.push({
-          productId: formOrder.querySelector("#productId").value,
-          profitSharing: formOrder.querySelector("#profitSharing").value,
-          profitSharedType: formOrder.querySelector("#profitSharedType").value,
-          barcode: document.getElementById("barcode").value,
-          price: price,
-          name: formOrder.querySelector("#name").value,
-          quantity: qty,
-          subtotal: qty * price,
-        });
+        if (data.data.stock >= qty) {
+          dataOrder.push({
+            productId: formOrder.querySelector("#productId").value,
+            profitSharing: formOrder.querySelector("#profitSharing").value,
+            profitSharedType:
+              formOrder.querySelector("#profitSharedType").value,
+            barcode: document.getElementById("barcode").value,
+            price: price,
+            name: formOrder.querySelector("#name").value,
+            quantity: qty,
+            subtotal: qty * price,
+          });
+        } else {
+          alert("<strong>Not enough stock</strong>", "alertContainer");
+        }
       } else {
-        dataOrder[rowIndex].quantity += qty;
-        dataOrder[rowIndex].subtotal = dataOrder[rowIndex].quantity * price;
+        let stock = dataOrder[rowIndex].quantity + qty;
+        if (data.data.stock >= stock) {
+          dataOrder[rowIndex].quantity += qty;
+          dataOrder[rowIndex].subtotal = dataOrder[rowIndex].quantity * price;
+        } else {
+          alert("<strong>Not enough stock</strong>", "alertContainer");
+        }
       }
       document.getElementById("barcode").value = "";
       formOrder.querySelector("#name").value = "";
@@ -138,7 +149,7 @@ formPay.addEventListener("submit", function (e) {
         document.getElementById("amount-paid").value = 1;
         document.getElementById("change").value = "";
         setDataSimpan();
-        printPdf(data);
+        ipcRenderer.send("print", { data: data, name: "kasir" });
       })
       .catch((error) => {
         console.error("Error fetching data with pagination:", error);
@@ -178,22 +189,6 @@ document
       alert("<strong>Inputan Kosong!!</strong>", "alertName");
     }
   });
-
-function printPdf(pdf) {
-  const data = new Blob([pdf], {
-    type: "application/pdf",
-  });
-  const url = URL.createObjectURL(data);
-  // const iframe = document.createElement("iframe");
-  // iframe.src = url;
-  // iframe.style.display = "none";
-  // document.body.appendChild(iframe);
-  // // console.log(iframe);
-  // iframe.onload = function () {
-  //   iframe.contentWindow.print();
-  // };
-  window.open(url);
-}
 
 function alert(message, id) {
   const alertContainer = document.getElementById(id);
