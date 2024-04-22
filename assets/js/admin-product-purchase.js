@@ -16,7 +16,9 @@ const purchaseTotalProduct = document.getElementById("purchase-total-product");
 const purchaseRefund = document.getElementById("purchase-refund");
 
 const placeModalCreateMessage = document.getElementById("modal-create-message");
-const placeModalExistingMessage = document.getElementById("modal-existing-message");
+const placeModalExistingMessage = document.getElementById(
+  "modal-existing-message"
+);
 
 // Create New Product List
 const formCreate = document.getElementById("formNewProd");
@@ -123,7 +125,7 @@ function addExistingProductToTable(product) {
   newRow.classList.remove("d-none");
   newRow.querySelector(".barcode").textContent = detailProduct?.barcode;
   newRow.querySelector(".name-product").textContent = detailProduct?.name;
-  newRow.querySelector(".price-sell").textContent = product.priceSell;
+  newRow.querySelector(".price-buy").textContent = product.priceBuy;
   newRow.querySelector(".profit-sharing-amount").textContent =
     product.profitSharing;
   newRow.querySelector(".profit-sharing-type").textContent =

@@ -79,6 +79,14 @@ function populateTableOrder(data) {
           <td>${item.amount}</td>
           <td>${item.refund}</td>
           <td>${item.createdAt}</td>
+          <td><button
+          type="button"
+          class="btn btn-success"
+          onclick="handlePrint(${item.orderId})"
+          data-bs-toggle="modal"
+          data-bs-target="#orderModal">
+          <i class="bi bi-eye"></i>
+        </button></td>
         `;
     } else if (item.userId == null) {
       row.innerHTML = `
@@ -90,6 +98,14 @@ function populateTableOrder(data) {
           <td>${item.amount}</td>
           <td>${item.refund}</td>
           <td>${item.createdAt}</td>
+          <td><button
+          type="button"
+          class="btn btn-success"
+          onclick="handlePrint(${item.orderId})"
+          data-bs-toggle="modal"
+          data-bs-target="#orderModal">
+          <i class="bi bi-eye"></i>
+        </button></td>
         `;
     } else {
       row.innerHTML = `
@@ -101,9 +117,16 @@ function populateTableOrder(data) {
           <td>${item.amount}</td>
           <td>${item.refund}</td>
           <td>${item.createdAt}</td>
+          <td><button
+          type="button"
+          class="btn btn-success"
+          onclick="handlePrint(${item.orderId})"
+          data-bs-toggle="modal"
+          data-bs-target="#orderModal">
+          <i class="bi bi-eye"></i>
+        </button></td>
         `;
     }
-    // <td><button onclick="handleRefund(${item.orderId})"></button></td>
     tbody.appendChild(row);
   });
   document.getElementById("total-order").value = sumTotalPrice;
@@ -184,6 +207,22 @@ function handleFilterInvoice() {
   fetchDataWithPagination("/recap/invoice", 0, startDate, endDate)
     .then((data) => {
       populateTableInvoice(data.content);
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+}
+
+function handlePrint(orderId) {
+  http.client
+    .post("/orders/print?orderId=" + orderId, {
+      responseType: "arraybuffer",
+    })
+    .then((response) => {
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const embed = document.querySelector(".pdf-embed");
+      embed.setAttribute("src", url);
     })
     .catch((error) => {
       console.error("Error fetching data with pagination:", error);

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Supplier</title>
+    <title>tourinvoice</title>
     <link
       href="../../../assets/bootstrap/css/bootstrap.min.css"
       rel="stylesheet"
@@ -309,6 +309,14 @@
                     onclick="redirect('/views/admin/tour/tour.html')">
                     Cancel
                   </button>
+                  <button
+                  type="button"
+                  class="btn btn-danger"
+                  id="deleteTourInvoiceButton"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteConfirmationModal">
+                  Delete Tourinvoice
+                </button>
                   <button type="submit" class="btn btn-success" id="print">
                     Cetak Struk
                   </button>
@@ -320,6 +328,24 @@
       </div>
     </div>
 
+                         <!-- Modal Konfirmasi Penghapusan -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin ingin menghapus tourinvoice ini?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="confirmDelete">Hapus</button>
+      </div>
+    </div>
+  </div>
+</div>
     <script>
       function redirect(e) {
         document.location.href = rootPath + e;

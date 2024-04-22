@@ -45,22 +45,6 @@ app.whenReady().then(() => {
     }
   });
 
-  // ipcMain.on("print", async (event, arg) => {
-  //   try {
-  //     electronPrint.print({});
-  //     const pdfPath = path.join(__dirname, "print.pdf");
-  //     await fs.writeFile(pdfPath, Buffer.from(arg.data));
-
-  //     const win = new BrowserWindow({ show: false });
-  //     win.loadURL("file://" + pdfPath);
-  //     win.webContents.on("did-stop-loading", () => {
-  //       win.webContents.print({ silent: true, scaleFactor: 0.9 });
-  //     });
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // });
-
   ipcMain.on("print", (event, arg) => {
     fs.writeFile(path.join("print.pdf"), Buffer.from(arg.data), () => {
       let options;

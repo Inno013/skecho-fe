@@ -160,6 +160,35 @@ document.getElementById("print").addEventListener("click", async function () {
     });
 });
 
+document
+  .getElementById("deleteTourInvoiceButton")
+  .addEventListener("click", function () {
+    // Tampilkan modal
+    $("#deleteConfirmationModal").modal("show");
+  });
+
+document
+  .getElementById("confirmDelete")
+  .addEventListener("click", async function () {
+    const invoiceTourId = document.getElementById("invoiceTourId").textContent;
+    if (invoiceTourId) {
+      // Mengirim request ke server untuk menghapus tourinvoice berdasarkan ID
+      await http.client
+        .delete(`/invoice/tour/${invoiceTourId}`)
+        .then((response) => {
+          console.log("Tourinvoice berhasil dihapus", response);
+          // Mengganti lokasi halaman tanpa meninggalkan jejak pada sejarah perambanan
+          window.location.replace(rootPath + "/views/admin/tour/tour.html");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("Terjadi kesalahan saat menghapus tourinvoice");
+        });
+    } else {
+      alert("ID tourinvoice tidak ditemukan.");
+    }
+  });
+
 function createNewRow(row) {
   const newRow = sampleRow.cloneNode(true);
   newRow.classList.remove("d-none");
