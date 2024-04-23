@@ -51,6 +51,16 @@ document.getElementById("invoice-tab").addEventListener("click", function (e) {
     });
 });
 
+document.getElementById("product-tab").addEventListener("click", function (e) {
+  fetchDataWithPagination("/recap/products", 0)
+    .then((data) => {
+      populateTableProducts(data.content); // Panggil fungsi populateTable untuk memasukkan data ke dalam tabel
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   fetchDataWithPagination("/recap/purchase", 0)
     .then((data) => {
@@ -188,6 +198,28 @@ function populateTableInvoice(data) {
   document.getElementById("total-invoice").value = sumTotalPrice;
 }
 
+function populateTableProducts(data) {
+  const tbody = document.getElementById("product-table-body");
+  let sumTotalPrice = 0;
+  tbody.innerHTML = ""; // Kosongkan isi tabel sebelum memasukkan data baru
+
+  data.forEach((item, index) => {
+    const row = document.createElement("tr");
+    sumTotalPrice += item.price * item.count;
+    row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${item.barcode}</td>
+        <td>${item.name}</td>
+        <td>${item.price}</td>
+        <td>${item.stock}</td>
+        <td>${item.count}</td>
+      `;
+    // <td><button onclick="handleRefund(${item.orderId})"></button></td>
+    tbody.appendChild(row);
+  });
+  document.getElementById("total-invoice").value = sumTotalPrice;
+}
+
 function handleFilterOrder() {
   const startDate = document.getElementById("start-date-order").value;
   const endDate = document.getElementById("end-date-order").value;
@@ -205,6 +237,19 @@ function handleFilterInvoice() {
   const endDate = document.getElementById("end-date-invoice").value;
 
   fetchDataWithPagination("/recap/invoice", 0, startDate, endDate)
+    .then((data) => {
+      populateTableInvoice(data.content);
+    })
+    .catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+}
+
+function handleFilterInvoice() {
+  const startDate = document.getElementById("start-date-product").value;
+  const endDate = document.getElementById("end-date-product").value;
+
+  fetchDataWithPagination("/recap/products", 0, startDate, endDate)
     .then((data) => {
       populateTableInvoice(data.content);
     })
