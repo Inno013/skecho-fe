@@ -60,7 +60,7 @@ app.whenReady().then(() => {
           printer: "EPSON LX-300+II ESC/P",
           scale: "fit",
           monochrome: true,
-          paperSize: "letter",
+          paperSize: "statement",
           silent: true,
         };
       }

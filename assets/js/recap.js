@@ -2,6 +2,9 @@ const rootPath = require("electron-root-path").rootPath;
 const http = require(rootPath + "/utils/http");
 const { ipcRenderer } = require("electron");
 
+let sharingAmount = [];
+let percentage = [];
+
 async function fetchDataWithPagination(
   url,
   pageNumber,
@@ -140,7 +143,11 @@ function populateTableOrder(data) {
     }
     tbody.appendChild(row);
   });
-  document.getElementById("total-order").value = sumTotalPrice;
+  let formattedNumber = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(sumTotalPrice);
+  document.getElementById("total-order").value = formattedNumber;
 }
 
 function populateTablePurchase(data) {
@@ -173,7 +180,11 @@ function populateTablePurchase(data) {
     // <td><button onclick="handleRefund(${item.orderId})"></button></td>
     tbody.appendChild(row);
   });
-  document.getElementById("total-purchase").value = sumTotalPrice;
+  let formattedNumber = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(sumTotalPrice);
+  document.getElementById("total-purchase").value = formattedNumber;
 }
 
 function populateTableInvoice(data) {
@@ -203,7 +214,11 @@ function populateTableInvoice(data) {
       `;
     tbody.appendChild(row);
   });
-  document.getElementById("total-invoice").value = sumTotalPrice;
+  let formattedNumber = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(sumTotalPrice);
+  document.getElementById("total-invoice").value = formattedNumber;
 }
 
 function populateTableProducts(data) {
@@ -225,29 +240,11 @@ function populateTableProducts(data) {
     // <td><button onclick="handleRefund(${item.orderId})"></button></td>
     tbody.appendChild(row);
   });
-  document.getElementById("total-invoice").value = sumTotalPrice;
-}
-
-function populateTableProducts(data) {
-  const tbody = document.getElementById("product-table-body");
-  let sumTotalPrice = 0;
-  tbody.innerHTML = ""; // Kosongkan isi tabel sebelum memasukkan data baru
-
-  data.forEach((item, index) => {
-    const row = document.createElement("tr");
-    sumTotalPrice += item.price * item.count;
-    row.innerHTML = `
-        <td>${index + 1}</td>
-        <td>${item.barcode}</td>
-        <td>${item.name}</td>
-        <td>${item.price}</td>
-        <td>${item.stock}</td>
-        <td>${item.count}</td>
-      `;
-    // <td><button onclick="handleRefund(${item.orderId})"></button></td>
-    tbody.appendChild(row);
-  });
-  document.getElementById("total-invoice").value = sumTotalPrice;
+  let formattedNumber = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(sumTotalPrice);
+  document.getElementById("total-price-product").value = formattedNumber;
 }
 
 function handleFilterOrder() {
@@ -275,26 +272,13 @@ function handleFilterInvoice() {
     });
 }
 
-function handleFilterInvoice() {
+function handleFilterProduct() {
   const startDate = document.getElementById("start-date-product").value;
   const endDate = document.getElementById("end-date-product").value;
 
   fetchDataWithPagination("/recap/products", 0, startDate, endDate)
     .then((data) => {
-      populateTableInvoice(data.content);
-    })
-    .catch((error) => {
-      console.error("Error fetching data with pagination:", error);
-    });
-}
-
-function handleFilterInvoice() {
-  const startDate = document.getElementById("start-date-product").value;
-  const endDate = document.getElementById("end-date-product").value;
-
-  fetchDataWithPagination("/recap/products", 0, startDate, endDate)
-    .then((data) => {
-      populateTableInvoice(data.content);
+      populateTableProducts(data.content);
     })
     .catch((error) => {
       console.error("Error fetching data with pagination:", error);
@@ -303,22 +287,78 @@ function handleFilterInvoice() {
 
 function handlePrintInvoice(invoiceTourId) {
   http.client
-    .post(
-      "/orders/print?orderId=" + invoiceTourId,
-      {},
-      {
-        responseType: "arraybuffer",
-      }
-    )
+    .get(`/invoice/tour/order_details/${invoiceTourId}`)
     .then((response) => {
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
-      const embed = document.querySelector(".pdf-embed");
-      embed.setAttribute("src", url);
+      addSharingAmountInArray(response.data.data);
+      addPercentageInArray(response.data.data);
+      var maxProfitSharing = Math.max(
+        ...percentage.map((item) => item.profitSharing)
+      );
+      var omsetMax = percentage.find(
+        (item) => parseInt(item.profitSharing) === maxProfitSharing
+      );
+      http.client
+        .post(
+          "/invoice/tour/print_recap_invoice",
+          {
+            invoiceTourId: invoiceTourId,
+            omset: omsetMax.subtotal,
+            profitSharingAmounts: sharingAmount,
+            profitSharingPercentages: percentage,
+          },
+          {
+            responseType: "arraybuffer",
+          }
+        )
+        .then((response) => {
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const url = URL.createObjectURL(blob);
+          const embed = document.querySelector(".pdf-embed");
+          embed.setAttribute("src", url);
+          sharingAmount = [];
+          percentage = [];
+        })
+        .catch((error) => {
+          console.error("Error fetching data with pagination:", error);
+        });
     })
     .catch((error) => {
-      console.error("Error fetching data with pagination:", error);
+      console.error(error);
     });
+}
+
+function addSharingAmountInArray(data) {
+  for (var key in data.SHARING_AMOUNT) {
+    var items = data.SHARING_AMOUNT[key];
+    let Totalquantity = 0;
+    for (var i = 0; i < items.length; i++) {
+      Totalquantity += items[i].quantity;
+    }
+    sharingAmount.push({
+      name: items[0].productId.name,
+      profitSharing: items[0].profitSharing,
+      quantity: Totalquantity,
+      subtotal: items[0].profitSharing * Totalquantity,
+    });
+  }
+}
+
+function addPercentageInArray(data) {
+  for (var key in data.PERCENTAGE) {
+    var items = data.PERCENTAGE[key];
+    let Totalquantity = 0;
+    let subTotal = 0;
+    for (var i = 0; i < items.length; i++) {
+      Totalquantity += items[i].quantity;
+      subTotal += items[i].subtotal;
+    }
+    percentage.push({
+      profitSharing: parseFloat(key),
+      quantity: Totalquantity,
+      subtotal: subTotal,
+      disc: (subTotal * parseFloat(key)) / 100,
+    });
+  }
 }
 
 function handlePrintOrder(orderId) {
