@@ -3,6 +3,7 @@ const { ipcRenderer } = require("electron");
 const http = require(rootPath + "/utils/http");
 const createAlert = require(rootPath + "/utils/alert");
 const helpers = require(rootPath + "/utils/helpers");
+const userAuth = JSON.parse(sessionStorage.getItem("user"));
 
 // Begin Logic to populate the data
 const sampleRow = document.getElementById("sample-row");
@@ -76,6 +77,7 @@ function addSharingAmountInArray(data) {
     });
   }
 }
+
 function addPercentageInArray(data) {
   for (var key in data.PERCENTAGE) {
     var items = data.PERCENTAGE[key];
@@ -135,6 +137,7 @@ function addDataInTable() {
     invoiceTourId: parseInt(
       document.getElementById("invoiceTourId").textContent
     ),
+    userId: parseInt(userAuth.userId),
     tourId: parseInt(document.getElementById("tourId").textContent),
     tourName: document.getElementById("po").textContent,
     unitBus: parseInt(document.getElementById("unitBus").textContent),

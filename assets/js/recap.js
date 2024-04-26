@@ -1,5 +1,6 @@
 const rootPath = require("electron-root-path").rootPath;
 const http = require(rootPath + "/utils/http");
+const { ipcRenderer } = require("electron");
 
 async function fetchDataWithPagination(
   url,
@@ -82,7 +83,7 @@ function populateTableOrder(data) {
           <td><button
           type="button"
           class="btn btn-success"
-          onclick="handlePrint(${item.orderId})"
+          onclick="handlePrintOrder(${item.orderId})"
           data-bs-toggle="modal"
           data-bs-target="#orderModal">
           <i class="bi bi-eye"></i>
@@ -101,7 +102,7 @@ function populateTableOrder(data) {
           <td><button
           type="button"
           class="btn btn-success"
-          onclick="handlePrint(${item.orderId})"
+          onclick="handlePrintOrder(${item.orderId})"
           data-bs-toggle="modal"
           data-bs-target="#orderModal">
           <i class="bi bi-eye"></i>
@@ -120,7 +121,7 @@ function populateTableOrder(data) {
           <td><button
           type="button"
           class="btn btn-success"
-          onclick="handlePrint(${item.orderId})"
+          onclick="handlePrintOrder(${item.orderId})"
           data-bs-toggle="modal"
           data-bs-target="#orderModal">
           <i class="bi bi-eye"></i>
@@ -181,8 +182,15 @@ function populateTableInvoice(data) {
         <td>${item.employee}</td>
         <td>${item.status}</td>
         <td>${item.createdAt}</td>
+        <td><button
+        type="button"
+        class="btn btn-success"
+        onclick="handlePrintInvoice(${item.invoiceTourId})"
+        data-bs-toggle="modal"
+        data-bs-target="#orderModal">
+        <i class="bi bi-eye"></i>
+      </button></td>
       `;
-    // <td><button onclick="handleRefund(${item.orderId})"></button></td>
     tbody.appendChild(row);
   });
   document.getElementById("total-invoice").value = sumTotalPrice;
@@ -213,21 +221,53 @@ function handleFilterInvoice() {
     });
 }
 
-function handlePrint(orderId) {
+function handlePrintInvoice(invoiceTourId) {
   http.client
-    .post("/orders/print?orderId=" + orderId, {
-      responseType: "arraybuffer",
-    })
+    .post(
+      "/orders/print?orderId=" + invoiceTourId,
+      {},
+      {
+        responseType: "arraybuffer",
+      }
+    )
     .then((response) => {
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       const embed = document.querySelector(".pdf-embed");
       embed.setAttribute("src", url);
+    }).catch((error) => {
+      console.error("Error fetching data with pagination:", error);
+    });
+}
+
+function handlePrintOrder(orderId) {
+  http.client
+    .post(
+      "/orders/print?orderId=" + orderId,
+      {},
+      {
+        responseType: "arraybuffer",
+      }
+    )
+    .then((response) => {
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const embed = document.querySelector(".pdf-embed");
+      embed.setAttribute("src", url);
+      document
+        .getElementById("print-button")
+        .addEventListener("click", function () {
+          ipcRenderer.send("print", {
+            data: response.data,
+            name: "kasir",
+          });
+        });
     })
     .catch((error) => {
       console.error("Error fetching data with pagination:", error);
     });
 }
+
 function handleFilterPurchase() {
   const startDate = document.getElementById("start-date-purchase").value;
   const endDate = document.getElementById("end-date-purchase").value;
